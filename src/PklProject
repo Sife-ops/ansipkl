@@ -1,0 +1,11 @@
+amends "pkl:Project"
+
+package {
+    name = "ansipkl"
+    authors {
+        "Wyatt Goettsch <wyatt.goettsch@gmail.com>"
+    }
+    baseUri = "package://github.com/Sife-ops/\(name)"
+    version = "0.0.0"
+    packageZipUrl = "https://github.com/Sife-ops/\(name)/releases/download/\(name)@\(version)/\(name)@\(version).zip"
+}
