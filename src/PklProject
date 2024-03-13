@@ -7,5 +7,5 @@ package {
     }
     baseUri = "package://github.com/Sife-ops/\(name)"
     version = "0.0.1"
-    packageZipUrl = "https://github.com/Sife-ops/\(name)/releases/download/\(name)@\(version)/\(name)@\(version).zip"
+    packageZipUrl = "https://github.com/Sife-ops/\(name)/releases/download/v\(version)/\(name)@\(version).zip"
 }
