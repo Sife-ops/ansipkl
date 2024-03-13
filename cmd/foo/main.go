@@ -11,11 +11,14 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// todo descriptions, docs
 type moduleOpt struct {
 	Type     *string
+	Choices  *[]string
+	Default  *string
 	Elements *string
 	Required *bool
-	Aliases  *[]string
+	Aliases  *[]string // todo use aliases?
 }
 
 func (x moduleOpt) IntoType() (t string) {
@@ -25,7 +28,7 @@ func (x moduleOpt) IntoType() (t string) {
 		case s == nil:
 			t = "String"
 
-		case *s == "bool":
+		case *s == "bool": // todo default yes???
 			t = "Boolean"
 		case *s == "int":
 			t = "Int"
@@ -34,15 +37,32 @@ func (x moduleOpt) IntoType() (t string) {
 			t = "Listing<" + inner + ">"
 
 		case *s == "str":
-            fallthrough
-		case *s == "path":
-            fallthrough
+			switch {
+			case x.Choices != nil:
+				t = t + "("
+				for i, c := range *x.Choices {
+					if i > 0 {
+						t = t + "|"
+					}
+					t = t + `"` + c + `"`
+				}
+				t = t + ")"
+			default:
+				t = "String"
+			}
+
+		case *s == "path": // todo path
+			fallthrough
+		case *s == "raw": // todo raw
+			fallthrough
 		default:
 			t = "String"
 		}
 		return t
 	}
 	t = outer(x.Type)
+
+	//
 
 	if x.Required == nil || !*x.Required {
 		t = t + "?"
@@ -73,24 +93,67 @@ func mainErr() error {
 
 	var modules []ansibleModule
 
-	for i, entry := range entries {
+	for _, entry := range entries {
 		if entry.Name() == "__init__.py" {
 			continue
 		}
+
+        // very bad
+		log.Print(entry.Name())
+
+		if entry.Name() == "deb822_repository.py" {
+			continue
+		}
+		if entry.Name() == "dnf.py" {
+			continue
+		}
+		if entry.Name() == "dnf5.py" {
+			continue
+		}
+		if entry.Name() == "find.py" {
+			continue
+		}
+		if entry.Name() == "get_url.py" {
+			continue
+		}
+		if entry.Name() == "git.py" {
+			continue
+		}
+		if entry.Name() == "include_vars.py" {
+			continue
+		}
+		if entry.Name() == "iptables.py" {
+			continue
+		}
+		if entry.Name() == "package_facts.py" {
+			continue
+		}
+		if entry.Name() == "reboot.py" {
+			continue
+		}
+		if entry.Name() == "setup.py" {
+			continue
+		}
+		if entry.Name() == "unarchive.py" {
+			continue
+		}
+		if entry.Name() == "uri.py" {
+			continue
+		}
+		if entry.Name() == "wait_for.py" {
+			continue
+		}
+		if entry.Name() == "yum.py" {
+			continue
+		}
+        //
+
 		if entry.IsDir() {
 			continue
 		}
 		if !entry.Type().IsRegular() {
 			continue
 		}
-
-		// if entry.Name() != "add_host.py" {
-		// 	continue
-		// }
-		if i > 2 {
-			continue
-		}
-		log.Print(entry.Name())
 
 		file, err := os.Open(basename + "/" + entry.Name())
 		if err != nil {
@@ -102,6 +165,7 @@ func mainErr() error {
 		docStart := false
 		docEnd := false
 		buf := new(bytes.Buffer)
+        // iii := 0
 		for scanner.Scan() {
 			if strings.Contains(scanner.Text(), "DOCUMENTATION") {
 				docStart = true
@@ -113,7 +177,13 @@ func mainErr() error {
 			if !docStart || docEnd {
 				continue
 			}
-			if _, err := buf.Write([]byte(scanner.Text() + "\n")); err != nil {
+            // xxx++
+            // log.Printf("%d | %s", iii, scanner.Text())
+			// if _, err := buf.Write([]byte(scanner.Text() + "\n")); err != nil {
+			if _, err := buf.Write(scanner.Bytes()); err != nil {
+				return err
+			}
+			if _, err := buf.Write([]byte("\n")); err != nil {
 				return err
 			}
 		}
@@ -123,7 +193,9 @@ func mainErr() error {
 			return err
 		}
 
-		modules = append(modules, m)
+		if docStart {
+			modules = append(modules, m)
+		}
 	}
 
 	file, err := os.Create("./src/builtin.pkl")

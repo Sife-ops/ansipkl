@@ -65,7 +65,7 @@ class apt_options {
     
     purge: Boolean?
     
-    state: String?
+    state: ("absent"|"build-dep"|"latest"|"present"|"fixed")?
     
     update_cache: Boolean?
     
@@ -73,7 +73,7 @@ class apt_options {
     
     update_cache_retry_max_delay: Int?
     
-    upgrade: String?
+    upgrade: ("dist"|"full"|"no"|"safe"|"yes")?
     
 }
 
@@ -86,4 +86,1639 @@ class apt extends todoname0.task {
         .toMap()
         .put("ansible.builtin.apt", this.options)
         .toTyped(apt)
+}
+
+//
+
+class apt_key_options {
+    
+    data: String?
+    
+    file: String?
+    
+    id: String?
+    
+    keyring: String?
+    
+    keyserver: String?
+    
+    state: ("absent"|"present")?
+    
+    url: String?
+    
+    validate_certs: Boolean?
+    
+}
+
+class apt_key extends todoname0.task {
+    hidden options: apt_key_options
+
+    `ansible.builtin.apt_key`: apt_key_options?
+
+    function into(): apt_key = this
+        .toMap()
+        .put("ansible.builtin.apt_key", this.options)
+        .toTyped(apt_key)
+}
+
+//
+
+class apt_repository_options {
+    
+    codename: String?
+    
+    filename: String?
+    
+    install_python_apt: Boolean?
+    
+    mode: String?
+    
+    repo: String
+    
+    state: ("absent"|"present")?
+    
+    update_cache: Boolean?
+    
+    update_cache_retries: Int?
+    
+    update_cache_retry_max_delay: Int?
+    
+    validate_certs: Boolean?
+    
+}
+
+class apt_repository extends todoname0.task {
+    hidden options: apt_repository_options
+
+    `ansible.builtin.apt_repository`: apt_repository_options?
+
+    function into(): apt_repository = this
+        .toMap()
+        .put("ansible.builtin.apt_repository", this.options)
+        .toTyped(apt_repository)
+}
+
+//
+
+class assemble_options {
+    
+    backup: Boolean?
+    
+    delimiter: String?
+    
+    dest: String
+    
+    ignore_hidden: Boolean?
+    
+    regexp: String?
+    
+    remote_src: Boolean?
+    
+    src: String
+    
+    validate: String?
+    
+}
+
+class assemble extends todoname0.task {
+    hidden options: assemble_options
+
+    `ansible.builtin.assemble`: assemble_options?
+
+    function into(): assemble = this
+        .toMap()
+        .put("ansible.builtin.assemble", this.options)
+        .toTyped(assemble)
+}
+
+//
+
+class assert_options {
+    
+    fail_msg: String?
+    
+    quiet: Boolean?
+    
+    success_msg: String?
+    
+    that: Listing<String>
+    
+}
+
+class assert extends todoname0.task {
+    hidden options: assert_options
+
+    `ansible.builtin.assert`: assert_options?
+
+    function into(): assert = this
+        .toMap()
+        .put("ansible.builtin.assert", this.options)
+        .toTyped(assert)
+}
+
+//
+
+class async_status_options {
+    
+    jid: String
+    
+    mode: ("cleanup"|"status")?
+    
+}
+
+class async_status extends todoname0.task {
+    hidden options: async_status_options
+
+    `ansible.builtin.async_status`: async_status_options?
+
+    function into(): async_status = this
+        .toMap()
+        .put("ansible.builtin.async_status", this.options)
+        .toTyped(async_status)
+}
+
+//
+
+class blockinfile_options {
+    
+    append_newline: Boolean?
+    
+    backup: Boolean?
+    
+    block: String?
+    
+    create: Boolean?
+    
+    insertafter: ("EOF"|"*regex*")?
+    
+    insertbefore: ("BOF"|"*regex*")?
+    
+    marker: String?
+    
+    marker_begin: String?
+    
+    marker_end: String?
+    
+    path: String
+    
+    prepend_newline: Boolean?
+    
+    state: ("absent"|"present")?
+    
+}
+
+class blockinfile extends todoname0.task {
+    hidden options: blockinfile_options
+
+    `ansible.builtin.blockinfile`: blockinfile_options?
+
+    function into(): blockinfile = this
+        .toMap()
+        .put("ansible.builtin.blockinfile", this.options)
+        .toTyped(blockinfile)
+}
+
+//
+
+class command_options {
+    
+    argv: Listing<String>?
+    
+    chdir: String?
+    
+    cmd: String?
+    
+    creates: String?
+    
+    expand_argument_vars: Boolean?
+    
+    free_form: String?
+    
+    removes: String?
+    
+    stdin: String?
+    
+    stdin_add_newline: Boolean?
+    
+    strip_empty_ends: Boolean?
+    
+}
+
+class command extends todoname0.task {
+    hidden options: command_options
+
+    `ansible.builtin.command`: command_options?
+
+    function into(): command = this
+        .toMap()
+        .put("ansible.builtin.command", this.options)
+        .toTyped(command)
+}
+
+//
+
+class copy_options {
+    
+    backup: Boolean?
+    
+    checksum: String?
+    
+    content: String?
+    
+    dest: String
+    
+    directory_mode: String?
+    
+    follow: Boolean?
+    
+    force: Boolean?
+    
+    local_follow: Boolean?
+    
+    mode: String?
+    
+    remote_src: Boolean?
+    
+    src: String?
+    
+}
+
+class copy extends todoname0.task {
+    hidden options: copy_options
+
+    `ansible.builtin.copy`: copy_options?
+
+    function into(): copy = this
+        .toMap()
+        .put("ansible.builtin.copy", this.options)
+        .toTyped(copy)
+}
+
+//
+
+class cron_options {
+    
+    backup: Boolean?
+    
+    cron_file: String?
+    
+    day: String?
+    
+    disabled: Boolean?
+    
+    env: Boolean?
+    
+    hour: String?
+    
+    insertafter: String?
+    
+    insertbefore: String?
+    
+    job: String?
+    
+    minute: String?
+    
+    month: String?
+    
+    name: String
+    
+    special_time: ("annually"|"daily"|"hourly"|"monthly"|"reboot"|"weekly"|"yearly")?
+    
+    state: ("absent"|"present")?
+    
+    user: String?
+    
+    weekday: String?
+    
+}
+
+class cron extends todoname0.task {
+    hidden options: cron_options
+
+    `ansible.builtin.cron`: cron_options?
+
+    function into(): cron = this
+        .toMap()
+        .put("ansible.builtin.cron", this.options)
+        .toTyped(cron)
+}
+
+//
+
+class debconf_options {
+    
+    name: String
+    
+    question: String?
+    
+    unseen: Boolean?
+    
+    value: String?
+    
+    vtype: ("boolean"|"error"|"multiselect"|"note"|"password"|"seen"|"select"|"string"|"text"|"title")?
+    
+}
+
+class debconf extends todoname0.task {
+    hidden options: debconf_options
+
+    `ansible.builtin.debconf`: debconf_options?
+
+    function into(): debconf = this
+        .toMap()
+        .put("ansible.builtin.debconf", this.options)
+        .toTyped(debconf)
+}
+
+//
+
+class debug_options {
+    
+    msg: String?
+    
+    var: String?
+    
+    verbosity: Int?
+    
+}
+
+class debug extends todoname0.task {
+    hidden options: debug_options
+
+    `ansible.builtin.debug`: debug_options?
+
+    function into(): debug = this
+        .toMap()
+        .put("ansible.builtin.debug", this.options)
+        .toTyped(debug)
+}
+
+//
+
+class dpkg_selections_options {
+    
+    name: String
+    
+    selection: ("install"|"hold"|"deinstall"|"purge")
+    
+}
+
+class dpkg_selections extends todoname0.task {
+    hidden options: dpkg_selections_options
+
+    `ansible.builtin.dpkg_selections`: dpkg_selections_options?
+
+    function into(): dpkg_selections = this
+        .toMap()
+        .put("ansible.builtin.dpkg_selections", this.options)
+        .toTyped(dpkg_selections)
+}
+
+//
+
+class expect_options {
+    
+    chdir: String?
+    
+    command: String
+    
+    creates: String?
+    
+    echo: Boolean?
+    
+    removes: String?
+    
+    responses: String
+    
+    timeout: String?
+    
+}
+
+class expect extends todoname0.task {
+    hidden options: expect_options
+
+    `ansible.builtin.expect`: expect_options?
+
+    function into(): expect = this
+        .toMap()
+        .put("ansible.builtin.expect", this.options)
+        .toTyped(expect)
+}
+
+//
+
+class fail_options {
+    
+    msg: String?
+    
+}
+
+class fail extends todoname0.task {
+    hidden options: fail_options
+
+    `ansible.builtin.fail`: fail_options?
+
+    function into(): fail = this
+        .toMap()
+        .put("ansible.builtin.fail", this.options)
+        .toTyped(fail)
+}
+
+//
+
+class fetch_options {
+    
+    dest: String
+    
+    fail_on_missing: Boolean?
+    
+    flat: Boolean?
+    
+    src: String
+    
+    validate_checksum: Boolean?
+    
+}
+
+class fetch extends todoname0.task {
+    hidden options: fetch_options
+
+    `ansible.builtin.fetch`: fetch_options?
+
+    function into(): fetch = this
+        .toMap()
+        .put("ansible.builtin.fetch", this.options)
+        .toTyped(fetch)
+}
+
+//
+
+class file_options {
+    
+    access_time: String?
+    
+    access_time_format: String?
+    
+    follow: Boolean?
+    
+    force: Boolean?
+    
+    modification_time: String?
+    
+    modification_time_format: String?
+    
+    path: String
+    
+    recurse: Boolean?
+    
+    src: String?
+    
+    state: ("absent"|"directory"|"file"|"hard"|"link"|"touch")?
+    
+}
+
+class file extends todoname0.task {
+    hidden options: file_options
+
+    `ansible.builtin.file`: file_options?
+
+    function into(): file = this
+        .toMap()
+        .put("ansible.builtin.file", this.options)
+        .toTyped(file)
+}
+
+//
+
+class gather_facts_options {
+    
+    parallel: Boolean?
+    
+}
+
+class gather_facts extends todoname0.task {
+    hidden options: gather_facts_options
+
+    `ansible.builtin.gather_facts`: gather_facts_options?
+
+    function into(): gather_facts = this
+        .toMap()
+        .put("ansible.builtin.gather_facts", this.options)
+        .toTyped(gather_facts)
+}
+
+//
+
+class getent_options {
+    
+    database: String
+    
+    fail_key: Boolean?
+    
+    key: String?
+    
+    service: String?
+    
+    split: String?
+    
+}
+
+class getent extends todoname0.task {
+    hidden options: getent_options
+
+    `ansible.builtin.getent`: getent_options?
+
+    function into(): getent = this
+        .toMap()
+        .put("ansible.builtin.getent", this.options)
+        .toTyped(getent)
+}
+
+//
+
+class group_options {
+    
+    force: Boolean?
+    
+    gid: Int?
+    
+    local: Boolean?
+    
+    name: String
+    
+    non_unique: Boolean?
+    
+    state: ("absent"|"present")?
+    
+    system: Boolean?
+    
+}
+
+class group extends todoname0.task {
+    hidden options: group_options
+
+    `ansible.builtin.group`: group_options?
+
+    function into(): group = this
+        .toMap()
+        .put("ansible.builtin.group", this.options)
+        .toTyped(group)
+}
+
+//
+
+class group_by_options {
+    
+    key: String
+    
+    parents: Listing<String>?
+    
+}
+
+class group_by extends todoname0.task {
+    hidden options: group_by_options
+
+    `ansible.builtin.group_by`: group_by_options?
+
+    function into(): group_by = this
+        .toMap()
+        .put("ansible.builtin.group_by", this.options)
+        .toTyped(group_by)
+}
+
+//
+
+class hostname_options {
+    
+    name: String
+    
+    use: ("alpine"|"debian"|"freebsd"|"generic"|"macos"|"macosx"|"darwin"|"openbsd"|"openrc"|"redhat"|"sles"|"solaris"|"systemd")?
+    
+}
+
+class hostname extends todoname0.task {
+    hidden options: hostname_options
+
+    `ansible.builtin.hostname`: hostname_options?
+
+    function into(): hostname = this
+        .toMap()
+        .put("ansible.builtin.hostname", this.options)
+        .toTyped(hostname)
+}
+
+//
+
+class import_playbook_options {
+    
+    free-form: String?
+    
+}
+
+class import_playbook extends todoname0.task {
+    hidden options: import_playbook_options
+
+    `ansible.builtin.import_playbook`: import_playbook_options?
+
+    function into(): import_playbook = this
+        .toMap()
+        .put("ansible.builtin.import_playbook", this.options)
+        .toTyped(import_playbook)
+}
+
+//
+
+class import_role_options {
+    
+    allow_duplicates: Boolean?
+    
+    defaults_from: String?
+    
+    handlers_from: String?
+    
+    name: String
+    
+    rolespec_validate: Boolean?
+    
+    tasks_from: String?
+    
+    vars_from: String?
+    
+}
+
+class import_role extends todoname0.task {
+    hidden options: import_role_options
+
+    `ansible.builtin.import_role`: import_role_options?
+
+    function into(): import_role = this
+        .toMap()
+        .put("ansible.builtin.import_role", this.options)
+        .toTyped(import_role)
+}
+
+//
+
+class import_tasks_options {
+    
+    file: String?
+    
+    free-form: String?
+    
+}
+
+class import_tasks extends todoname0.task {
+    hidden options: import_tasks_options
+
+    `ansible.builtin.import_tasks`: import_tasks_options?
+
+    function into(): import_tasks = this
+        .toMap()
+        .put("ansible.builtin.import_tasks", this.options)
+        .toTyped(import_tasks)
+}
+
+//
+
+class include_role_options {
+    
+    allow_duplicates: Boolean?
+    
+    apply: String?
+    
+    defaults_from: String?
+    
+    handlers_from: String?
+    
+    name: String
+    
+    public: Boolean?
+    
+    rolespec_validate: Boolean?
+    
+    tasks_from: String?
+    
+    vars_from: String?
+    
+}
+
+class include_role extends todoname0.task {
+    hidden options: include_role_options
+
+    `ansible.builtin.include_role`: include_role_options?
+
+    function into(): include_role = this
+        .toMap()
+        .put("ansible.builtin.include_role", this.options)
+        .toTyped(include_role)
+}
+
+//
+
+class include_tasks_options {
+    
+    apply: String?
+    
+    file: String?
+    
+    free-form: String?
+    
+}
+
+class include_tasks extends todoname0.task {
+    hidden options: include_tasks_options
+
+    `ansible.builtin.include_tasks`: include_tasks_options?
+
+    function into(): include_tasks = this
+        .toMap()
+        .put("ansible.builtin.include_tasks", this.options)
+        .toTyped(include_tasks)
+}
+
+//
+
+class known_hosts_options {
+    
+    hash_host: Boolean?
+    
+    key: String?
+    
+    name: String
+    
+    path: String?
+    
+    state: ("absent"|"present")?
+    
+}
+
+class known_hosts extends todoname0.task {
+    hidden options: known_hosts_options
+
+    `ansible.builtin.known_hosts`: known_hosts_options?
+
+    function into(): known_hosts = this
+        .toMap()
+        .put("ansible.builtin.known_hosts", this.options)
+        .toTyped(known_hosts)
+}
+
+//
+
+class lineinfile_options {
+    
+    backrefs: Boolean?
+    
+    backup: Boolean?
+    
+    create: Boolean?
+    
+    firstmatch: Boolean?
+    
+    insertafter: ("EOF"|"*regex*")?
+    
+    insertbefore: ("BOF"|"*regex*")?
+    
+    line: String?
+    
+    others: String?
+    
+    path: String
+    
+    regexp: String?
+    
+    search_string: String?
+    
+    state: ("absent"|"present")?
+    
+}
+
+class lineinfile extends todoname0.task {
+    hidden options: lineinfile_options
+
+    `ansible.builtin.lineinfile`: lineinfile_options?
+
+    function into(): lineinfile = this
+        .toMap()
+        .put("ansible.builtin.lineinfile", this.options)
+        .toTyped(lineinfile)
+}
+
+//
+
+class meta_options {
+    
+    free_form: String
+    
+}
+
+class meta extends todoname0.task {
+    hidden options: meta_options
+
+    `ansible.builtin.meta`: meta_options?
+
+    function into(): meta = this
+        .toMap()
+        .put("ansible.builtin.meta", this.options)
+        .toTyped(meta)
+}
+
+//
+
+class package_options {
+    
+    name: String
+    
+    state: String
+    
+    use: String?
+    
+}
+
+class package extends todoname0.task {
+    hidden options: package_options
+
+    `ansible.builtin.package`: package_options?
+
+    function into(): package = this
+        .toMap()
+        .put("ansible.builtin.package", this.options)
+        .toTyped(package)
+}
+
+//
+
+class pause_options {
+    
+    echo: Boolean?
+    
+    minutes: String?
+    
+    prompt: String?
+    
+    seconds: String?
+    
+}
+
+class pause extends todoname0.task {
+    hidden options: pause_options
+
+    `ansible.builtin.pause`: pause_options?
+
+    function into(): pause = this
+        .toMap()
+        .put("ansible.builtin.pause", this.options)
+        .toTyped(pause)
+}
+
+//
+
+class ping_options {
+    
+    data: String?
+    
+}
+
+class ping extends todoname0.task {
+    hidden options: ping_options
+
+    `ansible.builtin.ping`: ping_options?
+
+    function into(): ping = this
+        .toMap()
+        .put("ansible.builtin.ping", this.options)
+        .toTyped(ping)
+}
+
+//
+
+class pip_options {
+    
+    chdir: String?
+    
+    editable: Boolean?
+    
+    executable: String?
+    
+    extra_args: String?
+    
+    name: Listing<String>?
+    
+    requirements: String?
+    
+    state: ("absent"|"forcereinstall"|"latest"|"present")?
+    
+    umask: String?
+    
+    version: String?
+    
+    virtualenv: String?
+    
+    virtualenv_command: String?
+    
+    virtualenv_python: String?
+    
+    virtualenv_site_packages: Boolean?
+    
+}
+
+class pip extends todoname0.task {
+    hidden options: pip_options
+
+    `ansible.builtin.pip`: pip_options?
+
+    function into(): pip = this
+        .toMap()
+        .put("ansible.builtin.pip", this.options)
+        .toTyped(pip)
+}
+
+//
+
+class raw_options {
+    
+    executable: String?
+    
+    free_form: String
+    
+}
+
+class raw extends todoname0.task {
+    hidden options: raw_options
+
+    `ansible.builtin.raw`: raw_options?
+
+    function into(): raw = this
+        .toMap()
+        .put("ansible.builtin.raw", this.options)
+        .toTyped(raw)
+}
+
+//
+
+class replace_options {
+    
+    after: String?
+    
+    backup: Boolean?
+    
+    before: String?
+    
+    encoding: String?
+    
+    others: String?
+    
+    path: String
+    
+    regexp: String
+    
+    replace: String?
+    
+}
+
+class replace extends todoname0.task {
+    hidden options: replace_options
+
+    `ansible.builtin.replace`: replace_options?
+
+    function into(): replace = this
+        .toMap()
+        .put("ansible.builtin.replace", this.options)
+        .toTyped(replace)
+}
+
+//
+
+class rpm_key_options {
+    
+    fingerprint: String?
+    
+    key: String
+    
+    state: ("absent"|"present")?
+    
+    validate_certs: Boolean?
+    
+}
+
+class rpm_key extends todoname0.task {
+    hidden options: rpm_key_options
+
+    `ansible.builtin.rpm_key`: rpm_key_options?
+
+    function into(): rpm_key = this
+        .toMap()
+        .put("ansible.builtin.rpm_key", this.options)
+        .toTyped(rpm_key)
+}
+
+//
+
+class script_options {
+    
+    chdir: String?
+    
+    cmd: String?
+    
+    creates: String?
+    
+    executable: String?
+    
+    free_form: String?
+    
+    removes: String?
+    
+}
+
+class script extends todoname0.task {
+    hidden options: script_options
+
+    `ansible.builtin.script`: script_options?
+
+    function into(): script = this
+        .toMap()
+        .put("ansible.builtin.script", this.options)
+        .toTyped(script)
+}
+
+//
+
+class service_options {
+    
+    arguments: String?
+    
+    enabled: Boolean?
+    
+    name: String
+    
+    pattern: String?
+    
+    runlevel: String?
+    
+    sleep: Int?
+    
+    state: ("reloaded"|"restarted"|"started"|"stopped")?
+    
+    use: String?
+    
+}
+
+class service extends todoname0.task {
+    hidden options: service_options
+
+    `ansible.builtin.service`: service_options?
+
+    function into(): service = this
+        .toMap()
+        .put("ansible.builtin.service", this.options)
+        .toTyped(service)
+}
+
+//
+
+class service_facts_options {
+    
+}
+
+class service_facts extends todoname0.task {
+    hidden options: service_facts_options
+
+    `ansible.builtin.service_facts`: service_facts_options?
+
+    function into(): service_facts = this
+        .toMap()
+        .put("ansible.builtin.service_facts", this.options)
+        .toTyped(service_facts)
+}
+
+//
+
+class set_fact_options {
+    
+    cacheable: Boolean?
+    
+    key_value: String
+    
+}
+
+class set_fact extends todoname0.task {
+    hidden options: set_fact_options
+
+    `ansible.builtin.set_fact`: set_fact_options?
+
+    function into(): set_fact = this
+        .toMap()
+        .put("ansible.builtin.set_fact", this.options)
+        .toTyped(set_fact)
+}
+
+//
+
+class set_stats_options {
+    
+    aggregate: Boolean?
+    
+    data: String
+    
+    per_host: Boolean?
+    
+}
+
+class set_stats extends todoname0.task {
+    hidden options: set_stats_options
+
+    `ansible.builtin.set_stats`: set_stats_options?
+
+    function into(): set_stats = this
+        .toMap()
+        .put("ansible.builtin.set_stats", this.options)
+        .toTyped(set_stats)
+}
+
+//
+
+class shell_options {
+    
+    chdir: String?
+    
+    cmd: String?
+    
+    creates: String?
+    
+    executable: String?
+    
+    free_form: String?
+    
+    removes: String?
+    
+    stdin: String?
+    
+    stdin_add_newline: Boolean?
+    
+}
+
+class shell extends todoname0.task {
+    hidden options: shell_options
+
+    `ansible.builtin.shell`: shell_options?
+
+    function into(): shell = this
+        .toMap()
+        .put("ansible.builtin.shell", this.options)
+        .toTyped(shell)
+}
+
+//
+
+class slurp_options {
+    
+    src: String
+    
+}
+
+class slurp extends todoname0.task {
+    hidden options: slurp_options
+
+    `ansible.builtin.slurp`: slurp_options?
+
+    function into(): slurp = this
+        .toMap()
+        .put("ansible.builtin.slurp", this.options)
+        .toTyped(slurp)
+}
+
+//
+
+class stat_options {
+    
+    checksum_algorithm: ("md5"|"sha1"|"sha224"|"sha256"|"sha384"|"sha512")?
+    
+    follow: Boolean?
+    
+    get_attributes: Boolean?
+    
+    get_checksum: Boolean?
+    
+    get_mime: Boolean?
+    
+    path: String
+    
+}
+
+class stat extends todoname0.task {
+    hidden options: stat_options
+
+    `ansible.builtin.stat`: stat_options?
+
+    function into(): stat = this
+        .toMap()
+        .put("ansible.builtin.stat", this.options)
+        .toTyped(stat)
+}
+
+//
+
+class subversion_options {
+    
+    checkout: Boolean?
+    
+    dest: String?
+    
+    executable: String?
+    
+    export: Boolean?
+    
+    force: Boolean?
+    
+    in_place: Boolean?
+    
+    password: String?
+    
+    repo: String
+    
+    revision: String?
+    
+    switch: Boolean?
+    
+    update: Boolean?
+    
+    username: String?
+    
+    validate_certs: Boolean?
+    
+}
+
+class subversion extends todoname0.task {
+    hidden options: subversion_options
+
+    `ansible.builtin.subversion`: subversion_options?
+
+    function into(): subversion = this
+        .toMap()
+        .put("ansible.builtin.subversion", this.options)
+        .toTyped(subversion)
+}
+
+//
+
+class systemd_service_options {
+    
+    daemon_reexec: Boolean?
+    
+    daemon_reload: Boolean?
+    
+    enabled: Boolean?
+    
+    force: Boolean?
+    
+    masked: Boolean?
+    
+    name: String?
+    
+    no_block: Boolean?
+    
+    scope: ("system"|"user"|"global")?
+    
+    state: ("reloaded"|"restarted"|"started"|"stopped")?
+    
+}
+
+class systemd_service extends todoname0.task {
+    hidden options: systemd_service_options
+
+    `ansible.builtin.systemd_service`: systemd_service_options?
+
+    function into(): systemd_service = this
+        .toMap()
+        .put("ansible.builtin.systemd_service", this.options)
+        .toTyped(systemd_service)
+}
+
+//
+
+class sysvinit_options {
+    
+    arguments: String?
+    
+    daemonize: Boolean?
+    
+    enabled: Boolean?
+    
+    name: String
+    
+    pattern: String?
+    
+    runlevels: Listing<String>?
+    
+    sleep: Int?
+    
+    state: ("started"|"stopped"|"restarted"|"reloaded")?
+    
+}
+
+class sysvinit extends todoname0.task {
+    hidden options: sysvinit_options
+
+    `ansible.builtin.sysvinit`: sysvinit_options?
+
+    function into(): sysvinit = this
+        .toMap()
+        .put("ansible.builtin.sysvinit", this.options)
+        .toTyped(sysvinit)
+}
+
+//
+
+class tempfile_options {
+    
+    path: String?
+    
+    prefix: String?
+    
+    state: ("directory"|"file")?
+    
+    suffix: String?
+    
+}
+
+class tempfile extends todoname0.task {
+    hidden options: tempfile_options
+
+    `ansible.builtin.tempfile`: tempfile_options?
+
+    function into(): tempfile = this
+        .toMap()
+        .put("ansible.builtin.tempfile", this.options)
+        .toTyped(tempfile)
+}
+
+//
+
+class template_options {
+    
+    follow: Boolean?
+    
+}
+
+class template extends todoname0.task {
+    hidden options: template_options
+
+    `ansible.builtin.template`: template_options?
+
+    function into(): template = this
+        .toMap()
+        .put("ansible.builtin.template", this.options)
+        .toTyped(template)
+}
+
+//
+
+class user_options {
+    
+    append: Boolean?
+    
+    authorization: String?
+    
+    comment: String?
+    
+    create_home: Boolean?
+    
+    expires: String?
+    
+    force: Boolean?
+    
+    generate_ssh_key: Boolean?
+    
+    group: String?
+    
+    groups: Listing<String>?
+    
+    hidden: Boolean?
+    
+    home: String?
+    
+    local: Boolean?
+    
+    login_class: String?
+    
+    move_home: Boolean?
+    
+    name: String
+    
+    non_unique: Boolean?
+    
+    password: String?
+    
+    password_expire_max: Int?
+    
+    password_expire_min: Int?
+    
+    password_expire_warn: Int?
+    
+    password_lock: Boolean?
+    
+    profile: String?
+    
+    remove: Boolean?
+    
+    role: String?
+    
+    seuser: String?
+    
+    shell: String?
+    
+    skeleton: String?
+    
+    ssh_key_bits: Int?
+    
+    ssh_key_comment: String?
+    
+    ssh_key_file: String?
+    
+    ssh_key_passphrase: String?
+    
+    ssh_key_type: String?
+    
+    state: ("absent"|"present")?
+    
+    system: Boolean?
+    
+    uid: Int?
+    
+    umask: String?
+    
+    update_password: ("always"|"on_create")?
+    
+}
+
+class user extends todoname0.task {
+    hidden options: user_options
+
+    `ansible.builtin.user`: user_options?
+
+    function into(): user = this
+        .toMap()
+        .put("ansible.builtin.user", this.options)
+        .toTyped(user)
+}
+
+//
+
+class validate_argument_spec_options {
+    
+    argument_spec: String
+    
+    provided_arguments: String?
+    
+}
+
+class validate_argument_spec extends todoname0.task {
+    hidden options: validate_argument_spec_options
+
+    `ansible.builtin.validate_argument_spec`: validate_argument_spec_options?
+
+    function into(): validate_argument_spec = this
+        .toMap()
+        .put("ansible.builtin.validate_argument_spec", this.options)
+        .toTyped(validate_argument_spec)
+}
+
+//
+
+class wait_for_connection_options {
+    
+    connect_timeout: Int?
+    
+    delay: Int?
+    
+    sleep: Int?
+    
+    timeout: Int?
+    
+}
+
+class wait_for_connection extends todoname0.task {
+    hidden options: wait_for_connection_options
+
+    `ansible.builtin.wait_for_connection`: wait_for_connection_options?
+
+    function into(): wait_for_connection = this
+        .toMap()
+        .put("ansible.builtin.wait_for_connection", this.options)
+        .toTyped(wait_for_connection)
+}
+
+//
+
+class yum_repository_options {
+    
+    async: Boolean?
+    
+    bandwidth: String?
+    
+    baseurl: Listing<String>?
+    
+    cost: String?
+    
+    deltarpm_metadata_percentage: String?
+    
+    deltarpm_percentage: String?
+    
+    description: String?
+    
+    enabled: Boolean?
+    
+    enablegroups: Boolean?
+    
+    exclude: Listing<String>?
+    
+    failovermethod: ("roundrobin"|"priority")?
+    
+    file: String?
+    
+    gpgcakey: String?
+    
+    gpgcheck: Boolean?
+    
+    gpgkey: Listing<String>?
+    
+    http_caching: ("all"|"packages"|"none")?
+    
+    include: String?
+    
+    includepkgs: Listing<String>?
+    
+    ip_resolve: ("4"|"6"|"IPv4"|"IPv6"|"whatever")?
+    
+    keepalive: Boolean?
+    
+    keepcache: ("0"|"1")?
+    
+    metadata_expire: String?
+    
+    metadata_expire_filter: ("never"|"read-only:past"|"read-only:present"|"read-only:future")?
+    
+    metalink: String?
+    
+    mirrorlist: String?
+    
+    mirrorlist_expire: String?
+    
+    module_hotfixes: Boolean?
+    
+    name: String
+    
+    password: String?
+    
+    priority: String?
+    
+    protect: Boolean?
+    
+    proxy: String?
+    
+    proxy_password: String?
+    
+    proxy_username: String?
+    
+    repo_gpgcheck: Boolean?
+    
+    reposdir: String?
+    
+    retries: String?
+    
+    s3_enabled: Boolean?
+    
+    skip_if_unavailable: Boolean?
+    
+    ssl_check_cert_permissions: Boolean?
+    
+    sslcacert: String?
+    
+    sslclientcert: String?
+    
+    sslclientkey: String?
+    
+    sslverify: Boolean?
+    
+    state: ("absent"|"present")?
+    
+    throttle: String?
+    
+    timeout: String?
+    
+    ui_repoid_vars: String?
+    
+    username: String?
+    
+}
+
+class yum_repository extends todoname0.task {
+    hidden options: yum_repository_options
+
+    `ansible.builtin.yum_repository`: yum_repository_options?
+
+    function into(): yum_repository = this
+        .toMap()
+        .put("ansible.builtin.yum_repository", this.options)
+        .toTyped(yum_repository)
 }
