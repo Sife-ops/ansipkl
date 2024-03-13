@@ -4,4 +4,5 @@ import "log"
 
 func main() {
     log.Print("hello this is ansipkl")
+    log.Print("yeah")
 }
