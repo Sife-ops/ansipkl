@@ -1,4 +1,4 @@
 .PHONY: default
 
 default:
-	go build -o ./bin/foo ./cmd/foo/main.go
+	go build -o ./bin/modules ./cmd/modules/main.go

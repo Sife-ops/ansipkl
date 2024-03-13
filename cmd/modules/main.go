@@ -84,9 +84,22 @@ func main() {
 }
 
 func mainErr() error {
-	basename := "./ansible/lib/ansible/modules"
+	if err := readModules(
+        "builtin",
+		"./ansible/lib/ansible/modules",
+		"./src",
+	); err != nil {
+		return err
+	}
+	return nil
+}
 
-	entries, err := os.ReadDir(basename)
+func readModules(
+    moduleName string,
+	srcDir string,
+	outDir string,
+) error {
+	entries, err := os.ReadDir(srcDir)
 	if err != nil {
 		return err
 	}
@@ -106,7 +119,7 @@ func mainErr() error {
 
 		//
 
-		file, err := os.Open(basename + "/" + entry.Name())
+		file, err := os.Open(srcDir + "/" + entry.Name())
 		if err != nil {
 			return err
 		}
@@ -149,13 +162,13 @@ func mainErr() error {
 		}
 	}
 
-	file, err := os.Create("./src/builtin.pkl")
+	file, err := os.Create(outDir + "/" + moduleName + ".pkl")
 	if err != nil {
 		return err
 	}
 	defer file.Close()
 
-	t, err := template.New("builtin").Parse(`module builtin
+	t, err := template.New(moduleName).Parse(`module `+moduleName+`
 
 import "./playbook.pkl"
 `)
@@ -163,11 +176,11 @@ import "./playbook.pkl"
 		return err
 	}
 
-    // todo "free-form" option
+	// todo "free-form" option
 	for _, m := range modules {
 		t, err := template.New(m.Module).Funcs(template.FuncMap{
 			"IntoProperty": func(s string) (z string) {
-                z = s
+				z = s
 				switch s {
 				case "hidden":
 					z = "`hidden`"
@@ -182,7 +195,7 @@ import "./playbook.pkl"
 //
 
 class ` + m.Module + `_options {
-    {{ range $key, $value := .mod.Options }}
+    {{ range $key, $value := .module.Options }}
     {{ if eq $key "free-form" }}
     // {{ IntoProperty $key }}: {{ $value.IntoType }}
     {{ else }}
@@ -207,7 +220,7 @@ class ` + m.Module + ` extends playbook.task {
 		}
 
 		if err := t.Execute(file, map[string]interface{}{
-			"mod": m,
+			"module": m,
 		}); err != nil {
 			return err
 		}
