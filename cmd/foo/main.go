@@ -104,7 +104,7 @@ func mainErr() error {
 			continue
 		}
 
-        //
+		//
 
 		file, err := os.Open(basename + "/" + entry.Name())
 		if err != nil {
@@ -117,7 +117,7 @@ func mainErr() error {
 		docEnd := false
 		buf := new(bytes.Buffer)
 		for scanner.Scan() {
-            t := scanner.Text()
+			t := scanner.Text()
 			if strings.Contains(t, "DOCUMENTATION") {
 				docStart = true
 				continue
@@ -157,23 +157,41 @@ func mainErr() error {
 
 	t, err := template.New("builtin").Parse(`module builtin
 
-import "./todoname0.pkl"
+import "./playbook.pkl"
 `)
 	if err := t.Execute(file, nil); err != nil {
 		return err
 	}
 
+    // todo "free-form" option
 	for _, m := range modules {
-		t, err := t.Parse(`
+		t, err := template.New(m.Module).Funcs(template.FuncMap{
+			"IntoProperty": func(s string) (z string) {
+                z = s
+				switch s {
+				case "hidden":
+					z = "`hidden`"
+				case "local":
+					z = "`local`"
+				case "switch":
+					z = "`switch`"
+				}
+				return
+			},
+		}).Parse(`
 //
 
 class ` + m.Module + `_options {
     {{ range $key, $value := .mod.Options }}
-    {{ $key }}: {{ $value.IntoType }}
+    {{ if eq $key "free-form" }}
+    // {{ IntoProperty $key }}: {{ $value.IntoType }}
+    {{ else }}
+    {{ IntoProperty $key }}: {{ $value.IntoType }}
+    {{ end }}
     {{ end }}
 }
 
-class ` + m.Module + ` extends todoname0.task {
+class ` + m.Module + ` extends playbook.task {
     hidden options: ` + m.Module + `_options
 
     ` + "`" + `ansible.builtin.` + m.Module + "`" + `: ` + m.Module + `_options?
