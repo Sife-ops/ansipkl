@@ -1,0 +1,89 @@
+module builtin
+
+import "./todoname0.pkl"
+
+//
+
+class add_host_options {
+    
+    groups: Listing<String>?
+    
+    name: String
+    
+}
+
+class add_host extends todoname0.task {
+    hidden options: add_host_options
+
+    `ansible.builtin.add_host`: add_host_options?
+
+    function into(): add_host = this
+        .toMap()
+        .put("ansible.builtin.add_host", this.options)
+        .toTyped(add_host)
+}
+
+//
+
+class apt_options {
+    
+    allow_change_held_packages: Boolean?
+    
+    allow_downgrade: Boolean?
+    
+    allow_unauthenticated: Boolean?
+    
+    autoclean: Boolean?
+    
+    autoremove: Boolean?
+    
+    cache_valid_time: Int?
+    
+    clean: Boolean?
+    
+    deb: String?
+    
+    default_release: String?
+    
+    dpkg_options: String?
+    
+    fail_on_autoremove: Boolean?
+    
+    force: Boolean?
+    
+    force_apt_get: Boolean?
+    
+    install_recommends: Boolean?
+    
+    lock_timeout: Int?
+    
+    name: Listing<String>?
+    
+    only_upgrade: Boolean?
+    
+    policy_rc_d: Int?
+    
+    purge: Boolean?
+    
+    state: String?
+    
+    update_cache: Boolean?
+    
+    update_cache_retries: Int?
+    
+    update_cache_retry_max_delay: Int?
+    
+    upgrade: String?
+    
+}
+
+class apt extends todoname0.task {
+    hidden options: apt_options
+
+    `ansible.builtin.apt`: apt_options?
+
+    function into(): apt = this
+        .toMap()
+        .put("ansible.builtin.apt", this.options)
+        .toTyped(apt)
+}

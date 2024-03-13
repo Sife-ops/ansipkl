@@ -1,0 +1,6 @@
+module todoname0
+
+abstract class task {
+    name: String
+}
+    
