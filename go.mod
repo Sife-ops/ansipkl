@@ -1,4 +1,4 @@
-module ansipkl
+module github.com/Sife-ops/ansipkl
 
 go 1.22.1
 
