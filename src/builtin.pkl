@@ -405,6 +405,67 @@ class cron extends todoname0.task {
 
 //
 
+class deb822_repository_options {
+    
+    allow_downgrade_to_insecure: Boolean?
+    
+    allow_insecure: Boolean?
+    
+    allow_weak: Boolean?
+    
+    architectures: Listing<String>?
+    
+    by_hash: Boolean?
+    
+    check_date: Boolean?
+    
+    check_valid_until: Boolean?
+    
+    components: Listing<String>?
+    
+    date_max_future: Int?
+    
+    enabled: Boolean?
+    
+    inrelease_path: String?
+    
+    languages: Listing<String>?
+    
+    mode: String?
+    
+    name: String
+    
+    pdiffs: Boolean?
+    
+    signed_by: String?
+    
+    state: ("absent"|"present")?
+    
+    suites: Listing<String>?
+    
+    targets: Listing<String>?
+    
+    trusted: Boolean?
+    
+    types: Listing<("deb"|"deb-src")>?
+    
+    uris: Listing<String>?
+    
+}
+
+class deb822_repository extends todoname0.task {
+    hidden options: deb822_repository_options
+
+    `ansible.builtin.deb822_repository`: deb822_repository_options?
+
+    function into(): deb822_repository = this
+        .toMap()
+        .put("ansible.builtin.deb822_repository", this.options)
+        .toTyped(deb822_repository)
+}
+
+//
+
 class debconf_options {
     
     name: String
@@ -451,6 +512,162 @@ class debug extends todoname0.task {
         .toMap()
         .put("ansible.builtin.debug", this.options)
         .toTyped(debug)
+}
+
+//
+
+class dnf_options {
+    
+    allow_downgrade: Boolean?
+    
+    allowerasing: Boolean?
+    
+    autoremove: Boolean?
+    
+    bugfix: Boolean?
+    
+    cacheonly: Boolean?
+    
+    conf_file: String?
+    
+    disable_excludes: String?
+    
+    disable_gpg_check: Boolean?
+    
+    disable_plugin: Listing<String>?
+    
+    disablerepo: Listing<String>?
+    
+    download_dir: String?
+    
+    download_only: Boolean?
+    
+    enable_plugin: Listing<String>?
+    
+    enablerepo: Listing<String>?
+    
+    exclude: Listing<String>?
+    
+    install_repoquery: Boolean?
+    
+    install_weak_deps: Boolean?
+    
+    installroot: String?
+    
+    list: String?
+    
+    lock_timeout: Int?
+    
+    name: Listing<String>?
+    
+    nobest: Boolean?
+    
+    releasever: String?
+    
+    security: Boolean?
+    
+    skip_broken: Boolean?
+    
+    sslverify: Boolean?
+    
+    state: ("absent"|"present"|"installed"|"removed"|"latest")?
+    
+    update_cache: Boolean?
+    
+    update_only: Boolean?
+    
+    use_backend: ("auto"|"dnf4"|"dnf5")?
+    
+    validate_certs: Boolean?
+    
+}
+
+class dnf extends todoname0.task {
+    hidden options: dnf_options
+
+    `ansible.builtin.dnf`: dnf_options?
+
+    function into(): dnf = this
+        .toMap()
+        .put("ansible.builtin.dnf", this.options)
+        .toTyped(dnf)
+}
+
+//
+
+class dnf5_options {
+    
+    allow_downgrade: Boolean?
+    
+    allowerasing: Boolean?
+    
+    autoremove: Boolean?
+    
+    bugfix: Boolean?
+    
+    cacheonly: Boolean?
+    
+    conf_file: String?
+    
+    disable_excludes: String?
+    
+    disable_gpg_check: Boolean?
+    
+    disable_plugin: Listing<String>?
+    
+    disablerepo: Listing<String>?
+    
+    download_dir: String?
+    
+    download_only: Boolean?
+    
+    enable_plugin: Listing<String>?
+    
+    enablerepo: Listing<String>?
+    
+    exclude: Listing<String>?
+    
+    install_repoquery: Boolean?
+    
+    install_weak_deps: Boolean?
+    
+    installroot: String?
+    
+    list: String?
+    
+    lock_timeout: Int?
+    
+    name: Listing<String>?
+    
+    nobest: Boolean?
+    
+    releasever: String?
+    
+    security: Boolean?
+    
+    skip_broken: Boolean?
+    
+    sslverify: Boolean?
+    
+    state: ("absent"|"present"|"installed"|"removed"|"latest")?
+    
+    update_cache: Boolean?
+    
+    update_only: Boolean?
+    
+    validate_certs: Boolean?
+    
+}
+
+class dnf5 extends todoname0.task {
+    hidden options: dnf5_options
+
+    `ansible.builtin.dnf5`: dnf5_options?
+
+    function into(): dnf5 = this
+        .toMap()
+        .put("ansible.builtin.dnf5", this.options)
+        .toTyped(dnf5)
 }
 
 //
@@ -590,6 +807,57 @@ class file extends todoname0.task {
 
 //
 
+class find_options {
+    
+    age: String?
+    
+    age_stamp: ("atime"|"ctime"|"mtime")?
+    
+    contains: String?
+    
+    depth: Int?
+    
+    exact_mode: Boolean?
+    
+    excludes: Listing<String>?
+    
+    file_type: ("any"|"directory"|"file"|"link")?
+    
+    follow: Boolean?
+    
+    get_checksum: Boolean?
+    
+    hidden: Boolean?
+    
+    mode: String?
+    
+    paths: Listing<String>
+    
+    patterns: Listing<String>?
+    
+    read_whole_file: Boolean?
+    
+    recurse: Boolean?
+    
+    size: String?
+    
+    use_regex: Boolean?
+    
+}
+
+class find extends todoname0.task {
+    hidden options: find_options
+
+    `ansible.builtin.find`: find_options?
+
+    function into(): find = this
+        .toMap()
+        .put("ansible.builtin.find", this.options)
+        .toTyped(find)
+}
+
+//
+
 class gather_facts_options {
     
     parallel: Boolean?
@@ -605,6 +873,65 @@ class gather_facts extends todoname0.task {
         .toMap()
         .put("ansible.builtin.gather_facts", this.options)
         .toTyped(gather_facts)
+}
+
+//
+
+class get_url_options {
+    
+    backup: Boolean?
+    
+    checksum: String?
+    
+    ciphers: Listing<String>?
+    
+    client_cert: String?
+    
+    client_key: String?
+    
+    decompress: Boolean?
+    
+    dest: String
+    
+    force: Boolean?
+    
+    force_basic_auth: Boolean?
+    
+    headers: String?
+    
+    http_agent: String?
+    
+    timeout: Int?
+    
+    tmp_dest: String?
+    
+    unredirected_headers: Listing<String>?
+    
+    url: String
+    
+    url_password: String?
+    
+    url_username: String?
+    
+    use_gssapi: Boolean?
+    
+    use_netrc: Boolean?
+    
+    use_proxy: Boolean?
+    
+    validate_certs: Boolean?
+    
+}
+
+class get_url extends todoname0.task {
+    hidden options: get_url_options
+
+    `ansible.builtin.get_url`: get_url_options?
+
+    function into(): get_url = this
+        .toMap()
+        .put("ansible.builtin.get_url", this.options)
+        .toTyped(get_url)
 }
 
 //
@@ -632,6 +959,73 @@ class getent extends todoname0.task {
         .toMap()
         .put("ansible.builtin.getent", this.options)
         .toTyped(getent)
+}
+
+//
+
+class git_options {
+    
+    accept_hostkey: Boolean?
+    
+    accept_newhostkey: Boolean?
+    
+    archive: String?
+    
+    archive_prefix: String?
+    
+    bare: Boolean?
+    
+    clone: Boolean?
+    
+    depth: Int?
+    
+    dest: String
+    
+    executable: String?
+    
+    force: Boolean?
+    
+    gpg_whitelist: Listing<String>?
+    
+    key_file: String?
+    
+    recursive: Boolean?
+    
+    reference: String?
+    
+    refspec: String?
+    
+    remote: String?
+    
+    repo: String
+    
+    separate_git_dir: String?
+    
+    single_branch: Boolean?
+    
+    ssh_opts: String?
+    
+    track_submodules: Boolean?
+    
+    umask: String?
+    
+    update: Boolean?
+    
+    verify_commit: Boolean?
+    
+    version: String?
+    
+}
+
+class git extends todoname0.task {
+    hidden options: git_options
+
+    `ansible.builtin.git`: git_options?
+
+    function into(): git = this
+        .toMap()
+        .put("ansible.builtin.git", this.options)
+        .toTyped(git)
 }
 
 //
@@ -838,6 +1232,152 @@ class include_tasks extends todoname0.task {
 
 //
 
+class include_vars_options {
+    
+    depth: Int?
+    
+    dir: String?
+    
+    extensions: Listing<String>?
+    
+    file: String?
+    
+    files_matching: String?
+    
+    free-form: String?
+    
+    hash_behaviour: ("replace"|"merge")?
+    
+    ignore_files: Listing<String>?
+    
+    ignore_unknown_extensions: Boolean?
+    
+    name: String?
+    
+}
+
+class include_vars extends todoname0.task {
+    hidden options: include_vars_options
+
+    `ansible.builtin.include_vars`: include_vars_options?
+
+    function into(): include_vars = this
+        .toMap()
+        .put("ansible.builtin.include_vars", this.options)
+        .toTyped(include_vars)
+}
+
+//
+
+class iptables_options {
+    
+    action: ("append"|"insert")?
+    
+    chain: String?
+    
+    chain_management: Boolean?
+    
+    comment: String?
+    
+    ctstate: Listing<String>?
+    
+    destination: String?
+    
+    destination_port: String?
+    
+    destination_ports: Listing<String>?
+    
+    dst_range: String?
+    
+    flush: Boolean?
+    
+    fragment: String?
+    
+    gateway: String?
+    
+    gid_owner: String?
+    
+    goto: String?
+    
+    icmp_type: String?
+    
+    in_interface: String?
+    
+    ip_version: ("ipv4"|"ipv6")?
+    
+    jump: String?
+    
+    limit: String?
+    
+    limit_burst: String?
+    
+    log_level: ("0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"emerg"|"alert"|"crit"|"error"|"warning"|"notice"|"info"|"debug")?
+    
+    log_prefix: String?
+    
+    match: Listing<String>?
+    
+    match_set: String?
+    
+    match_set_flags: ("src"|"dst"|"src,dst"|"dst,src")?
+    
+    numeric: Boolean?
+    
+    out_interface: String?
+    
+    policy: ("ACCEPT"|"DROP"|"QUEUE"|"RETURN")?
+    
+    protocol: String?
+    
+    reject_with: String?
+    
+    rule_num: String?
+    
+    set_counters: String?
+    
+    set_dscp_mark: String?
+    
+    set_dscp_mark_class: String?
+    
+    source: String?
+    
+    source_port: String?
+    
+    src_range: String?
+    
+    state: ("absent"|"present")?
+    
+    syn: ("ignore"|"match"|"negate")?
+    
+    table: ("filter"|"nat"|"mangle"|"raw"|"security")?
+    
+    tcp_flags: String?
+    
+    to_destination: String?
+    
+    to_ports: String?
+    
+    to_source: String?
+    
+    uid_owner: String?
+    
+    wait: String?
+    
+}
+
+class iptables extends todoname0.task {
+    hidden options: iptables_options
+
+    `ansible.builtin.iptables`: iptables_options?
+
+    function into(): iptables = this
+        .toMap()
+        .put("ansible.builtin.iptables", this.options)
+        .toTyped(iptables)
+}
+
+//
+
 class known_hosts_options {
     
     hash_host: Boolean?
@@ -948,6 +1488,27 @@ class package extends todoname0.task {
 
 //
 
+class package_facts_options {
+    
+    manager: Listing<("auto"|"rpm"|"apt"|"portage"|"pkg"|"pacman"|"apk"|"pkg_info")>?
+    
+    strategy: ("first"|"all")?
+    
+}
+
+class package_facts extends todoname0.task {
+    hidden options: package_facts_options
+
+    `ansible.builtin.package_facts`: package_facts_options?
+
+    function into(): package_facts = this
+        .toMap()
+        .put("ansible.builtin.package_facts", this.options)
+        .toTyped(package_facts)
+}
+
+//
+
 class pause_options {
     
     echo: Boolean?
@@ -1052,6 +1613,41 @@ class raw extends todoname0.task {
         .toMap()
         .put("ansible.builtin.raw", this.options)
         .toTyped(raw)
+}
+
+//
+
+class reboot_options {
+    
+    boot_time_command: String?
+    
+    connect_timeout: Int?
+    
+    msg: String?
+    
+    post_reboot_delay: Int?
+    
+    pre_reboot_delay: Int?
+    
+    reboot_command: String?
+    
+    reboot_timeout: Int?
+    
+    search_paths: Listing<String>?
+    
+    test_command: String?
+    
+}
+
+class reboot extends todoname0.task {
+    hidden options: reboot_options
+
+    `ansible.builtin.reboot`: reboot_options?
+
+    function into(): reboot = this
+        .toMap()
+        .put("ansible.builtin.reboot", this.options)
+        .toTyped(reboot)
 }
 
 //
@@ -1233,6 +1829,31 @@ class set_stats extends todoname0.task {
         .toMap()
         .put("ansible.builtin.set_stats", this.options)
         .toTyped(set_stats)
+}
+
+//
+
+class setup_options {
+    
+    fact_path: String?
+    
+    filter: Listing<String>?
+    
+    gather_subset: Listing<String>?
+    
+    gather_timeout: Int?
+    
+}
+
+class setup extends todoname0.task {
+    hidden options: setup_options
+
+    `ansible.builtin.setup`: setup_options?
+
+    function into(): setup = this
+        .toMap()
+        .put("ansible.builtin.setup", this.options)
+        .toTyped(setup)
 }
 
 //
@@ -1473,6 +2094,124 @@ class template extends todoname0.task {
 
 //
 
+class unarchive_options {
+    
+    copy: Boolean?
+    
+    creates: String?
+    
+    dest: String
+    
+    exclude: Listing<String>?
+    
+    extra_opts: Listing<String>?
+    
+    include: Listing<String>?
+    
+    io_buffer_size: Int?
+    
+    keep_newer: Boolean?
+    
+    list_files: Boolean?
+    
+    remote_src: Boolean?
+    
+    src: String
+    
+    validate_certs: Boolean?
+    
+}
+
+class unarchive extends todoname0.task {
+    hidden options: unarchive_options
+
+    `ansible.builtin.unarchive`: unarchive_options?
+
+    function into(): unarchive = this
+        .toMap()
+        .put("ansible.builtin.unarchive", this.options)
+        .toTyped(unarchive)
+}
+
+//
+
+class uri_options {
+    
+    body: String?
+    
+    body_format: ("form-urlencoded"|"json"|"raw"|"form-multipart")?
+    
+    ca_path: String?
+    
+    ciphers: Listing<String>?
+    
+    client_cert: String?
+    
+    client_key: String?
+    
+    creates: String?
+    
+    decompress: Boolean?
+    
+    dest: String?
+    
+    follow_redirects: ("all"|"no"|"none"|"safe"|"urllib2"|"yes")?
+    
+    force: Boolean?
+    
+    force_basic_auth: Boolean?
+    
+    headers: String?
+    
+    http_agent: String?
+    
+    method: String?
+    
+    remote_src: Boolean?
+    
+    removes: String?
+    
+    return_content: Boolean?
+    
+    src: String?
+    
+    status_code: Listing<Int>?
+    
+    timeout: Int?
+    
+    unix_socket: String?
+    
+    unredirected_headers: Listing<String>?
+    
+    url: String
+    
+    url_password: String?
+    
+    url_username: String?
+    
+    use_gssapi: Boolean?
+    
+    use_netrc: Boolean?
+    
+    use_proxy: Boolean?
+    
+    validate_certs: Boolean?
+    
+}
+
+class uri extends todoname0.task {
+    hidden options: uri_options
+
+    `ansible.builtin.uri`: uri_options?
+
+    function into(): uri = this
+        .toMap()
+        .put("ansible.builtin.uri", this.options)
+        .toTyped(uri)
+}
+
+//
+
 class user_options {
     
     append: Boolean?
@@ -1585,6 +2324,47 @@ class validate_argument_spec extends todoname0.task {
 
 //
 
+class wait_for_options {
+    
+    active_connection_states: Listing<String>?
+    
+    connect_timeout: Int?
+    
+    delay: Int?
+    
+    exclude_hosts: Listing<String>?
+    
+    host: String?
+    
+    msg: String?
+    
+    path: String?
+    
+    port: Int?
+    
+    search_regex: String?
+    
+    sleep: Int?
+    
+    state: ("absent"|"drained"|"present"|"started"|"stopped")?
+    
+    timeout: Int?
+    
+}
+
+class wait_for extends todoname0.task {
+    hidden options: wait_for_options
+
+    `ansible.builtin.wait_for`: wait_for_options?
+
+    function into(): wait_for = this
+        .toMap()
+        .put("ansible.builtin.wait_for", this.options)
+        .toTyped(wait_for)
+}
+
+//
+
 class wait_for_connection_options {
     
     connect_timeout: Int?
@@ -1606,6 +2386,81 @@ class wait_for_connection extends todoname0.task {
         .toMap()
         .put("ansible.builtin.wait_for_connection", this.options)
         .toTyped(wait_for_connection)
+}
+
+//
+
+class yum_options {
+    
+    allow_downgrade: Boolean?
+    
+    autoremove: Boolean?
+    
+    bugfix: Boolean?
+    
+    cacheonly: Boolean?
+    
+    conf_file: String?
+    
+    disable_excludes: String?
+    
+    disable_gpg_check: Boolean?
+    
+    disable_plugin: Listing<String>?
+    
+    disablerepo: Listing<String>?
+    
+    download_dir: String?
+    
+    download_only: Boolean?
+    
+    enable_plugin: Listing<String>?
+    
+    enablerepo: Listing<String>?
+    
+    exclude: Listing<String>?
+    
+    install_repoquery: Boolean?
+    
+    install_weak_deps: Boolean?
+    
+    installroot: String?
+    
+    list: String?
+    
+    lock_timeout: Int?
+    
+    name: Listing<String>?
+    
+    releasever: String?
+    
+    security: Boolean?
+    
+    skip_broken: Boolean?
+    
+    sslverify: Boolean?
+    
+    state: ("absent"|"installed"|"latest"|"present"|"removed")?
+    
+    update_cache: Boolean?
+    
+    update_only: Boolean?
+    
+    use_backend: ("auto"|"yum"|"yum4"|"dnf"|"dnf4"|"dnf5")?
+    
+    validate_certs: Boolean?
+    
+}
+
+class yum extends todoname0.task {
+    hidden options: yum_options
+
+    `ansible.builtin.yum`: yum_options?
+
+    function into(): yum = this
+        .toMap()
+        .put("ansible.builtin.yum", this.options)
+        .toTyped(yum)
 }
 
 //

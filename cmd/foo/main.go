@@ -13,9 +13,9 @@ import (
 
 // todo descriptions, docs
 type moduleOpt struct {
-	Type     *string
-	Choices  *[]string
-	Default  *string
+	Type    *string
+	Choices *[]string
+	// Default  *string
 	Elements *string
 	Required *bool
 	Aliases  *[]string // todo use aliases?
@@ -97,63 +97,14 @@ func mainErr() error {
 		if entry.Name() == "__init__.py" {
 			continue
 		}
-
-        // very bad
-		log.Print(entry.Name())
-
-		if entry.Name() == "deb822_repository.py" {
-			continue
-		}
-		if entry.Name() == "dnf.py" {
-			continue
-		}
-		if entry.Name() == "dnf5.py" {
-			continue
-		}
-		if entry.Name() == "find.py" {
-			continue
-		}
-		if entry.Name() == "get_url.py" {
-			continue
-		}
-		if entry.Name() == "git.py" {
-			continue
-		}
-		if entry.Name() == "include_vars.py" {
-			continue
-		}
-		if entry.Name() == "iptables.py" {
-			continue
-		}
-		if entry.Name() == "package_facts.py" {
-			continue
-		}
-		if entry.Name() == "reboot.py" {
-			continue
-		}
-		if entry.Name() == "setup.py" {
-			continue
-		}
-		if entry.Name() == "unarchive.py" {
-			continue
-		}
-		if entry.Name() == "uri.py" {
-			continue
-		}
-		if entry.Name() == "wait_for.py" {
-			continue
-		}
-		if entry.Name() == "yum.py" {
-			continue
-		}
-        //
-
 		if entry.IsDir() {
 			continue
 		}
 		if !entry.Type().IsRegular() {
 			continue
 		}
+
+        //
 
 		file, err := os.Open(basename + "/" + entry.Name())
 		if err != nil {
@@ -165,21 +116,21 @@ func mainErr() error {
 		docStart := false
 		docEnd := false
 		buf := new(bytes.Buffer)
-        // iii := 0
 		for scanner.Scan() {
-			if strings.Contains(scanner.Text(), "DOCUMENTATION") {
+            t := scanner.Text()
+			if strings.Contains(t, "DOCUMENTATION") {
 				docStart = true
 				continue
 			}
-			if scanner.Text() == "'''" && docStart {
-				docEnd = true
+			if t == "'''" || t == `"""` {
+				if docStart {
+					docEnd = true
+				}
 			}
 			if !docStart || docEnd {
 				continue
 			}
-            // xxx++
-            // log.Printf("%d | %s", iii, scanner.Text())
-			// if _, err := buf.Write([]byte(scanner.Text() + "\n")); err != nil {
+
 			if _, err := buf.Write(scanner.Bytes()); err != nil {
 				return err
 			}
