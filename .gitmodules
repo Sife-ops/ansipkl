@@ -1,0 +1,8 @@
+[submodule "ansible"]
+	path = ansible
+	url = https://github.com/ansible/ansible.git
+	branch = stable-2.16
+[submodule "community.general"]
+	path = community.general
+	url = https://github.com/ansible-collections/community.general.git
+	branch = stable-8

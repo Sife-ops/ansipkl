@@ -1,0 +1,56 @@
+import "@ansipkl/playbook.pkl"
+import "@ansipkl/builtin.pkl"
+import "@ansipkl/community.general.pkl"
+
+test00 = new builtin.add_host_options {
+    name = "lol"
+}
+
+test01 = new builtin.add_host {
+    name = "something"
+    options {
+        name = "yes"
+    }
+}
+
+test02 = new Listing<playbook.task> {
+    new builtin.add_host {
+        name = "some host"
+        options {
+            name = "yes"
+            groups {
+                "one"
+                "two"
+            }
+        }
+    }.into()
+
+    new builtin.apt {
+        name = "neovide"
+        options {
+            state = "absent"
+            // state = "asdf"
+            name {
+                "neovide"
+            }
+        }
+    }.into()
+
+    // todo change to community_general?
+    new `community.general`.aerospike_migrations {
+        name = "aerospike"
+        options {
+            local_only = true
+        }
+    }.into()
+
+    new `community.general`.pacman {
+        name = "neovide"
+        options {
+            name {
+                "neovide"
+            }
+        }
+    }.into()
+
+}
