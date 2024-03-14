@@ -1,5 +1,6 @@
 import "@ansipkl/playbook.pkl"
 import "@ansipkl/builtin.pkl"
+import "@ansipkl/community.general.pkl"
 
 test00 = new builtin.add_host_options {
     name = "lol"
@@ -34,4 +35,25 @@ test02 = new Listing<playbook.task> {
             }
         }
     }.into()
+
+    new `community.general`.apk {
+        name = "wats an apk"
+        options {
+            name {
+                "gr8-lib"
+            }
+        }
+    }.into()
+
+    new `community.general`.pacman {
+        name = "blender, gimp, inkscape"
+        options {
+            name {
+                "blender"
+                "gimp"
+                "inkscape"
+            }
+        }
+    }.into()
+
 }

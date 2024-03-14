@@ -1,6 +1,139 @@
 module playbook
 
-abstract class task {
+abstract class base {
+    // name = NonInheritableFieldAttribute(isa='string', default='', always_post_validate=True)
     name: String
+
+    // # connection/transport
+    // connection = ConnectionFieldAttribute(isa='string', default=context.cliargs_deferred_get('connection'))
+    connection: String?
+    // port = FieldAttribute(isa='int')
+    port: Int?
+    // remote_user = FieldAttribute(isa='string', default=context.cliargs_deferred_get('remote_user'))
+    remote_user: String?
+
+    // # variables
+    // vars = NonInheritableFieldAttribute(isa='dict', priority=100, static=True)
+    vars: Mapping<String, String>?
+
+    // # module default params
+    // module_defaults = FieldAttribute(isa='list', extend=True, prepend=True)
+    module_defaults: Any? // todo sus
+
+    // # flags and misc. settings
+    // environment = FieldAttribute(isa='list', extend=True, prepend=True)
+    environment: Mapping<String, String>?
+    // no_log = FieldAttribute(isa='bool', default=C.DEFAULT_NO_LOG)
+    no_log: Boolean?
+    // run_once = FieldAttribute(isa='bool')
+    run_once: Boolean?
+    // ignore_errors = FieldAttribute(isa='bool')
+    ignore_errors: Boolean?
+    // ignore_unreachable = FieldAttribute(isa='bool')
+    ignore_unreachable: Boolean?
+    // check_mode = FieldAttribute(isa='bool', default=context.cliargs_deferred_get('check'))
+    check_mode: Boolean?
+    // diff = FieldAttribute(isa='bool', default=context.cliargs_deferred_get('diff'))
+    diff: Boolean?
+    // any_errors_fatal = FieldAttribute(isa='bool', default=C.ANY_ERRORS_FATAL)
+    any_errors_fatal: Boolean?
+    // throttle = FieldAttribute(isa='int', default=0)
+    throttle: Int?
+    // timeout = FieldAttribute(isa='int', default=C.TASK_TIMEOUT)
+    timeout: Int?
+
+    // # explicitly invoke a debugger on tasks
+    // debugger = FieldAttribute(isa='string')
+    debugger: String?
+
+    // # Privilege escalation
+    // become = FieldAttribute(isa='bool', default=context.cliargs_deferred_get('become'))
+    become: Boolean?
+    // become_method = FieldAttribute(isa='string', default=context.cliargs_deferred_get('become_method'))
+    become_method: String?
+    // become_user = FieldAttribute(isa='string', default=context.cliargs_deferred_get('become_user'))
+    become_user: String?
+    // become_flags = FieldAttribute(isa='string', default=context.cliargs_deferred_get('become_flags'))
+    become_flags: String?
+    // become_exe = FieldAttribute(isa='string', default=context.cliargs_deferred_get('become_exe'))
+    become_exe: String?
 }
-    
+
+class play extends base {
+    // hosts = NonInheritableFieldAttribute(isa='list', required=True, listof=string_types, always_post_validate=True, priority=-2)
+    hosts: String
+
+    // # Facts
+    // gather_facts = NonInheritableFieldAttribute(isa='bool', default=None, always_post_validate=True)
+    gather_facts: Boolean?
+
+    // # defaults to be deprecated, should be 'None' in future
+    // gather_subset = NonInheritableFieldAttribute(isa='list', default=(lambda: C.DEFAULT_GATHER_SUBSET), listof=string_types, always_post_validate=True)
+    gather_subset: Any? // todo sus
+    // gather_timeout = NonInheritableFieldAttribute(isa='int', default=C.DEFAULT_GATHER_TIMEOUT, always_post_validate=True)
+    gather_timeout: Int?
+    // fact_path = NonInheritableFieldAttribute(isa='string', default=C.DEFAULT_FACT_PATH)
+    fact_path: String?
+
+    // # Variable Attributes
+    // vars_files = NonInheritableFieldAttribute(isa='list', default=list, priority=99)
+    vars_files: Listing<String>?
+    // vars_prompt = NonInheritableFieldAttribute(isa='list', default=list, always_post_validate=False)
+    vars_prompt: Listing<Any>? // todo sus
+
+    // # Role Attributes
+    // roles = NonInheritableFieldAttribute(isa='list', default=list, priority=90)
+    roles: Listing<Any>? // todo SUS
+
+    // # Block (Task) Lists Attributes
+    // handlers = NonInheritableFieldAttribute(isa='list', default=list, priority=-1)
+    handlers: Listing<Any>? // todo SUS
+    // pre_tasks = NonInheritableFieldAttribute(isa='list', default=list, priority=-1)
+    pre_tasks: Listing<task>?
+    // post_tasks = NonInheritableFieldAttribute(isa='list', default=list, priority=-1)
+    post_tasks: Listing<task>?
+    // tasks = NonInheritableFieldAttribute(isa='list', default=list, priority=-1)
+    tasks: Listing<task>?
+
+    // # Flag/Setting Attributes
+    // force_handlers = NonInheritableFieldAttribute(isa='bool', default=context.cliargs_deferred_get('force_handlers'), always_post_validate=True)
+    force_handlers: Boolean?
+    // max_fail_percentage = NonInheritableFieldAttribute(isa='percent', always_post_validate=True)
+    max_fail_percentage: Int?
+    // serial = NonInheritableFieldAttribute(isa='list', default=list, always_post_validate=True)
+    serial: Any?
+    // strategy = NonInheritableFieldAttribute(isa='string', default=C.DEFAULT_STRATEGY, always_post_validate=True)
+    strategy: String?
+    // order = NonInheritableFieldAttribute(isa='string', always_post_validate=True)
+    order: String?
+}
+
+abstract class task extends base {
+    // args = NonInheritableFieldAttribute(isa='dict', default=dict)
+    args: Mapping<String, String>?
+    // action = NonInheritableFieldAttribute(isa='string')
+    action: String?
+
+    // async_val = NonInheritableFieldAttribute(isa='int', default=0, alias='async')
+    async_val: Int?
+    // changed_when = NonInheritableFieldAttribute(isa='list', default=list)
+    changed_when: Any? // todo sus
+    // delay = NonInheritableFieldAttribute(isa='int', default=5)
+    delay: Int?
+    // failed_when = NonInheritableFieldAttribute(isa='list', default=list)
+    failed_when: Any?
+    // loop = NonInheritableFieldAttribute(isa='list')
+    loop: String?
+
+    // loop_control = NonInheritableFieldAttribute(isa='class', class_type=LoopControl, default=LoopControl)
+    loop_control: Any? // todo sus
+    // poll = NonInheritableFieldAttribute(isa='int', default=C.DEFAULT_POLL_INTERVAL)
+    poll: Int?
+    // register = NonInheritableFieldAttribute(isa='string', static=True)
+    register: String?
+    // retries = NonInheritableFieldAttribute(isa='int')  # default is set in TaskExecutor
+    retries: Int?
+    // until = NonInheritableFieldAttribute(isa='list', default=list)
+    until: String?
+}
+

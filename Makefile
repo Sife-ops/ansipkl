@@ -1,4 +1,7 @@
-.PHONY: default
+.PHONY: ansipkl modules
 
-default:
+ansipkl:
+	go build
+
+modules:
 	go build -o ./bin/modules ./cmd/modules/main.go

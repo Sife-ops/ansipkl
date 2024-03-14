@@ -1,0 +1,8 @@
+---
+self:
+  hosts:
+    localhost:
+      ansible_connection: local
+  # vars:
+  #   username: "{{ lookup('env', 'USER') }}"
+  #   ninjabrain_version: "1.4.2"
