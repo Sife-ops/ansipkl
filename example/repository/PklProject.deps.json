@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "resolvedDependencies": {
-    "package://github.com/Sife-ops/ansipkl/releases/download/v0.0.1/ansipkl@0": {
+    "package://github.com/Sife-ops/ansipkl/releases/download/v0.0.2/ansipkl@0": {
       "type": "remote",
-      "uri": "projectpackage://github.com/Sife-ops/ansipkl/releases/download/v0.0.1/ansipkl@0.0.1",
+      "uri": "projectpackage://github.com/Sife-ops/ansipkl/releases/download/v0.0.2/ansipkl@0.0.2",
       "checksums": {
-        "sha256": "3b1133a2f83eb0c7501ec03a8fe5ed05604ba9487568b246b93035ca70b4e789"
+        "sha256": "1b38390c4932a04e18ff5dd4e0fc17591012380ff2e0b54458b96d3027bb1604"
       }
     }
   }

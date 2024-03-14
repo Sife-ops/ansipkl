@@ -1,5 +1,9 @@
 # ansipkl
 
+![example](https://i.imgur.com/EGdHvsa.png)
+
+ansipkl provides `pkl` types for Ansible plays, tasks, and modules, etc.
+
 ## add to project
 
 ```pkl
@@ -36,4 +40,5 @@ exclude = [
 
 ## usage
 
-check `/example`
+Use `ansipkl` to convert all `.pkl` files to `.yml` recursively.
+Check out `/example`.

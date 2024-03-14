@@ -2,58 +2,31 @@ import "@ansipkl/playbook.pkl"
 import "@ansipkl/builtin.pkl"
 import "@ansipkl/community.general.pkl"
 
-test00 = new builtin.add_host_options {
-    name = "lol"
-}
+example_playbook_01 = new Listing<playbook.play> {
+    new {
+        name = "one"
+        hosts = "self"
+        remote_user = "root"
+        tasks {
+            new builtin.apt {
+                name = "nginx"
+                options {
+                    name {
+                        "nginx"
+                    }
+                }
+            }.into()
 
-test01 = new builtin.add_host {
-    name = "something"
-    options {
-        name = "yes"
+            new `community.general`.pacman {
+                name = "neovim"
+                options {
+                    name {
+                        "neovim"
+                    }
+                }
+            }.into()
+        }
     }
 }
 
-test02 = new Listing<playbook.task> {
-    new builtin.add_host {
-        name = "some host"
-        options {
-            name = "yes"
-            groups {
-                "one"
-                "two"
-            }
-        }
-    }.into()
 
-    new builtin.apt {
-        name = "neovide"
-        options {
-            state = "absent"
-            // state = "asdf"
-            name {
-                "neovide"
-            }
-        }
-    }.into()
-
-    new `community.general`.apk {
-        name = "wats an apk"
-        options {
-            name {
-                "gr8-lib"
-            }
-        }
-    }.into()
-
-    new `community.general`.pacman {
-        name = "blender, gimp, inkscape"
-        options {
-            name {
-                "blender"
-                "gimp"
-                "inkscape"
-            }
-        }
-    }.into()
-
-}
