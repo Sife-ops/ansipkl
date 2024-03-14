@@ -2,7 +2,7 @@ import "@ansipkl/playbook.pkl"
 import "@ansipkl/builtin.pkl"
 import "@ansipkl/community.general.pkl"
 
-playbook1 = new Listing<playbook.play> {
+example_00_pb = new Listing<playbook.play> {
     new {
         name = "play1"
         hosts = "self"
@@ -58,18 +58,19 @@ playbook1 = new Listing<playbook.play> {
     }
 }
 
-// playbook2 = new Listing<playbook.play> {
-//     new {
-//         name = "play3"
-//         tasks {
-//             new `community.general`.pacman {
-//                 name = "neovide"
-//                 options {
-//                     name {
-//                         "neovide"
-//                     }
-//                 }
-//             }.into()
-//         }
-//     }
-// }
+example_01_pb = new Listing<playbook.play> {
+    new {
+        name = "play3"
+        hosts = "self"
+        remote_user = "root"
+
+        tasks {
+            new `community.general`.pacman {
+                name = "irssi"
+                options {
+                    name { "irssi" }
+                }
+            }.into()
+        }
+    }
+}

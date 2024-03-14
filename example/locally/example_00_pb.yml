@@ -1,0 +1,32 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: play1
+  remote_user: wyatt
+  vars:
+    variable00: value00
+  hosts: self
+  tasks:
+  - name: docker
+    ansible.builtin.apt:
+      name:
+      - docker
+      state: present
+- name: play2
+  remote_user: wyatt
+  environment:
+    aaa: bbb
+  hosts: self
+  tasks:
+  - name: emacs
+    module_defaults:
+      uri:
+        prop: example
+    community.general.pacman:
+      name:
+      - emacs
+  - name: firefox
+    vars:
+      variable01: value01
+    ansible.builtin.apt:
+      name:
+      - firefox

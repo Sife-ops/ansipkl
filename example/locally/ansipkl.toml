@@ -3,3 +3,7 @@ exclude = [
     "foo",
     "^bar/.*"
 ]
+executables = [
+    "^play_.*$",
+    "^.*_pb$"
+]

@@ -1,25 +1,24 @@
-#!/usr/bin/env ansible-playbook
 ---
-- gather_facts: false
+- name: play1
+  remote_user: root
   hosts: self
-  name: play1
-  remote_user: root
+  gather_facts: false
   tasks:
-    - ansible.builtin.apt:
-        name:
-            - rg
-        state: present
-      name: rg
-- hosts: self
-  name: play2
+  - name: rg
+    ansible.builtin.apt:
+      name:
+      - rg
+      state: present
+- name: play2
   remote_user: root
+  hosts: self
   tasks:
-    - community.general.pacman:
-        name:
-            - nano
-      name: nano
-    - ansible.builtin.apt:
-        name:
-            - vim
-      loop: '{{ realvar }}'
-      name: vim
+  - name: nano
+    community.general.pacman:
+      name:
+      - nano
+  - name: vim
+    loop: '{{ realvar }}'
+    ansible.builtin.apt:
+      name:
+      - vim

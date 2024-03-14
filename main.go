@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
 	"context"
+	"flag"
 	"fmt"
 	"io/fs"
 	"os"
@@ -18,10 +21,13 @@ type cfg struct {
 }
 
 type options struct {
-	Exclude *[]string
+	Exclude     *[]string
+	Executables *[]string
 }
 
-// var flagCfgPath = flag.String()
+var flagCfgPath = flag.String("c", "./ansipkl.toml", "cfg path")
+var flagVer = flag.Bool("v", false, "version")
+
 func main() {
 	if err := mainErr(); err != nil {
 		fmt.Print(err)
@@ -29,13 +35,17 @@ func main() {
 }
 
 func mainErr() error {
-	// flag.Parse()
+	flag.Parse()
 
-	if _, err := os.Stat("./ansipkl.toml"); err != nil {
+	if *flagVer {
+		fmt.Print("0.0.3") // VERSION
+	}
+
+	if _, err := os.Stat(*flagCfgPath); err != nil {
 		return err
 	}
 
-	cfgBytes, err := os.ReadFile("./ansipkl.toml")
+	cfgBytes, err := os.ReadFile(*flagCfgPath)
 	if err != nil {
 		return err
 	}
@@ -72,42 +82,89 @@ func mainErr() error {
 		}
 
 		cmd := exec.CommandContext(context.TODO(), "pkl", "eval", "-f", "yaml", path)
-		out, err := cmd.Output()
+		outBytes, err := cmd.Output()
 		if err != nil {
 			return err
 		}
 
-		var m map[interface{}]interface{}
-		if err := yaml.Unmarshal(out, &m); err != nil {
+		var outMap map[string]interface{}
+		if err := yaml.Unmarshal(outBytes, &outMap); err != nil {
 			return err
 		}
 
-		for k, v := range m {
-			b, err := yaml.Marshal(&v)
-			if err != nil {
-				return err
+		playbookMap := map[string][]int{}
+		for playbookName := range outMap {
+			scanner := bufio.NewScanner(bytes.NewReader(outBytes))
+			i := 0
+			var s *int
+			var e *int
+			for scanner.Scan() {
+				if s != nil {
+					for playbookName := range outMap {
+						if playbookName+":" == scanner.Text() {
+							ii := i - 1
+							e = &ii
+						}
+					}
+				}
+				if scanner.Text() == playbookName+":" {
+					ii := i + 1
+					s = &ii
+				}
+				i++
+			}
+			if e == nil {
+				ii := i
+				e = &ii
 			}
 
-			asdf := filepath.Dir(path) + "/" + k.(string) + ".yml"
-			file, err := os.Create(asdf)
+			if s != nil && e != nil {
+				playbookMap[playbookName] = []int{*s, *e}
+			}
+		}
+
+		for playbookName, lines := range playbookMap {
+			playbookPath := filepath.Dir(path) + "/" + playbookName + ".yml"
+			file, err := os.Create(playbookPath)
 			if err != nil {
 				return err
 			}
 			defer file.Close()
 
-            // todo condition
-			{
-				os.Chmod(asdf, 0755)
-				if _, err := file.Write([]byte("#!/usr/bin/env ansible-playbook\n")); err != nil {
-					return err
+			if cfg.Options.Executables != nil {
+				for _, v := range *cfg.Options.Executables {
+					match, err := regexp.MatchString(v, playbookName)
+					if err != nil {
+						return err
+					}
+					if !match {
+						continue
+					}
+					os.Chmod(playbookPath, 0755)
+					if _, err := file.Write([]byte("#!/usr/bin/env ansible-playbook\n")); err != nil {
+						return err
+					}
 				}
 			}
 
 			if _, err := file.Write([]byte("---\n")); err != nil {
 				return err
 			}
-			if _, err := file.Write(b); err != nil {
-				return err
+
+			scanner := bufio.NewScanner(bytes.NewReader(outBytes))
+			i := 0
+			for scanner.Scan() {
+				if i < lines[0] || i > lines[1] {
+					i++
+					continue
+				}
+				if _, err := file.Write(scanner.Bytes()); err != nil {
+					return err
+				}
+				if _, err := file.Write([]byte("\n")); err != nil {
+					return err
+				}
+				i++
 			}
 		}
 

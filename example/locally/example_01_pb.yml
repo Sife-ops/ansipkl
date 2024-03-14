@@ -1,11 +1,10 @@
+#!/usr/bin/env ansible-playbook
 ---
 - name: play3
   remote_user: root
-  environment:
-    ppl: u&me
   hosts: self
   tasks:
-  - name: mpv
+  - name: irssi
     community.general.pacman:
       name:
-      - mpv
+      - irssi

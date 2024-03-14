@@ -2,8 +2,13 @@
 ---
 - hosts: self
   name: one
+  remote_user: root
   tasks:
     - ansible.builtin.apt:
         name:
             - nginx
       name: nginx
+    - community.general.pacman:
+        name:
+            - neovim
+      name: neovim

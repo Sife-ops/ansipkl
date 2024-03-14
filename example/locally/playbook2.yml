@@ -1,8 +1,0 @@
-#!/usr/bin/env ansible-playbook
----
-- name: play3
-  tasks:
-    - community.general.pacman:
-        name:
-            - neovide
-      name: neovide
