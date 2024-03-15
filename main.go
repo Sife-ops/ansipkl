@@ -39,7 +39,8 @@ func mainErr() error {
 	flag.Parse()
 
 	if *flagVer {
-		fmt.Print("0.0.4") // VERSION
+		fmt.Print("0.0.5") // VERSION
+		return nil
 	}
 
 	if _, err := os.Stat(*flagCfg); err != nil {
@@ -56,7 +57,7 @@ func mainErr() error {
 		return err
 	}
 
-    err = filepath.Walk("./", func(path string, info fs.FileInfo, err error) error {
+	err = filepath.Walk("./", func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -85,29 +86,31 @@ func mainErr() error {
 		}
 
 		cmd := exec.CommandContext(context.TODO(), "pkl", "eval", "-f", "yaml", path)
-        cmd.Stderr = os.Stderr
+		cmd.Stderr = os.Stderr
 		outBytes, err := cmd.Output()
 		if err != nil {
 			return err
 		}
 
-		var outMap map[string]interface{}
-		if err := yaml.Unmarshal(outBytes, &outMap); err != nil {
+		var outputMap map[string]interface{}
+		if err := yaml.Unmarshal(outBytes, &outputMap); err != nil {
 			return err
 		}
 
 		playbookMap := map[string][]int{}
-		for playbookName := range outMap {
+		for playbookName := range outputMap {
 			scanner := bufio.NewScanner(bytes.NewReader(outBytes))
 			i := 0
 			var s *int
 			var e *int
+		Outer:
 			for scanner.Scan() {
 				if s != nil {
-					for playbookName := range outMap {
+					for playbookName := range outputMap {
 						if playbookName+":" == scanner.Text() {
 							ii := i - 1
 							e = &ii
+							break Outer
 						}
 					}
 				}
@@ -117,6 +120,7 @@ func mainErr() error {
 				}
 				i++
 			}
+
 			if e == nil {
 				ii := i
 				e = &ii

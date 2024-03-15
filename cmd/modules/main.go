@@ -13,12 +13,10 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// todo descriptions, docs
 type moduleOpt struct {
 	Type        *string
 	Description *any
 	Choices     *[]string
-	// Default  *string
 	Elements *string
 	Required *bool
 	Aliases  *[]string // todo use aliases?
@@ -135,7 +133,6 @@ func mainErr() error {
 
 func readModules(
 	ansibleModName string,
-	// pklModName string,
 	srcDir string,
 	outDir string,
 ) error {

@@ -1,8 +1,10 @@
 .PHONY: default
 
-default:
-	pkl eval -f yaml example.pkl
+# pkl eval -f yaml example.pkl
 
-install:
+default:
+	ansipkl
+
+resolve:
 	pkl project resolve
 
