@@ -1,24 +1,50 @@
 package main
 
 import (
-	"bufio"
-	"bytes"
+	"context"
 	"log"
 	"os"
+	"os/exec"
+	"reflect"
 	"strings"
 	"text/template"
 
+	"github.com/iancoleman/strcase"
 	"gopkg.in/yaml.v3"
 )
 
 // todo descriptions, docs
 type moduleOpt struct {
-	Type    *string
-	Choices *[]string
+	Type        *string
+	Description *any
+	Choices     *[]string
 	// Default  *string
 	Elements *string
 	Required *bool
 	Aliases  *[]string // todo use aliases?
+}
+
+func (x moduleOpt) IntoDescription() (t []string) {
+	t = []string{}
+	if x.Description == nil {
+		return
+	}
+
+	ty := reflect.TypeOf(*x.Description)
+	switch ty.String() {
+	case "[]interface {}":
+		y := *x.Description
+		for _, v := range y.([]interface{}) {
+			t = append(t, v.(string))
+		}
+	case "string":
+		y := *x.Description
+		t = append(t, y.(string))
+	default:
+		log.Printf("%+v", ty)
+	}
+
+	return
 }
 
 func (x moduleOpt) IntoType() (t string) {
@@ -77,6 +103,10 @@ type ansibleModule struct {
 	Options          map[string]moduleOpt
 }
 
+func (x ansibleModule) ToCamel() string {
+    return strcase.ToCamel(x.Module)
+}
+
 func main() {
 	if err := mainErr(); err != nil {
 		log.Fatal(err)
@@ -85,7 +115,7 @@ func main() {
 
 func mainErr() error {
 	if err := readModules(
-		"builtin",
+		"ansible.builtin",
 		"./ansible/lib/ansible/modules",
 		"./src",
 	); err != nil {
@@ -104,7 +134,8 @@ func mainErr() error {
 }
 
 func readModules(
-	pklModName string,
+	ansibleModName string,
+	// pklModName string,
 	srcDir string,
 	outDir string,
 ) error {
@@ -133,48 +164,33 @@ func readModules(
 
 		//
 
-		file, err := os.Open(srcDir + "/" + entry.Name())
+		srcPath := srcDir + "/" + entry.Name()
+		log.Printf("parse ast %s", srcPath)
+		cmd := exec.CommandContext(context.TODO(), "./read_doc.py", srcPath)
+		cmd.Stderr = os.Stderr
+		outBytes, err := cmd.Output()
 		if err != nil {
 			return err
 		}
-		defer file.Close()
 
-		scanner := bufio.NewScanner(file)
-		docStart := false
-		docEnd := false
-		buf := new(bytes.Buffer)
-		for scanner.Scan() {
-			t := scanner.Text()
-			if strings.Contains(t, "DOCUMENTATION") {
-				docStart = true
-				continue
-			}
-			if t == "'''" || t == `"""` {
-				if docStart {
-					docEnd = true
-				}
-			}
-			if !docStart || docEnd {
-				continue
-			}
-
-			if _, err := buf.Write(scanner.Bytes()); err != nil {
-				return err
-			}
-			if _, err := buf.Write([]byte("\n")); err != nil {
-				return err
-			}
-		}
+        if strings.HasPrefix(string(outBytes), "TODO_NODOC") {
+            log.Printf("TODO_NODOC %s", srcPath)
+            continue
+        }
+        if strings.HasPrefix(string(outBytes), "TODO_EXCEPTION") {
+            log.Printf("TODO_EXCEPTION %s", srcPath)
+            continue
+        }
 
 		var m ansibleModule
-		if err := yaml.Unmarshal(buf.Bytes(), &m); err != nil {
+		if err := yaml.Unmarshal(outBytes, &m); err != nil {
 			return err
 		}
 
-		if docStart {
-			modules = append(modules, m)
-		}
+		modules = append(modules, m)
 	}
+
+    pklModName := strcase.ToCamel(ansibleModName)
 
 	file, err := os.Create(outDir + "/" + pklModName + ".pkl")
 	if err != nil {
@@ -184,18 +200,15 @@ func readModules(
 
 	t, err := template.New(pklModName).Parse(`module ` + pklModName + `
 
-import "./playbook.pkl"
+import "./Playbook.pkl"
+
 `)
 	if err := t.Execute(file, nil); err != nil {
 		return err
 	}
 
-	renderedModName := pklModName
-	if pklModName == "builtin" {
-		renderedModName = "ansible.builtin"
-	}
-
 	// todo "free-form" option
+	// todo IntoDescription crashes
 	for _, m := range modules {
 		t, err := template.New(m.Module).Funcs(template.FuncMap{
 			"IntoProperty": func(s string) (z string) {
@@ -218,29 +231,36 @@ import "./playbook.pkl"
 				}
 				return
 			},
-		}).Parse(`
-//
-
-class ` + m.Module + `_options {
+		}).Parse(`// ` + m.ShortDescription + `
+class ` + m.ToCamel() + `Options {
     {{ range $key, $value := .module.Options }}
-    {{ if eq $key "free-form" }}
+    {{- range $i, $v :=  $value.IntoDescription }}
+    {{- if lt $i 0 }}
+    // {{ . }}
+    {{- end }}
+    {{- end }}
+    {{- if eq $key "free-form" }}
     // {{ IntoProperty $key }}: {{ $value.IntoType }}
     {{ else }}
     {{ IntoProperty $key }}: {{ $value.IntoType }}
-    {{ end }}
+    {{- end }}
     {{ end }}
 }
 
-class ` + m.Module + ` extends playbook.task {
-    hidden options: ` + m.Module + `_options
+// Task class for ` + m.Module + `
+class ` + m.ToCamel() + ` extends Playbook.Task {
 
-    ` + "`" + renderedModName + "." + m.Module + "`" + ": " + m.Module + `_options?
+    hidden options: ` + m.ToCamel() + `Options
 
-    function into(): ` + m.Module + ` = this
+    ` + "`" + ansibleModName + "." + m.Module + "`" + ": " + m.ToCamel() + `Options?
+
+    function into(): ` + m.ToCamel() + ` = this
         .toMap()
-        .put("` + renderedModName + "." + m.Module + `", this.options)
-        .toTyped(` + m.Module + `)
+        .put("` + ansibleModName + "." + m.Module + `", this.options)
+        .toTyped(` + m.ToCamel() + `)
+
 }
+
 `)
 		if err != nil {
 			return err

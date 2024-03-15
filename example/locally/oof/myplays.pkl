@@ -1,5 +1,5 @@
 import "@ansipkl/playbook.pkl"
-import "@ansipkl/builtin.pkl"
+import "@ansipkl/ansible.builtin.pkl"
 import "@ansipkl/community.general.pkl"
 
 playbook_a = new Listing<playbook.play> {
@@ -9,7 +9,7 @@ playbook_a = new Listing<playbook.play> {
         remote_user = "root"
         gather_facts = false
         tasks {
-            new builtin.apt {
+            new `ansible.builtin`.apt {
                 name = "rg"
                 options {
                     state = "present"
@@ -34,7 +34,7 @@ playbook_a = new Listing<playbook.play> {
                 }
             }.into()
 
-            new builtin.apt {
+            new `ansible.builtin`.apt {
                 name = "vim"
                 options {
                     name {

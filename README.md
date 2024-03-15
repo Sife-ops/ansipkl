@@ -1,6 +1,6 @@
 # ansipkl
 
-![example](https://i.imgur.com/EGdHvsa.png)
+![example](https://i.imgur.com/iKgLWzc.png)
 
 ansipkl provides `pkl` types for Ansible plays, tasks, and modules, etc.
 
@@ -11,7 +11,7 @@ amends "pkl:Project"
 
 dependencies {
     ["ansipkl"] { 
-        uri = "package://github.com/Sife-ops/ansipkl/releases/download/v0.0.1/ansipkl@0.0.1"
+        uri = "package://github.com/Sife-ops/ansipkl/releases/download/v0.0.4/ansipkl@0.0.4"
     }
 }
 ```

@@ -1,10 +1,10 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: play3
+- name: play0
   remote_user: root
   hosts: self
   tasks:
-  - name: irssi
+  - name: install emacs
     community.general.pacman:
       name:
-      - irssi
+      - emacs

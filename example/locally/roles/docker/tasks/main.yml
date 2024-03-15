@@ -1,0 +1,25 @@
+---
+- name: install ca-certs for docker
+  ansible.builtin.apt:
+    name:
+    - ca-certificates
+    state: present
+- name: download docker apt keyring
+  ansible.builtin.get_url:
+    dest: /etc/apt/keyrings/docker.asc
+    url: https://download.docker.com/linux/debian/gpg
+- name: configure docker apt repository
+  register: repo
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+    state: present
+- name: install ca-certs for docker
+  when: repo.changed
+  ansible.builtin.apt:
+    name:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
+    state: present

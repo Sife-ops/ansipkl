@@ -1,9 +1,9 @@
 [options]
 exclude = [
     "foo",
-    "^bar/.*"
+    "^bar/.*",
+    "^oof/.*"
 ]
 executables = [
-    "^play_.*$",
     "^.*_pb$"
 ]

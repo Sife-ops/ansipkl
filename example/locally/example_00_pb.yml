@@ -1,32 +1,14 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: play1
-  remote_user: wyatt
-  vars:
-    variable00: value00
+- name: play00
+  remote_user: root
   hosts: self
   tasks:
-  - name: docker
-    ansible.builtin.apt:
-      name:
-      - docker
-      state: present
-- name: play2
-  remote_user: wyatt
-  environment:
-    aaa: bbb
-  hosts: self
-  tasks:
-  - name: emacs
-    module_defaults:
-      uri:
-        prop: example
-    community.general.pacman:
-      name:
-      - emacs
-  - name: firefox
-    vars:
-      variable01: value01
+  - name: install firefox
     ansible.builtin.apt:
       name:
       - firefox
+  - name: install vim
+    ansible.builtin.apt:
+      name:
+      - vim

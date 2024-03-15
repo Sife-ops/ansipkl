@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"io/fs"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -25,12 +26,12 @@ type options struct {
 	Executables *[]string
 }
 
-var flagCfgPath = flag.String("c", "./ansipkl.toml", "cfg path")
+var flagCfg = flag.String("c", "./ansipkl.toml", "cfg path")
 var flagVer = flag.Bool("v", false, "version")
 
 func main() {
 	if err := mainErr(); err != nil {
-		fmt.Print(err)
+		log.Fatal(err)
 	}
 }
 
@@ -38,22 +39,24 @@ func mainErr() error {
 	flag.Parse()
 
 	if *flagVer {
-		fmt.Print("0.0.3") // VERSION
+		fmt.Print("0.0.4") // VERSION
 	}
 
-	if _, err := os.Stat(*flagCfgPath); err != nil {
+	if _, err := os.Stat(*flagCfg); err != nil {
 		return err
 	}
 
-	cfgBytes, err := os.ReadFile(*flagCfgPath)
+	cfgBytes, err := os.ReadFile(*flagCfg)
 	if err != nil {
 		return err
 	}
 
 	var cfg cfg
-	toml.Unmarshal(cfgBytes, &cfg)
+	if err := toml.Unmarshal(cfgBytes, &cfg); err != nil {
+		return err
+	}
 
-	filepath.Walk("./", func(path string, info fs.FileInfo, err error) error {
+    err = filepath.Walk("./", func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -82,6 +85,7 @@ func mainErr() error {
 		}
 
 		cmd := exec.CommandContext(context.TODO(), "pkl", "eval", "-f", "yaml", path)
+        cmd.Stderr = os.Stderr
 		outBytes, err := cmd.Output()
 		if err != nil {
 			return err
@@ -171,5 +175,5 @@ func mainErr() error {
 		return nil
 	})
 
-	return nil
+	return err
 }

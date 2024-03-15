@@ -1,8 +1,8 @@
-module playbook
+module Playbook
 
-abstract class base {
+abstract class Base {
     // name = NonInheritableFieldAttribute(isa='string', default='', always_post_validate=True)
-    name: String
+    name: String?
 
     // # connection/transport
     // connection = ConnectionFieldAttribute(isa='string', default=context.cliargs_deferred_get('connection'))
@@ -59,7 +59,14 @@ abstract class base {
     become_exe: String?
 }
 
-class play extends base {
+class Role extends Base{
+    role: String
+
+    // CONDITIONAL
+    `when`: String?
+}
+
+class Play extends Base {
     // hosts = NonInheritableFieldAttribute(isa='list', required=True, listof=string_types, always_post_validate=True, priority=-2)
     hosts: String
 
@@ -83,17 +90,17 @@ class play extends base {
 
     // # Role Attributes
     // roles = NonInheritableFieldAttribute(isa='list', default=list, priority=90)
-    roles: Listing<Any>? // todo SUS
+    roles: Listing<Role>?
 
     // # Block (Task) Lists Attributes
     // handlers = NonInheritableFieldAttribute(isa='list', default=list, priority=-1)
     handlers: Listing<Any>? // todo SUS
     // pre_tasks = NonInheritableFieldAttribute(isa='list', default=list, priority=-1)
-    pre_tasks: Listing<task>?
+    pre_tasks: Listing<Task>?
     // post_tasks = NonInheritableFieldAttribute(isa='list', default=list, priority=-1)
-    post_tasks: Listing<task>?
+    post_tasks: Listing<Task>?
     // tasks = NonInheritableFieldAttribute(isa='list', default=list, priority=-1)
-    tasks: Listing<task>?
+    tasks: Listing<Task>?
 
     // # Flag/Setting Attributes
     // force_handlers = NonInheritableFieldAttribute(isa='bool', default=context.cliargs_deferred_get('force_handlers'), always_post_validate=True)
@@ -108,7 +115,7 @@ class play extends base {
     order: String?
 }
 
-abstract class task extends base {
+abstract class Task extends Base {
     // args = NonInheritableFieldAttribute(isa='dict', default=dict)
     args: Mapping<String, String>?
     // action = NonInheritableFieldAttribute(isa='string')
@@ -135,5 +142,8 @@ abstract class task extends base {
     retries: Int?
     // until = NonInheritableFieldAttribute(isa='list', default=list)
     until: String?
+
+    // CONDITIONAL
+    `when`: String?
 }
 

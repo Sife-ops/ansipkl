@@ -1,0 +1,46 @@
+import "@ansipkl/Playbook.pkl"
+import "@ansipkl/AnsibleBuiltin.pkl"
+
+main = new Listing<Playbook.Task> {
+    new AnsibleBuiltin.Apt {
+        name = "install ca-certs for docker"
+        options {
+            state = "present"
+            name {
+                "ca-certificates"
+            }
+        }
+    }.into()
+
+    new AnsibleBuiltin.GetUrl {
+        name = "download docker apt keyring"
+        options {
+            url = "https://download.docker.com/linux/debian/gpg"
+            dest = "/etc/apt/keyrings/docker.asc"
+        }
+    }.into()
+
+    new AnsibleBuiltin.AptRepository {
+        name = "configure docker apt repository"
+        options {
+            repo = "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+            state = "present"
+        }
+        register = "repo"
+    }.into()
+
+    new AnsibleBuiltin.Apt {
+        name = "install ca-certs for docker"
+        options {
+            state = "present"
+            name {
+                "docker-ce"
+                "docker-ce-cli"
+                "containerd.io"
+                "docker-buildx-plugin"
+                "docker-compose-plugin"
+            }
+        }
+        `when` = "repo.changed"
+    }.into()
+}

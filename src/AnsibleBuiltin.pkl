@@ -1,3965 +1,2724 @@
-module builtin
+module AnsibleBuiltin
 
-import "./playbook.pkl"
+import "./Playbook.pkl"
 
-//
-
-class add_host_options {
-    
+// Add a host (and alternatively a group) to the ansible-playbook in-memory inventory
+class AddHostOptions {
     
     groups: Listing<String>?
     
-    
-    
     name: String
     
-    
 }
 
-class add_host extends playbook.task {
-    hidden options: add_host_options
+// Task class for add_host
+class AddHost extends Playbook.Task {
 
-    `ansible.builtin.add_host`: add_host_options?
+    hidden options: AddHostOptions
 
-    function into(): add_host = this
+    `ansible.builtin.add_host`: AddHostOptions?
+
+    function into(): AddHost = this
         .toMap()
         .put("ansible.builtin.add_host", this.options)
-        .toTyped(add_host)
+        .toTyped(AddHost)
+
 }
 
-//
-
-class apt_options {
-    
+// Manages apt-packages
+class AptOptions {
     
     allow_change_held_packages: Boolean?
     
-    
-    
     allow_downgrade: Boolean?
-    
-    
     
     allow_unauthenticated: Boolean?
     
-    
-    
     autoclean: Boolean?
     
-    
-    
     autoremove: Boolean?
-    
-    
     
     cache_valid_time: Int?
     
-    
-    
     clean: Boolean?
-    
-    
     
     deb: String?
     
-    
-    
     default_release: String?
-    
-    
     
     dpkg_options: String?
     
-    
-    
     fail_on_autoremove: Boolean?
     
-    
-    
     force: Boolean?
-    
-    
     
     force_apt_get: Boolean?
     
-    
-    
     install_recommends: Boolean?
-    
-    
     
     lock_timeout: Int?
     
-    
-    
     name: Listing<String>?
-    
-    
     
     only_upgrade: Boolean?
     
-    
-    
     policy_rc_d: Int?
-    
-    
     
     purge: Boolean?
     
-    
-    
     state: ("absent"|"build-dep"|"latest"|"present"|"fixed")?
-    
-    
     
     update_cache: Boolean?
     
-    
-    
     update_cache_retries: Int?
     
-    
-    
     update_cache_retry_max_delay: Int?
-    
-    
     
     upgrade: ("dist"|"full"|"no"|"safe"|"yes")?
     
-    
 }
 
-class apt extends playbook.task {
-    hidden options: apt_options
+// Task class for apt
+class Apt extends Playbook.Task {
 
-    `ansible.builtin.apt`: apt_options?
+    hidden options: AptOptions
 
-    function into(): apt = this
+    `ansible.builtin.apt`: AptOptions?
+
+    function into(): Apt = this
         .toMap()
         .put("ansible.builtin.apt", this.options)
-        .toTyped(apt)
+        .toTyped(Apt)
+
 }
 
-//
-
-class apt_key_options {
-    
+// Add or remove an apt key
+class AptKeyOptions {
     
     data: String?
     
-    
-    
     file: String?
-    
-    
     
     id: String?
     
-    
-    
     keyring: String?
-    
-    
     
     keyserver: String?
     
-    
-    
     state: ("absent"|"present")?
-    
-    
     
     url: String?
     
-    
-    
     validate_certs: Boolean?
     
-    
 }
 
-class apt_key extends playbook.task {
-    hidden options: apt_key_options
+// Task class for apt_key
+class AptKey extends Playbook.Task {
 
-    `ansible.builtin.apt_key`: apt_key_options?
+    hidden options: AptKeyOptions
 
-    function into(): apt_key = this
+    `ansible.builtin.apt_key`: AptKeyOptions?
+
+    function into(): AptKey = this
         .toMap()
         .put("ansible.builtin.apt_key", this.options)
-        .toTyped(apt_key)
+        .toTyped(AptKey)
+
 }
 
-//
-
-class apt_repository_options {
-    
+// Add and remove APT repositories
+class AptRepositoryOptions {
     
     codename: String?
     
-    
-    
     filename: String?
-    
-    
     
     install_python_apt: Boolean?
     
-    
-    
     mode: String?
-    
-    
     
     repo: String
     
-    
-    
     state: ("absent"|"present")?
     
-    
-    
     update_cache: Boolean?
-    
-    
     
     update_cache_retries: Int?
     
-    
-    
     update_cache_retry_max_delay: Int?
-    
-    
     
     validate_certs: Boolean?
     
-    
 }
 
-class apt_repository extends playbook.task {
-    hidden options: apt_repository_options
+// Task class for apt_repository
+class AptRepository extends Playbook.Task {
 
-    `ansible.builtin.apt_repository`: apt_repository_options?
+    hidden options: AptRepositoryOptions
 
-    function into(): apt_repository = this
+    `ansible.builtin.apt_repository`: AptRepositoryOptions?
+
+    function into(): AptRepository = this
         .toMap()
         .put("ansible.builtin.apt_repository", this.options)
-        .toTyped(apt_repository)
+        .toTyped(AptRepository)
+
 }
 
-//
-
-class assemble_options {
-    
+// Assemble configuration files from fragments
+class AssembleOptions {
     
     backup: Boolean?
-    
-    
     
     delimiter: String?
     
-    
-    
     dest: String
-    
-    
     
     ignore_hidden: Boolean?
     
-    
-    
     regexp: String?
-    
-    
     
     remote_src: Boolean?
     
-    
-    
     src: String
-    
-    
     
     validate: String?
     
-    
 }
 
-class assemble extends playbook.task {
-    hidden options: assemble_options
+// Task class for assemble
+class Assemble extends Playbook.Task {
 
-    `ansible.builtin.assemble`: assemble_options?
+    hidden options: AssembleOptions
 
-    function into(): assemble = this
+    `ansible.builtin.assemble`: AssembleOptions?
+
+    function into(): Assemble = this
         .toMap()
         .put("ansible.builtin.assemble", this.options)
-        .toTyped(assemble)
+        .toTyped(Assemble)
+
 }
 
-//
-
-class assert_options {
-    
+// Asserts given expressions are true
+class AssertOptions {
     
     fail_msg: String?
     
-    
-    
     quiet: Boolean?
-    
-    
     
     success_msg: String?
     
-    
-    
     that: Listing<String>
     
-    
 }
 
-class assert extends playbook.task {
-    hidden options: assert_options
+// Task class for assert
+class Assert extends Playbook.Task {
 
-    `ansible.builtin.assert`: assert_options?
+    hidden options: AssertOptions
 
-    function into(): assert = this
+    `ansible.builtin.assert`: AssertOptions?
+
+    function into(): Assert = this
         .toMap()
         .put("ansible.builtin.assert", this.options)
-        .toTyped(assert)
+        .toTyped(Assert)
+
 }
 
-//
-
-class async_status_options {
-    
+// Obtain status of asynchronous task
+class AsyncStatusOptions {
     
     jid: String
     
-    
-    
     mode: ("cleanup"|"status")?
     
-    
 }
 
-class async_status extends playbook.task {
-    hidden options: async_status_options
+// Task class for async_status
+class AsyncStatus extends Playbook.Task {
 
-    `ansible.builtin.async_status`: async_status_options?
+    hidden options: AsyncStatusOptions
 
-    function into(): async_status = this
+    `ansible.builtin.async_status`: AsyncStatusOptions?
+
+    function into(): AsyncStatus = this
         .toMap()
         .put("ansible.builtin.async_status", this.options)
-        .toTyped(async_status)
+        .toTyped(AsyncStatus)
+
 }
 
-//
-
-class blockinfile_options {
-    
+// Insert/update/remove a text block surrounded by marker lines
+class BlockinfileOptions {
     
     append_newline: Boolean?
     
-    
-    
     backup: Boolean?
-    
-    
     
     block: String?
     
-    
-    
     create: Boolean?
-    
-    
     
     insertafter: ("EOF"|"*regex*")?
     
-    
-    
     insertbefore: ("BOF"|"*regex*")?
-    
-    
     
     marker: String?
     
-    
-    
     marker_begin: String?
-    
-    
     
     marker_end: String?
     
-    
-    
     path: String
-    
-    
     
     prepend_newline: Boolean?
     
-    
-    
     state: ("absent"|"present")?
     
-    
 }
 
-class blockinfile extends playbook.task {
-    hidden options: blockinfile_options
+// Task class for blockinfile
+class Blockinfile extends Playbook.Task {
 
-    `ansible.builtin.blockinfile`: blockinfile_options?
+    hidden options: BlockinfileOptions
 
-    function into(): blockinfile = this
+    `ansible.builtin.blockinfile`: BlockinfileOptions?
+
+    function into(): Blockinfile = this
         .toMap()
         .put("ansible.builtin.blockinfile", this.options)
-        .toTyped(blockinfile)
+        .toTyped(Blockinfile)
+
 }
 
-//
-
-class command_options {
-    
+// Execute commands on targets
+class CommandOptions {
     
     argv: Listing<String>?
     
-    
-    
     chdir: String?
-    
-    
     
     cmd: String?
     
-    
-    
     creates: String?
-    
-    
     
     expand_argument_vars: Boolean?
     
-    
-    
     free_form: String?
     
-    
-    
     removes: String?
-    
-    
     
     stdin: String?
     
-    
-    
     stdin_add_newline: Boolean?
-    
-    
     
     strip_empty_ends: Boolean?
     
-    
 }
 
-class command extends playbook.task {
-    hidden options: command_options
+// Task class for command
+class Command extends Playbook.Task {
 
-    `ansible.builtin.command`: command_options?
+    hidden options: CommandOptions
 
-    function into(): command = this
+    `ansible.builtin.command`: CommandOptions?
+
+    function into(): Command = this
         .toMap()
         .put("ansible.builtin.command", this.options)
-        .toTyped(command)
+        .toTyped(Command)
+
 }
 
-//
-
-class copy_options {
-    
+// Copy files to remote locations
+class CopyOptions {
     
     backup: Boolean?
     
-    
-    
     checksum: String?
-    
-    
     
     content: String?
     
-    
-    
     dest: String
-    
-    
     
     directory_mode: String?
     
-    
-    
     follow: Boolean?
     
-    
-    
     force: Boolean?
-    
-    
     
     local_follow: Boolean?
     
-    
-    
     mode: String?
-    
-    
     
     remote_src: Boolean?
     
-    
-    
     src: String?
     
-    
 }
 
-class copy extends playbook.task {
-    hidden options: copy_options
+// Task class for copy
+class Copy extends Playbook.Task {
 
-    `ansible.builtin.copy`: copy_options?
+    hidden options: CopyOptions
 
-    function into(): copy = this
+    `ansible.builtin.copy`: CopyOptions?
+
+    function into(): Copy = this
         .toMap()
         .put("ansible.builtin.copy", this.options)
-        .toTyped(copy)
+        .toTyped(Copy)
+
 }
 
-//
-
-class cron_options {
-    
+// Manage cron.d and crontab entries
+class CronOptions {
     
     backup: Boolean?
-    
-    
     
     cron_file: String?
     
-    
-    
     day: String?
-    
-    
     
     disabled: Boolean?
     
-    
-    
     env: Boolean?
-    
-    
     
     hour: String?
     
-    
-    
     insertafter: String?
-    
-    
     
     insertbefore: String?
     
-    
-    
     job: String?
-    
-    
     
     minute: String?
     
-    
-    
     month: String?
     
-    
-    
     name: String
-    
-    
     
     special_time: ("annually"|"daily"|"hourly"|"monthly"|"reboot"|"weekly"|"yearly")?
     
-    
-    
     state: ("absent"|"present")?
-    
-    
     
     user: String?
     
-    
-    
     weekday: String?
     
-    
 }
 
-class cron extends playbook.task {
-    hidden options: cron_options
+// Task class for cron
+class Cron extends Playbook.Task {
 
-    `ansible.builtin.cron`: cron_options?
+    hidden options: CronOptions
 
-    function into(): cron = this
+    `ansible.builtin.cron`: CronOptions?
+
+    function into(): Cron = this
         .toMap()
         .put("ansible.builtin.cron", this.options)
-        .toTyped(cron)
+        .toTyped(Cron)
+
 }
 
-//
-
-class deb822_repository_options {
-    
+// Add and remove deb822 formatted repositories
+class Deb822RepositoryOptions {
     
     allow_downgrade_to_insecure: Boolean?
     
-    
-    
     allow_insecure: Boolean?
-    
-    
     
     allow_weak: Boolean?
     
-    
-    
     architectures: Listing<String>?
-    
-    
     
     by_hash: Boolean?
     
-    
-    
     check_date: Boolean?
-    
-    
     
     check_valid_until: Boolean?
     
-    
-    
     components: Listing<String>?
-    
-    
     
     date_max_future: Int?
     
-    
-    
     enabled: Boolean?
-    
-    
     
     inrelease_path: String?
     
-    
-    
     languages: Listing<String>?
-    
-    
     
     mode: String?
     
-    
-    
     name: String
-    
-    
     
     pdiffs: Boolean?
     
-    
-    
     signed_by: String?
     
-    
-    
     state: ("absent"|"present")?
-    
-    
     
     suites: Listing<String>?
     
-    
-    
     targets: Listing<String>?
-    
-    
     
     trusted: Boolean?
     
-    
-    
     types: Listing<("deb"|"deb-src")>?
-    
-    
     
     uris: Listing<String>?
     
-    
 }
 
-class deb822_repository extends playbook.task {
-    hidden options: deb822_repository_options
+// Task class for deb822_repository
+class Deb822Repository extends Playbook.Task {
 
-    `ansible.builtin.deb822_repository`: deb822_repository_options?
+    hidden options: Deb822RepositoryOptions
 
-    function into(): deb822_repository = this
+    `ansible.builtin.deb822_repository`: Deb822RepositoryOptions?
+
+    function into(): Deb822Repository = this
         .toMap()
         .put("ansible.builtin.deb822_repository", this.options)
-        .toTyped(deb822_repository)
+        .toTyped(Deb822Repository)
+
 }
 
-//
-
-class debconf_options {
-    
+// Configure a .deb package
+class DebconfOptions {
     
     name: String
-    
-    
     
     question: String?
     
-    
-    
     unseen: Boolean?
-    
-    
     
     value: String?
     
-    
-    
     vtype: ("boolean"|"error"|"multiselect"|"note"|"password"|"seen"|"select"|"string"|"text"|"title")?
     
-    
 }
 
-class debconf extends playbook.task {
-    hidden options: debconf_options
+// Task class for debconf
+class Debconf extends Playbook.Task {
 
-    `ansible.builtin.debconf`: debconf_options?
+    hidden options: DebconfOptions
 
-    function into(): debconf = this
+    `ansible.builtin.debconf`: DebconfOptions?
+
+    function into(): Debconf = this
         .toMap()
         .put("ansible.builtin.debconf", this.options)
-        .toTyped(debconf)
+        .toTyped(Debconf)
+
 }
 
-//
-
-class debug_options {
-    
+// Print statements during execution
+class DebugOptions {
     
     msg: String?
-    
-    
     
     var: String?
     
-    
-    
     verbosity: Int?
     
-    
 }
 
-class debug extends playbook.task {
-    hidden options: debug_options
+// Task class for debug
+class Debug extends Playbook.Task {
 
-    `ansible.builtin.debug`: debug_options?
+    hidden options: DebugOptions
 
-    function into(): debug = this
+    `ansible.builtin.debug`: DebugOptions?
+
+    function into(): Debug = this
         .toMap()
         .put("ansible.builtin.debug", this.options)
-        .toTyped(debug)
+        .toTyped(Debug)
+
 }
 
-//
-
-class dnf_options {
-    
+// Manages packages with the I(dnf) package manager
+class DnfOptions {
     
     allow_downgrade: Boolean?
     
-    
-    
     allowerasing: Boolean?
-    
-    
     
     autoremove: Boolean?
     
-    
-    
     bugfix: Boolean?
-    
-    
     
     cacheonly: Boolean?
     
-    
-    
     conf_file: String?
-    
-    
     
     disable_excludes: String?
     
-    
-    
     disable_gpg_check: Boolean?
-    
-    
     
     disable_plugin: Listing<String>?
     
-    
-    
     disablerepo: Listing<String>?
-    
-    
     
     download_dir: String?
     
-    
-    
     download_only: Boolean?
-    
-    
     
     enable_plugin: Listing<String>?
     
-    
-    
     enablerepo: Listing<String>?
-    
-    
     
     exclude: Listing<String>?
     
-    
-    
     install_repoquery: Boolean?
-    
-    
     
     install_weak_deps: Boolean?
     
-    
-    
     installroot: String?
-    
-    
     
     list: String?
     
-    
-    
     lock_timeout: Int?
-    
-    
     
     name: Listing<String>?
     
-    
-    
     nobest: Boolean?
-    
-    
     
     releasever: String?
     
-    
-    
     security: Boolean?
-    
-    
     
     skip_broken: Boolean?
     
-    
-    
     sslverify: Boolean?
-    
-    
     
     state: ("absent"|"present"|"installed"|"removed"|"latest")?
     
-    
-    
     update_cache: Boolean?
     
-    
-    
     update_only: Boolean?
-    
-    
     
     use_backend: ("auto"|"dnf4"|"dnf5")?
     
-    
-    
     validate_certs: Boolean?
     
-    
 }
 
-class dnf extends playbook.task {
-    hidden options: dnf_options
+// Task class for dnf
+class Dnf extends Playbook.Task {
 
-    `ansible.builtin.dnf`: dnf_options?
+    hidden options: DnfOptions
 
-    function into(): dnf = this
+    `ansible.builtin.dnf`: DnfOptions?
+
+    function into(): Dnf = this
         .toMap()
         .put("ansible.builtin.dnf", this.options)
-        .toTyped(dnf)
+        .toTyped(Dnf)
+
 }
 
-//
-
-class dnf5_options {
-    
+// Manages packages with the I(dnf5) package manager
+class Dnf5Options {
     
     allow_downgrade: Boolean?
     
-    
-    
     allowerasing: Boolean?
-    
-    
     
     autoremove: Boolean?
     
-    
-    
     bugfix: Boolean?
-    
-    
     
     cacheonly: Boolean?
     
-    
-    
     conf_file: String?
-    
-    
     
     disable_excludes: String?
     
-    
-    
     disable_gpg_check: Boolean?
-    
-    
     
     disable_plugin: Listing<String>?
     
-    
-    
     disablerepo: Listing<String>?
-    
-    
     
     download_dir: String?
     
-    
-    
     download_only: Boolean?
-    
-    
     
     enable_plugin: Listing<String>?
     
-    
-    
     enablerepo: Listing<String>?
-    
-    
     
     exclude: Listing<String>?
     
-    
-    
     install_repoquery: Boolean?
-    
-    
     
     install_weak_deps: Boolean?
     
-    
-    
     installroot: String?
-    
-    
     
     list: String?
     
-    
-    
     lock_timeout: Int?
-    
-    
     
     name: Listing<String>?
     
-    
-    
     nobest: Boolean?
-    
-    
     
     releasever: String?
     
-    
-    
     security: Boolean?
-    
-    
     
     skip_broken: Boolean?
     
-    
-    
     sslverify: Boolean?
-    
-    
     
     state: ("absent"|"present"|"installed"|"removed"|"latest")?
     
-    
-    
     update_cache: Boolean?
-    
-    
     
     update_only: Boolean?
     
-    
-    
     validate_certs: Boolean?
     
-    
 }
 
-class dnf5 extends playbook.task {
-    hidden options: dnf5_options
+// Task class for dnf5
+class Dnf5 extends Playbook.Task {
 
-    `ansible.builtin.dnf5`: dnf5_options?
+    hidden options: Dnf5Options
 
-    function into(): dnf5 = this
+    `ansible.builtin.dnf5`: Dnf5Options?
+
+    function into(): Dnf5 = this
         .toMap()
         .put("ansible.builtin.dnf5", this.options)
-        .toTyped(dnf5)
+        .toTyped(Dnf5)
+
 }
 
-//
-
-class dpkg_selections_options {
-    
+// Dpkg package selection selections
+class DpkgSelectionsOptions {
     
     name: String
-    
-    
     
     selection: ("install"|"hold"|"deinstall"|"purge")
     
-    
 }
 
-class dpkg_selections extends playbook.task {
-    hidden options: dpkg_selections_options
+// Task class for dpkg_selections
+class DpkgSelections extends Playbook.Task {
 
-    `ansible.builtin.dpkg_selections`: dpkg_selections_options?
+    hidden options: DpkgSelectionsOptions
 
-    function into(): dpkg_selections = this
+    `ansible.builtin.dpkg_selections`: DpkgSelectionsOptions?
+
+    function into(): DpkgSelections = this
         .toMap()
         .put("ansible.builtin.dpkg_selections", this.options)
-        .toTyped(dpkg_selections)
+        .toTyped(DpkgSelections)
+
 }
 
-//
-
-class expect_options {
-    
+// Executes a command and responds to prompts
+class ExpectOptions {
     
     chdir: String?
     
-    
-    
     command: String
-    
-    
     
     creates: String?
     
-    
-    
     echo: Boolean?
-    
-    
     
     removes: String?
     
-    
-    
     responses: String
-    
-    
     
     timeout: String?
     
-    
 }
 
-class expect extends playbook.task {
-    hidden options: expect_options
+// Task class for expect
+class Expect extends Playbook.Task {
 
-    `ansible.builtin.expect`: expect_options?
+    hidden options: ExpectOptions
 
-    function into(): expect = this
+    `ansible.builtin.expect`: ExpectOptions?
+
+    function into(): Expect = this
         .toMap()
         .put("ansible.builtin.expect", this.options)
-        .toTyped(expect)
+        .toTyped(Expect)
+
 }
 
-//
-
-class fail_options {
-    
+// Fail with custom message
+class FailOptions {
     
     msg: String?
     
-    
 }
 
-class fail extends playbook.task {
-    hidden options: fail_options
+// Task class for fail
+class Fail extends Playbook.Task {
 
-    `ansible.builtin.fail`: fail_options?
+    hidden options: FailOptions
 
-    function into(): fail = this
+    `ansible.builtin.fail`: FailOptions?
+
+    function into(): Fail = this
         .toMap()
         .put("ansible.builtin.fail", this.options)
-        .toTyped(fail)
+        .toTyped(Fail)
+
 }
 
-//
-
-class fetch_options {
-    
+// Fetch files from remote nodes
+class FetchOptions {
     
     dest: String
-    
-    
     
     fail_on_missing: Boolean?
     
-    
-    
     flat: Boolean?
-    
-    
     
     src: String
     
-    
-    
     validate_checksum: Boolean?
     
-    
 }
 
-class fetch extends playbook.task {
-    hidden options: fetch_options
+// Task class for fetch
+class Fetch extends Playbook.Task {
 
-    `ansible.builtin.fetch`: fetch_options?
+    hidden options: FetchOptions
 
-    function into(): fetch = this
+    `ansible.builtin.fetch`: FetchOptions?
+
+    function into(): Fetch = this
         .toMap()
         .put("ansible.builtin.fetch", this.options)
-        .toTyped(fetch)
+        .toTyped(Fetch)
+
 }
 
-//
-
-class file_options {
-    
+// Manage files and file properties
+class FileOptions {
     
     access_time: String?
     
-    
-    
     access_time_format: String?
-    
-    
     
     follow: Boolean?
     
-    
-    
     force: Boolean?
-    
-    
     
     modification_time: String?
     
-    
-    
     modification_time_format: String?
-    
-    
     
     path: String
     
-    
-    
     recurse: Boolean?
-    
-    
     
     src: String?
     
-    
-    
     state: ("absent"|"directory"|"file"|"hard"|"link"|"touch")?
     
-    
 }
 
-class file extends playbook.task {
-    hidden options: file_options
+// Task class for file
+class File extends Playbook.Task {
 
-    `ansible.builtin.file`: file_options?
+    hidden options: FileOptions
 
-    function into(): file = this
+    `ansible.builtin.file`: FileOptions?
+
+    function into(): File = this
         .toMap()
         .put("ansible.builtin.file", this.options)
-        .toTyped(file)
+        .toTyped(File)
+
 }
 
-//
-
-class find_options {
-    
+// Return a list of files based on specific criteria
+class FindOptions {
     
     age: String?
     
-    
-    
     age_stamp: ("atime"|"ctime"|"mtime")?
-    
-    
     
     contains: String?
     
-    
-    
     depth: Int?
-    
-    
     
     exact_mode: Boolean?
     
-    
-    
     excludes: Listing<String>?
-    
-    
     
     file_type: ("any"|"directory"|"file"|"link")?
     
-    
-    
     follow: Boolean?
-    
-    
     
     get_checksum: Boolean?
     
-    
-    
     `hidden`: Boolean?
-    
-    
     
     mode: String?
     
-    
-    
     paths: Listing<String>
-    
-    
     
     patterns: Listing<String>?
     
-    
-    
     read_whole_file: Boolean?
-    
-    
     
     recurse: Boolean?
     
-    
-    
     size: String?
-    
-    
     
     use_regex: Boolean?
     
-    
 }
 
-class find extends playbook.task {
-    hidden options: find_options
+// Task class for find
+class Find extends Playbook.Task {
 
-    `ansible.builtin.find`: find_options?
+    hidden options: FindOptions
 
-    function into(): find = this
+    `ansible.builtin.find`: FindOptions?
+
+    function into(): Find = this
         .toMap()
         .put("ansible.builtin.find", this.options)
-        .toTyped(find)
+        .toTyped(Find)
+
 }
 
-//
-
-class gather_facts_options {
-    
+// Gathers facts about remote hosts
+class GatherFactsOptions {
     
     parallel: Boolean?
     
-    
 }
 
-class gather_facts extends playbook.task {
-    hidden options: gather_facts_options
+// Task class for gather_facts
+class GatherFacts extends Playbook.Task {
 
-    `ansible.builtin.gather_facts`: gather_facts_options?
+    hidden options: GatherFactsOptions
 
-    function into(): gather_facts = this
+    `ansible.builtin.gather_facts`: GatherFactsOptions?
+
+    function into(): GatherFacts = this
         .toMap()
         .put("ansible.builtin.gather_facts", this.options)
-        .toTyped(gather_facts)
+        .toTyped(GatherFacts)
+
 }
 
-//
-
-class get_url_options {
-    
+// Downloads files from HTTP, HTTPS, or FTP to node
+class GetUrlOptions {
     
     backup: Boolean?
     
-    
-    
     checksum: String?
-    
-    
     
     ciphers: Listing<String>?
     
-    
-    
     client_cert: String?
-    
-    
     
     client_key: String?
     
-    
-    
     decompress: Boolean?
-    
-    
     
     dest: String
     
-    
-    
     force: Boolean?
-    
-    
     
     force_basic_auth: Boolean?
     
-    
-    
     headers: String?
-    
-    
     
     http_agent: String?
     
-    
-    
     timeout: Int?
-    
-    
     
     tmp_dest: String?
     
-    
-    
     unredirected_headers: Listing<String>?
-    
-    
     
     url: String
     
-    
-    
     url_password: String?
-    
-    
     
     url_username: String?
     
-    
-    
     use_gssapi: Boolean?
-    
-    
     
     use_netrc: Boolean?
     
-    
-    
     use_proxy: Boolean?
-    
-    
     
     validate_certs: Boolean?
     
-    
 }
 
-class get_url extends playbook.task {
-    hidden options: get_url_options
+// Task class for get_url
+class GetUrl extends Playbook.Task {
 
-    `ansible.builtin.get_url`: get_url_options?
+    hidden options: GetUrlOptions
 
-    function into(): get_url = this
+    `ansible.builtin.get_url`: GetUrlOptions?
+
+    function into(): GetUrl = this
         .toMap()
         .put("ansible.builtin.get_url", this.options)
-        .toTyped(get_url)
+        .toTyped(GetUrl)
+
 }
 
-//
-
-class getent_options {
-    
+// A wrapper to the unix getent utility
+class GetentOptions {
     
     database: String
     
-    
-    
     fail_key: Boolean?
-    
-    
     
     key: String?
     
-    
-    
     service: String?
-    
-    
     
     split: String?
     
-    
 }
 
-class getent extends playbook.task {
-    hidden options: getent_options
+// Task class for getent
+class Getent extends Playbook.Task {
 
-    `ansible.builtin.getent`: getent_options?
+    hidden options: GetentOptions
 
-    function into(): getent = this
+    `ansible.builtin.getent`: GetentOptions?
+
+    function into(): Getent = this
         .toMap()
         .put("ansible.builtin.getent", this.options)
-        .toTyped(getent)
+        .toTyped(Getent)
+
 }
 
-//
-
-class git_options {
-    
+// Deploy software (or files) from git checkouts
+class GitOptions {
     
     accept_hostkey: Boolean?
     
-    
-    
     accept_newhostkey: Boolean?
-    
-    
     
     archive: String?
     
-    
-    
     archive_prefix: String?
-    
-    
     
     bare: Boolean?
     
-    
-    
     clone: Boolean?
     
-    
-    
     depth: Int?
-    
-    
     
     dest: String
     
-    
-    
     executable: String?
     
-    
-    
     force: Boolean?
-    
-    
     
     gpg_whitelist: Listing<String>?
     
-    
-    
     key_file: String?
-    
-    
     
     recursive: Boolean?
     
-    
-    
     reference: String?
-    
-    
     
     refspec: String?
     
-    
-    
     remote: String?
-    
-    
     
     repo: String
     
-    
-    
     separate_git_dir: String?
-    
-    
     
     single_branch: Boolean?
     
-    
-    
     ssh_opts: String?
-    
-    
     
     track_submodules: Boolean?
     
-    
-    
     umask: String?
-    
-    
     
     update: Boolean?
     
-    
-    
     verify_commit: Boolean?
-    
-    
     
     version: String?
     
-    
 }
 
-class git extends playbook.task {
-    hidden options: git_options
+// Task class for git
+class Git extends Playbook.Task {
 
-    `ansible.builtin.git`: git_options?
+    hidden options: GitOptions
 
-    function into(): git = this
+    `ansible.builtin.git`: GitOptions?
+
+    function into(): Git = this
         .toMap()
         .put("ansible.builtin.git", this.options)
-        .toTyped(git)
+        .toTyped(Git)
+
 }
 
-//
-
-class group_options {
-    
+// Add or remove groups
+class GroupOptions {
     
     force: Boolean?
     
-    
-    
     gid: Int?
-    
-    
     
     `local`: Boolean?
     
-    
-    
     name: String
-    
-    
     
     non_unique: Boolean?
     
-    
-    
     state: ("absent"|"present")?
-    
-    
     
     system: Boolean?
     
-    
 }
 
-class group extends playbook.task {
-    hidden options: group_options
+// Task class for group
+class Group extends Playbook.Task {
 
-    `ansible.builtin.group`: group_options?
+    hidden options: GroupOptions
 
-    function into(): group = this
+    `ansible.builtin.group`: GroupOptions?
+
+    function into(): Group = this
         .toMap()
         .put("ansible.builtin.group", this.options)
-        .toTyped(group)
+        .toTyped(Group)
+
 }
 
-//
-
-class group_by_options {
-    
+// Create Ansible groups based on facts
+class GroupByOptions {
     
     key: String
     
-    
-    
     parents: Listing<String>?
     
-    
 }
 
-class group_by extends playbook.task {
-    hidden options: group_by_options
+// Task class for group_by
+class GroupBy extends Playbook.Task {
 
-    `ansible.builtin.group_by`: group_by_options?
+    hidden options: GroupByOptions
 
-    function into(): group_by = this
+    `ansible.builtin.group_by`: GroupByOptions?
+
+    function into(): GroupBy = this
         .toMap()
         .put("ansible.builtin.group_by", this.options)
-        .toTyped(group_by)
+        .toTyped(GroupBy)
+
 }
 
-//
-
-class hostname_options {
-    
+// Manage hostname
+class HostnameOptions {
     
     name: String
-    
-    
     
     use: ("alpine"|"debian"|"freebsd"|"generic"|"macos"|"macosx"|"darwin"|"openbsd"|"openrc"|"redhat"|"sles"|"solaris"|"systemd")?
     
-    
 }
 
-class hostname extends playbook.task {
-    hidden options: hostname_options
+// Task class for hostname
+class Hostname extends Playbook.Task {
 
-    `ansible.builtin.hostname`: hostname_options?
+    hidden options: HostnameOptions
 
-    function into(): hostname = this
+    `ansible.builtin.hostname`: HostnameOptions?
+
+    function into(): Hostname = this
         .toMap()
         .put("ansible.builtin.hostname", this.options)
-        .toTyped(hostname)
+        .toTyped(Hostname)
+
 }
 
-//
-
-class import_playbook_options {
-    
+// Import a playbook
+class ImportPlaybookOptions {
     
     // free-form: String?
     
     
 }
 
-class import_playbook extends playbook.task {
-    hidden options: import_playbook_options
+// Task class for import_playbook
+class ImportPlaybook extends Playbook.Task {
 
-    `ansible.builtin.import_playbook`: import_playbook_options?
+    hidden options: ImportPlaybookOptions
 
-    function into(): import_playbook = this
+    `ansible.builtin.import_playbook`: ImportPlaybookOptions?
+
+    function into(): ImportPlaybook = this
         .toMap()
         .put("ansible.builtin.import_playbook", this.options)
-        .toTyped(import_playbook)
+        .toTyped(ImportPlaybook)
+
 }
 
-//
-
-class import_role_options {
-    
+// Import a role into a play
+class ImportRoleOptions {
     
     allow_duplicates: Boolean?
     
-    
-    
     defaults_from: String?
-    
-    
     
     handlers_from: String?
     
-    
-    
     name: String
-    
-    
     
     rolespec_validate: Boolean?
     
-    
-    
     tasks_from: String?
-    
-    
     
     vars_from: String?
     
-    
 }
 
-class import_role extends playbook.task {
-    hidden options: import_role_options
+// Task class for import_role
+class ImportRole extends Playbook.Task {
 
-    `ansible.builtin.import_role`: import_role_options?
+    hidden options: ImportRoleOptions
 
-    function into(): import_role = this
+    `ansible.builtin.import_role`: ImportRoleOptions?
+
+    function into(): ImportRole = this
         .toMap()
         .put("ansible.builtin.import_role", this.options)
-        .toTyped(import_role)
+        .toTyped(ImportRole)
+
 }
 
-//
-
-class import_tasks_options {
-    
+// Import a task list
+class ImportTasksOptions {
     
     file: String?
-    
-    
     
     // free-form: String?
     
     
 }
 
-class import_tasks extends playbook.task {
-    hidden options: import_tasks_options
+// Task class for import_tasks
+class ImportTasks extends Playbook.Task {
 
-    `ansible.builtin.import_tasks`: import_tasks_options?
+    hidden options: ImportTasksOptions
 
-    function into(): import_tasks = this
+    `ansible.builtin.import_tasks`: ImportTasksOptions?
+
+    function into(): ImportTasks = this
         .toMap()
         .put("ansible.builtin.import_tasks", this.options)
-        .toTyped(import_tasks)
+        .toTyped(ImportTasks)
+
 }
 
-//
-
-class include_role_options {
-    
+// Load and execute a role
+class IncludeRoleOptions {
     
     allow_duplicates: Boolean?
     
-    
-    
     apply: String?
-    
-    
     
     defaults_from: String?
     
-    
-    
     handlers_from: String?
     
-    
-    
     name: String
-    
-    
     
     public: Boolean?
     
-    
-    
     rolespec_validate: Boolean?
-    
-    
     
     tasks_from: String?
     
-    
-    
     vars_from: String?
     
-    
 }
 
-class include_role extends playbook.task {
-    hidden options: include_role_options
+// Task class for include_role
+class IncludeRole extends Playbook.Task {
 
-    `ansible.builtin.include_role`: include_role_options?
+    hidden options: IncludeRoleOptions
 
-    function into(): include_role = this
+    `ansible.builtin.include_role`: IncludeRoleOptions?
+
+    function into(): IncludeRole = this
         .toMap()
         .put("ansible.builtin.include_role", this.options)
-        .toTyped(include_role)
+        .toTyped(IncludeRole)
+
 }
 
-//
-
-class include_tasks_options {
-    
+// Dynamically include a task list
+class IncludeTasksOptions {
     
     apply: String?
     
-    
-    
     file: String?
-    
-    
     
     // free-form: String?
     
     
 }
 
-class include_tasks extends playbook.task {
-    hidden options: include_tasks_options
+// Task class for include_tasks
+class IncludeTasks extends Playbook.Task {
 
-    `ansible.builtin.include_tasks`: include_tasks_options?
+    hidden options: IncludeTasksOptions
 
-    function into(): include_tasks = this
+    `ansible.builtin.include_tasks`: IncludeTasksOptions?
+
+    function into(): IncludeTasks = this
         .toMap()
         .put("ansible.builtin.include_tasks", this.options)
-        .toTyped(include_tasks)
+        .toTyped(IncludeTasks)
+
 }
 
-//
-
-class include_vars_options {
-    
+// Load variables from files, dynamically within a task
+class IncludeVarsOptions {
     
     depth: Int?
     
-    
-    
     dir: String?
-    
-    
     
     extensions: Listing<String>?
     
-    
-    
     file: String?
-    
-    
     
     files_matching: String?
     
-    
-    
     // free-form: String?
-    
     
     
     hash_behaviour: ("replace"|"merge")?
     
-    
-    
     ignore_files: Listing<String>?
-    
-    
     
     ignore_unknown_extensions: Boolean?
     
-    
-    
     name: String?
     
-    
 }
 
-class include_vars extends playbook.task {
-    hidden options: include_vars_options
+// Task class for include_vars
+class IncludeVars extends Playbook.Task {
 
-    `ansible.builtin.include_vars`: include_vars_options?
+    hidden options: IncludeVarsOptions
 
-    function into(): include_vars = this
+    `ansible.builtin.include_vars`: IncludeVarsOptions?
+
+    function into(): IncludeVars = this
         .toMap()
         .put("ansible.builtin.include_vars", this.options)
-        .toTyped(include_vars)
+        .toTyped(IncludeVars)
+
 }
 
-//
-
-class iptables_options {
-    
+// Modify iptables rules
+class IptablesOptions {
     
     action: ("append"|"insert")?
     
-    
-    
     chain: String?
-    
-    
     
     chain_management: Boolean?
     
-    
-    
     comment: String?
-    
-    
     
     ctstate: Listing<String>?
     
-    
-    
     destination: String?
-    
-    
     
     destination_port: String?
     
-    
-    
     destination_ports: Listing<String>?
-    
-    
     
     dst_range: String?
     
-    
-    
     flush: Boolean?
-    
-    
     
     fragment: String?
     
-    
-    
     gateway: String?
-    
-    
     
     gid_owner: String?
     
-    
-    
     goto: String?
-    
-    
     
     icmp_type: String?
     
-    
-    
     in_interface: String?
-    
-    
     
     ip_version: ("ipv4"|"ipv6")?
     
-    
-    
     jump: String?
-    
-    
     
     limit: String?
     
-    
-    
     limit_burst: String?
-    
-    
     
     log_level: ("0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"emerg"|"alert"|"crit"|"error"|"warning"|"notice"|"info"|"debug")?
     
-    
-    
     log_prefix: String?
-    
-    
     
     match: Listing<String>?
     
-    
-    
     match_set: String?
-    
-    
     
     match_set_flags: ("src"|"dst"|"src,dst"|"dst,src")?
     
-    
-    
     numeric: Boolean?
-    
-    
     
     out_interface: String?
     
-    
-    
     policy: ("ACCEPT"|"DROP"|"QUEUE"|"RETURN")?
-    
-    
     
     protocol: String?
     
-    
-    
     reject_with: String?
-    
-    
     
     rule_num: String?
     
-    
-    
     set_counters: String?
-    
-    
     
     set_dscp_mark: String?
     
-    
-    
     set_dscp_mark_class: String?
-    
-    
     
     source: String?
     
-    
-    
     source_port: String?
-    
-    
     
     src_range: String?
     
-    
-    
     state: ("absent"|"present")?
-    
-    
     
     syn: ("ignore"|"match"|"negate")?
     
-    
-    
     table: ("filter"|"nat"|"mangle"|"raw"|"security")?
-    
-    
     
     tcp_flags: String?
     
-    
-    
     to_destination: String?
-    
-    
     
     to_ports: String?
     
-    
-    
     to_source: String?
-    
-    
     
     uid_owner: String?
     
-    
-    
     wait: String?
     
-    
 }
 
-class iptables extends playbook.task {
-    hidden options: iptables_options
+// Task class for iptables
+class Iptables extends Playbook.Task {
 
-    `ansible.builtin.iptables`: iptables_options?
+    hidden options: IptablesOptions
 
-    function into(): iptables = this
+    `ansible.builtin.iptables`: IptablesOptions?
+
+    function into(): Iptables = this
         .toMap()
         .put("ansible.builtin.iptables", this.options)
-        .toTyped(iptables)
+        .toTyped(Iptables)
+
 }
 
-//
-
-class known_hosts_options {
-    
+// Add or remove a host from the C(known_hosts) file
+class KnownHostsOptions {
     
     hash_host: Boolean?
     
-    
-    
     key: String?
-    
-    
     
     name: String
     
-    
-    
     path: String?
-    
-    
     
     state: ("absent"|"present")?
     
-    
 }
 
-class known_hosts extends playbook.task {
-    hidden options: known_hosts_options
+// Task class for known_hosts
+class KnownHosts extends Playbook.Task {
 
-    `ansible.builtin.known_hosts`: known_hosts_options?
+    hidden options: KnownHostsOptions
 
-    function into(): known_hosts = this
+    `ansible.builtin.known_hosts`: KnownHostsOptions?
+
+    function into(): KnownHosts = this
         .toMap()
         .put("ansible.builtin.known_hosts", this.options)
-        .toTyped(known_hosts)
+        .toTyped(KnownHosts)
+
 }
 
-//
-
-class lineinfile_options {
-    
+// Manage lines in text files
+class LineinfileOptions {
     
     backrefs: Boolean?
     
-    
-    
     backup: Boolean?
-    
-    
     
     create: Boolean?
     
-    
-    
     firstmatch: Boolean?
-    
-    
     
     insertafter: ("EOF"|"*regex*")?
     
-    
-    
     insertbefore: ("BOF"|"*regex*")?
-    
-    
     
     line: String?
     
-    
-    
     others: String?
     
-    
-    
     path: String
-    
-    
     
     regexp: String?
     
-    
-    
     search_string: String?
-    
-    
     
     state: ("absent"|"present")?
     
-    
 }
 
-class lineinfile extends playbook.task {
-    hidden options: lineinfile_options
+// Task class for lineinfile
+class Lineinfile extends Playbook.Task {
 
-    `ansible.builtin.lineinfile`: lineinfile_options?
+    hidden options: LineinfileOptions
 
-    function into(): lineinfile = this
+    `ansible.builtin.lineinfile`: LineinfileOptions?
+
+    function into(): Lineinfile = this
         .toMap()
         .put("ansible.builtin.lineinfile", this.options)
-        .toTyped(lineinfile)
+        .toTyped(Lineinfile)
+
 }
 
-//
-
-class meta_options {
-    
+// Execute Ansible 'actions'
+class MetaOptions {
     
     free_form: String
     
-    
 }
 
-class meta extends playbook.task {
-    hidden options: meta_options
+// Task class for meta
+class Meta extends Playbook.Task {
 
-    `ansible.builtin.meta`: meta_options?
+    hidden options: MetaOptions
 
-    function into(): meta = this
+    `ansible.builtin.meta`: MetaOptions?
+
+    function into(): Meta = this
         .toMap()
         .put("ansible.builtin.meta", this.options)
-        .toTyped(meta)
+        .toTyped(Meta)
+
 }
 
-//
-
-class package_options {
-    
+// Generic OS package manager
+class PackageOptions {
     
     name: String
-    
-    
     
     state: String
     
-    
-    
     use: String?
     
-    
 }
 
-class package extends playbook.task {
-    hidden options: package_options
+// Task class for package
+class Package extends Playbook.Task {
 
-    `ansible.builtin.package`: package_options?
+    hidden options: PackageOptions
 
-    function into(): package = this
+    `ansible.builtin.package`: PackageOptions?
+
+    function into(): Package = this
         .toMap()
         .put("ansible.builtin.package", this.options)
-        .toTyped(package)
+        .toTyped(Package)
+
 }
 
-//
-
-class package_facts_options {
-    
+// Package information as facts
+class PackageFactsOptions {
     
     manager: Listing<("auto"|"rpm"|"apt"|"portage"|"pkg"|"pacman"|"apk"|"pkg_info")>?
     
-    
-    
     strategy: ("first"|"all")?
     
-    
 }
 
-class package_facts extends playbook.task {
-    hidden options: package_facts_options
+// Task class for package_facts
+class PackageFacts extends Playbook.Task {
 
-    `ansible.builtin.package_facts`: package_facts_options?
+    hidden options: PackageFactsOptions
 
-    function into(): package_facts = this
+    `ansible.builtin.package_facts`: PackageFactsOptions?
+
+    function into(): PackageFacts = this
         .toMap()
         .put("ansible.builtin.package_facts", this.options)
-        .toTyped(package_facts)
+        .toTyped(PackageFacts)
+
 }
 
-//
-
-class pause_options {
-    
+// Pause playbook execution
+class PauseOptions {
     
     echo: Boolean?
     
-    
-    
     minutes: String?
-    
-    
     
     prompt: String?
     
-    
-    
     seconds: String?
     
-    
 }
 
-class pause extends playbook.task {
-    hidden options: pause_options
+// Task class for pause
+class Pause extends Playbook.Task {
 
-    `ansible.builtin.pause`: pause_options?
+    hidden options: PauseOptions
 
-    function into(): pause = this
+    `ansible.builtin.pause`: PauseOptions?
+
+    function into(): Pause = this
         .toMap()
         .put("ansible.builtin.pause", this.options)
-        .toTyped(pause)
+        .toTyped(Pause)
+
 }
 
-//
-
-class ping_options {
-    
+// Try to connect to host, verify a usable python and return V(pong) on success
+class PingOptions {
     
     data: String?
     
-    
 }
 
-class ping extends playbook.task {
-    hidden options: ping_options
+// Task class for ping
+class Ping extends Playbook.Task {
 
-    `ansible.builtin.ping`: ping_options?
+    hidden options: PingOptions
 
-    function into(): ping = this
+    `ansible.builtin.ping`: PingOptions?
+
+    function into(): Ping = this
         .toMap()
         .put("ansible.builtin.ping", this.options)
-        .toTyped(ping)
+        .toTyped(Ping)
+
 }
 
-//
-
-class pip_options {
-    
+// Manages Python library dependencies
+class PipOptions {
     
     chdir: String?
-    
-    
     
     editable: Boolean?
     
-    
-    
     executable: String?
-    
-    
     
     extra_args: String?
     
-    
-    
     name: Listing<String>?
-    
-    
     
     requirements: String?
     
-    
-    
     state: ("absent"|"forcereinstall"|"latest"|"present")?
     
-    
-    
     umask: String?
-    
-    
     
     version: String?
     
-    
-    
     virtualenv: String?
-    
-    
     
     virtualenv_command: String?
     
-    
-    
     virtualenv_python: String?
-    
-    
     
     virtualenv_site_packages: Boolean?
     
-    
 }
 
-class pip extends playbook.task {
-    hidden options: pip_options
+// Task class for pip
+class Pip extends Playbook.Task {
 
-    `ansible.builtin.pip`: pip_options?
+    hidden options: PipOptions
 
-    function into(): pip = this
+    `ansible.builtin.pip`: PipOptions?
+
+    function into(): Pip = this
         .toMap()
         .put("ansible.builtin.pip", this.options)
-        .toTyped(pip)
+        .toTyped(Pip)
+
 }
 
-//
-
-class raw_options {
-    
+// Executes a low-down and dirty command
+class RawOptions {
     
     executable: String?
-    
-    
     
     free_form: String
     
-    
 }
 
-class raw extends playbook.task {
-    hidden options: raw_options
+// Task class for raw
+class Raw extends Playbook.Task {
 
-    `ansible.builtin.raw`: raw_options?
+    hidden options: RawOptions
 
-    function into(): raw = this
+    `ansible.builtin.raw`: RawOptions?
+
+    function into(): Raw = this
         .toMap()
         .put("ansible.builtin.raw", this.options)
-        .toTyped(raw)
+        .toTyped(Raw)
+
 }
 
-//
-
-class reboot_options {
-    
+// Reboot a machine
+class RebootOptions {
     
     boot_time_command: String?
     
-    
-    
     connect_timeout: Int?
     
-    
-    
     msg: String?
-    
-    
     
     post_reboot_delay: Int?
     
-    
-    
     pre_reboot_delay: Int?
-    
-    
     
     reboot_command: String?
     
-    
-    
     reboot_timeout: Int?
-    
-    
     
     search_paths: Listing<String>?
     
-    
-    
     test_command: String?
     
-    
 }
 
-class reboot extends playbook.task {
-    hidden options: reboot_options
+// Task class for reboot
+class Reboot extends Playbook.Task {
 
-    `ansible.builtin.reboot`: reboot_options?
+    hidden options: RebootOptions
 
-    function into(): reboot = this
+    `ansible.builtin.reboot`: RebootOptions?
+
+    function into(): Reboot = this
         .toMap()
         .put("ansible.builtin.reboot", this.options)
-        .toTyped(reboot)
+        .toTyped(Reboot)
+
 }
 
-//
-
-class replace_options {
-    
+// Replace all instances of a particular string in a file using a back-referenced regular expression
+class ReplaceOptions {
     
     after: String?
     
-    
-    
     backup: Boolean?
-    
-    
     
     before: String?
     
-    
-    
     encoding: String?
-    
-    
     
     others: String?
     
-    
-    
     path: String
-    
-    
     
     regexp: String
     
-    
-    
     replace: String?
     
-    
 }
 
-class replace extends playbook.task {
-    hidden options: replace_options
+// Task class for replace
+class Replace extends Playbook.Task {
 
-    `ansible.builtin.replace`: replace_options?
+    hidden options: ReplaceOptions
 
-    function into(): replace = this
+    `ansible.builtin.replace`: ReplaceOptions?
+
+    function into(): Replace = this
         .toMap()
         .put("ansible.builtin.replace", this.options)
-        .toTyped(replace)
+        .toTyped(Replace)
+
 }
 
-//
-
-class rpm_key_options {
-    
+// Adds or removes a gpg key from the rpm db
+class RpmKeyOptions {
     
     fingerprint: String?
     
-    
-    
     key: String
-    
-    
     
     state: ("absent"|"present")?
     
-    
-    
     validate_certs: Boolean?
     
-    
 }
 
-class rpm_key extends playbook.task {
-    hidden options: rpm_key_options
+// Task class for rpm_key
+class RpmKey extends Playbook.Task {
 
-    `ansible.builtin.rpm_key`: rpm_key_options?
+    hidden options: RpmKeyOptions
 
-    function into(): rpm_key = this
+    `ansible.builtin.rpm_key`: RpmKeyOptions?
+
+    function into(): RpmKey = this
         .toMap()
         .put("ansible.builtin.rpm_key", this.options)
-        .toTyped(rpm_key)
+        .toTyped(RpmKey)
+
 }
 
-//
-
-class script_options {
-    
+// Runs a local script on a remote node after transferring it
+class ScriptOptions {
     
     chdir: String?
     
-    
-    
     cmd: String?
-    
-    
     
     creates: String?
     
-    
-    
     executable: String?
-    
-    
     
     free_form: String?
     
-    
-    
     removes: String?
     
-    
 }
 
-class script extends playbook.task {
-    hidden options: script_options
+// Task class for script
+class Script extends Playbook.Task {
 
-    `ansible.builtin.script`: script_options?
+    hidden options: ScriptOptions
 
-    function into(): script = this
+    `ansible.builtin.script`: ScriptOptions?
+
+    function into(): Script = this
         .toMap()
         .put("ansible.builtin.script", this.options)
-        .toTyped(script)
+        .toTyped(Script)
+
 }
 
-//
-
-class service_options {
-    
+// Manage services
+class ServiceOptions {
     
     arguments: String?
     
-    
-    
     enabled: Boolean?
-    
-    
     
     name: String
     
-    
-    
     pattern: String?
-    
-    
     
     runlevel: String?
     
-    
-    
     sleep: Int?
     
-    
-    
     state: ("reloaded"|"restarted"|"started"|"stopped")?
-    
-    
     
     use: String?
     
-    
 }
 
-class service extends playbook.task {
-    hidden options: service_options
+// Task class for service
+class Service extends Playbook.Task {
 
-    `ansible.builtin.service`: service_options?
+    hidden options: ServiceOptions
 
-    function into(): service = this
+    `ansible.builtin.service`: ServiceOptions?
+
+    function into(): Service = this
         .toMap()
         .put("ansible.builtin.service", this.options)
-        .toTyped(service)
+        .toTyped(Service)
+
 }
 
-//
-
-class service_facts_options {
+// Return service state information as fact data
+class ServiceFactsOptions {
     
 }
 
-class service_facts extends playbook.task {
-    hidden options: service_facts_options
+// Task class for service_facts
+class ServiceFacts extends Playbook.Task {
 
-    `ansible.builtin.service_facts`: service_facts_options?
+    hidden options: ServiceFactsOptions
 
-    function into(): service_facts = this
+    `ansible.builtin.service_facts`: ServiceFactsOptions?
+
+    function into(): ServiceFacts = this
         .toMap()
         .put("ansible.builtin.service_facts", this.options)
-        .toTyped(service_facts)
+        .toTyped(ServiceFacts)
+
 }
 
-//
-
-class set_fact_options {
-    
+// Set host variable(s) and fact(s).
+class SetFactOptions {
     
     cacheable: Boolean?
     
-    
-    
     key_value: String
     
-    
 }
 
-class set_fact extends playbook.task {
-    hidden options: set_fact_options
+// Task class for set_fact
+class SetFact extends Playbook.Task {
 
-    `ansible.builtin.set_fact`: set_fact_options?
+    hidden options: SetFactOptions
 
-    function into(): set_fact = this
+    `ansible.builtin.set_fact`: SetFactOptions?
+
+    function into(): SetFact = this
         .toMap()
         .put("ansible.builtin.set_fact", this.options)
-        .toTyped(set_fact)
+        .toTyped(SetFact)
+
 }
 
-//
-
-class set_stats_options {
-    
+// Define and display stats for the current ansible run
+class SetStatsOptions {
     
     aggregate: Boolean?
     
-    
-    
     data: String
-    
-    
     
     per_host: Boolean?
     
-    
 }
 
-class set_stats extends playbook.task {
-    hidden options: set_stats_options
+// Task class for set_stats
+class SetStats extends Playbook.Task {
 
-    `ansible.builtin.set_stats`: set_stats_options?
+    hidden options: SetStatsOptions
 
-    function into(): set_stats = this
+    `ansible.builtin.set_stats`: SetStatsOptions?
+
+    function into(): SetStats = this
         .toMap()
         .put("ansible.builtin.set_stats", this.options)
-        .toTyped(set_stats)
+        .toTyped(SetStats)
+
 }
 
-//
-
-class setup_options {
-    
+// Gathers facts about remote hosts
+class SetupOptions {
     
     fact_path: String?
     
-    
-    
     filter: Listing<String>?
-    
-    
     
     gather_subset: Listing<String>?
     
-    
-    
     gather_timeout: Int?
     
-    
 }
 
-class setup extends playbook.task {
-    hidden options: setup_options
+// Task class for setup
+class Setup extends Playbook.Task {
 
-    `ansible.builtin.setup`: setup_options?
+    hidden options: SetupOptions
 
-    function into(): setup = this
+    `ansible.builtin.setup`: SetupOptions?
+
+    function into(): Setup = this
         .toMap()
         .put("ansible.builtin.setup", this.options)
-        .toTyped(setup)
+        .toTyped(Setup)
+
 }
 
-//
-
-class shell_options {
-    
+// Execute shell commands on targets
+class ShellOptions {
     
     chdir: String?
     
-    
-    
     cmd: String?
-    
-    
     
     creates: String?
     
-    
-    
     executable: String?
-    
-    
     
     free_form: String?
     
-    
-    
     removes: String?
-    
-    
     
     stdin: String?
     
-    
-    
     stdin_add_newline: Boolean?
     
-    
 }
 
-class shell extends playbook.task {
-    hidden options: shell_options
+// Task class for shell
+class Shell extends Playbook.Task {
 
-    `ansible.builtin.shell`: shell_options?
+    hidden options: ShellOptions
 
-    function into(): shell = this
+    `ansible.builtin.shell`: ShellOptions?
+
+    function into(): Shell = this
         .toMap()
         .put("ansible.builtin.shell", this.options)
-        .toTyped(shell)
+        .toTyped(Shell)
+
 }
 
-//
-
-class slurp_options {
-    
+// Slurps a file from remote nodes
+class SlurpOptions {
     
     src: String
     
-    
 }
 
-class slurp extends playbook.task {
-    hidden options: slurp_options
+// Task class for slurp
+class Slurp extends Playbook.Task {
 
-    `ansible.builtin.slurp`: slurp_options?
+    hidden options: SlurpOptions
 
-    function into(): slurp = this
+    `ansible.builtin.slurp`: SlurpOptions?
+
+    function into(): Slurp = this
         .toMap()
         .put("ansible.builtin.slurp", this.options)
-        .toTyped(slurp)
+        .toTyped(Slurp)
+
 }
 
-//
-
-class stat_options {
-    
+// Retrieve file or file system status
+class StatOptions {
     
     checksum_algorithm: ("md5"|"sha1"|"sha224"|"sha256"|"sha384"|"sha512")?
     
-    
-    
     follow: Boolean?
-    
-    
     
     get_attributes: Boolean?
     
-    
-    
     get_checksum: Boolean?
-    
-    
     
     get_mime: Boolean?
     
-    
-    
     path: String
     
-    
 }
 
-class stat extends playbook.task {
-    hidden options: stat_options
+// Task class for stat
+class Stat extends Playbook.Task {
 
-    `ansible.builtin.stat`: stat_options?
+    hidden options: StatOptions
 
-    function into(): stat = this
+    `ansible.builtin.stat`: StatOptions?
+
+    function into(): Stat = this
         .toMap()
         .put("ansible.builtin.stat", this.options)
-        .toTyped(stat)
+        .toTyped(Stat)
+
 }
 
-//
-
-class subversion_options {
-    
+// Deploys a subversion repository
+class SubversionOptions {
     
     checkout: Boolean?
     
-    
-    
     dest: String?
-    
-    
     
     executable: String?
     
-    
-    
     export: Boolean?
     
-    
-    
     force: Boolean?
-    
-    
     
     in_place: Boolean?
     
-    
-    
     password: String?
-    
-    
     
     repo: String
     
-    
-    
     revision: String?
-    
-    
     
     `switch`: Boolean?
     
-    
-    
     update: Boolean?
-    
-    
     
     username: String?
     
-    
-    
     validate_certs: Boolean?
     
-    
 }
 
-class subversion extends playbook.task {
-    hidden options: subversion_options
+// Task class for subversion
+class Subversion extends Playbook.Task {
 
-    `ansible.builtin.subversion`: subversion_options?
+    hidden options: SubversionOptions
 
-    function into(): subversion = this
+    `ansible.builtin.subversion`: SubversionOptions?
+
+    function into(): Subversion = this
         .toMap()
         .put("ansible.builtin.subversion", this.options)
-        .toTyped(subversion)
+        .toTyped(Subversion)
+
 }
 
-//
-
-class systemd_service_options {
-    
+// Manage systemd units
+class SystemdServiceOptions {
     
     daemon_reexec: Boolean?
     
-    
-    
     daemon_reload: Boolean?
-    
-    
     
     enabled: Boolean?
     
-    
-    
     force: Boolean?
-    
-    
     
     masked: Boolean?
     
-    
-    
     name: String?
-    
-    
     
     no_block: Boolean?
     
-    
-    
     scope: ("system"|"user"|"global")?
-    
-    
     
     state: ("reloaded"|"restarted"|"started"|"stopped")?
     
-    
 }
 
-class systemd_service extends playbook.task {
-    hidden options: systemd_service_options
+// Task class for systemd_service
+class SystemdService extends Playbook.Task {
 
-    `ansible.builtin.systemd_service`: systemd_service_options?
+    hidden options: SystemdServiceOptions
 
-    function into(): systemd_service = this
+    `ansible.builtin.systemd_service`: SystemdServiceOptions?
+
+    function into(): SystemdService = this
         .toMap()
         .put("ansible.builtin.systemd_service", this.options)
-        .toTyped(systemd_service)
+        .toTyped(SystemdService)
+
 }
 
-//
-
-class sysvinit_options {
-    
+// Manage SysV services.
+class SysvinitOptions {
     
     arguments: String?
     
-    
-    
     daemonize: Boolean?
-    
-    
     
     enabled: Boolean?
     
-    
-    
     name: String
-    
-    
     
     pattern: String?
     
-    
-    
     runlevels: Listing<String>?
     
-    
-    
     sleep: Int?
-    
-    
     
     state: ("started"|"stopped"|"restarted"|"reloaded")?
     
-    
 }
 
-class sysvinit extends playbook.task {
-    hidden options: sysvinit_options
+// Task class for sysvinit
+class Sysvinit extends Playbook.Task {
 
-    `ansible.builtin.sysvinit`: sysvinit_options?
+    hidden options: SysvinitOptions
 
-    function into(): sysvinit = this
+    `ansible.builtin.sysvinit`: SysvinitOptions?
+
+    function into(): Sysvinit = this
         .toMap()
         .put("ansible.builtin.sysvinit", this.options)
-        .toTyped(sysvinit)
+        .toTyped(Sysvinit)
+
 }
 
-//
-
-class tempfile_options {
-    
+// Creates temporary files and directories
+class TempfileOptions {
     
     path: String?
-    
-    
     
     prefix: String?
     
-    
-    
     state: ("directory"|"file")?
-    
-    
     
     suffix: String?
     
-    
 }
 
-class tempfile extends playbook.task {
-    hidden options: tempfile_options
+// Task class for tempfile
+class Tempfile extends Playbook.Task {
 
-    `ansible.builtin.tempfile`: tempfile_options?
+    hidden options: TempfileOptions
 
-    function into(): tempfile = this
+    `ansible.builtin.tempfile`: TempfileOptions?
+
+    function into(): Tempfile = this
         .toMap()
         .put("ansible.builtin.tempfile", this.options)
-        .toTyped(tempfile)
+        .toTyped(Tempfile)
+
 }
 
-//
-
-class template_options {
-    
+// Template a file out to a target host
+class TemplateOptions {
     
     follow: Boolean?
     
-    
 }
 
-class template extends playbook.task {
-    hidden options: template_options
+// Task class for template
+class Template extends Playbook.Task {
 
-    `ansible.builtin.template`: template_options?
+    hidden options: TemplateOptions
 
-    function into(): template = this
+    `ansible.builtin.template`: TemplateOptions?
+
+    function into(): Template = this
         .toMap()
         .put("ansible.builtin.template", this.options)
-        .toTyped(template)
+        .toTyped(Template)
+
 }
 
-//
-
-class unarchive_options {
-    
+// Unpacks an archive after (optionally) copying it from the local machine
+class UnarchiveOptions {
     
     copy: Boolean?
     
-    
-    
     creates: String?
-    
-    
     
     dest: String
     
-    
-    
     exclude: Listing<String>?
-    
-    
     
     extra_opts: Listing<String>?
     
-    
-    
     include: Listing<String>?
-    
-    
     
     io_buffer_size: Int?
     
-    
-    
     keep_newer: Boolean?
-    
-    
     
     list_files: Boolean?
     
-    
-    
     remote_src: Boolean?
-    
-    
     
     src: String
     
-    
-    
     validate_certs: Boolean?
     
-    
 }
 
-class unarchive extends playbook.task {
-    hidden options: unarchive_options
+// Task class for unarchive
+class Unarchive extends Playbook.Task {
 
-    `ansible.builtin.unarchive`: unarchive_options?
+    hidden options: UnarchiveOptions
 
-    function into(): unarchive = this
+    `ansible.builtin.unarchive`: UnarchiveOptions?
+
+    function into(): Unarchive = this
         .toMap()
         .put("ansible.builtin.unarchive", this.options)
-        .toTyped(unarchive)
+        .toTyped(Unarchive)
+
 }
 
-//
-
-class uri_options {
-    
+// Interacts with webservices
+class UriOptions {
     
     body: String?
     
-    
-    
     body_format: ("form-urlencoded"|"json"|"raw"|"form-multipart")?
-    
-    
     
     ca_path: String?
     
-    
-    
     ciphers: Listing<String>?
-    
-    
     
     client_cert: String?
     
-    
-    
     client_key: String?
-    
-    
     
     creates: String?
     
-    
-    
     decompress: Boolean?
-    
-    
     
     dest: String?
     
-    
-    
     follow_redirects: ("all"|"no"|"none"|"safe"|"urllib2"|"yes")?
     
-    
-    
     force: Boolean?
-    
-    
     
     force_basic_auth: Boolean?
     
-    
-    
     headers: String?
-    
-    
     
     http_agent: String?
     
-    
-    
     method: String?
-    
-    
     
     remote_src: Boolean?
     
-    
-    
     removes: String?
-    
-    
     
     return_content: Boolean?
     
-    
-    
     src: String?
-    
-    
     
     status_code: Listing<Int>?
     
-    
-    
     timeout: Int?
-    
-    
     
     unix_socket: String?
     
-    
-    
     unredirected_headers: Listing<String>?
-    
-    
     
     url: String
     
-    
-    
     url_password: String?
-    
-    
     
     url_username: String?
     
-    
-    
     use_gssapi: Boolean?
-    
-    
     
     use_netrc: Boolean?
     
-    
-    
     use_proxy: Boolean?
-    
-    
     
     validate_certs: Boolean?
     
-    
 }
 
-class uri extends playbook.task {
-    hidden options: uri_options
+// Task class for uri
+class Uri extends Playbook.Task {
 
-    `ansible.builtin.uri`: uri_options?
+    hidden options: UriOptions
 
-    function into(): uri = this
+    `ansible.builtin.uri`: UriOptions?
+
+    function into(): Uri = this
         .toMap()
         .put("ansible.builtin.uri", this.options)
-        .toTyped(uri)
+        .toTyped(Uri)
+
 }
 
-//
-
-class user_options {
-    
+// Manage user accounts
+class UserOptions {
     
     append: Boolean?
     
-    
-    
     authorization: String?
-    
-    
     
     comment: String?
     
-    
-    
     create_home: Boolean?
-    
-    
     
     expires: String?
     
-    
-    
     force: Boolean?
-    
-    
     
     generate_ssh_key: Boolean?
     
-    
-    
     group: String?
-    
-    
     
     groups: Listing<String>?
     
-    
-    
     `hidden`: Boolean?
-    
-    
     
     home: String?
     
-    
-    
     `local`: Boolean?
-    
-    
     
     login_class: String?
     
-    
-    
     move_home: Boolean?
     
-    
-    
     name: String
-    
-    
     
     non_unique: Boolean?
     
-    
-    
     password: String?
-    
-    
     
     password_expire_max: Int?
     
-    
-    
     password_expire_min: Int?
-    
-    
     
     password_expire_warn: Int?
     
-    
-    
     password_lock: Boolean?
-    
-    
     
     profile: String?
     
-    
-    
     remove: Boolean?
-    
-    
     
     role: String?
     
-    
-    
     seuser: String?
-    
-    
     
     shell: String?
     
-    
-    
     skeleton: String?
-    
-    
     
     ssh_key_bits: Int?
     
-    
-    
     ssh_key_comment: String?
-    
-    
     
     ssh_key_file: String?
     
-    
-    
     ssh_key_passphrase: String?
-    
-    
     
     ssh_key_type: String?
     
-    
-    
     state: ("absent"|"present")?
-    
-    
     
     system: Boolean?
     
-    
-    
     uid: Int?
-    
-    
     
     umask: String?
     
-    
-    
     update_password: ("always"|"on_create")?
     
-    
 }
 
-class user extends playbook.task {
-    hidden options: user_options
+// Task class for user
+class User extends Playbook.Task {
 
-    `ansible.builtin.user`: user_options?
+    hidden options: UserOptions
 
-    function into(): user = this
+    `ansible.builtin.user`: UserOptions?
+
+    function into(): User = this
         .toMap()
         .put("ansible.builtin.user", this.options)
-        .toTyped(user)
+        .toTyped(User)
+
 }
 
-//
-
-class validate_argument_spec_options {
-    
+// Validate role argument specs.
+class ValidateArgumentSpecOptions {
     
     argument_spec: String
     
-    
-    
     provided_arguments: String?
     
-    
 }
 
-class validate_argument_spec extends playbook.task {
-    hidden options: validate_argument_spec_options
+// Task class for validate_argument_spec
+class ValidateArgumentSpec extends Playbook.Task {
 
-    `ansible.builtin.validate_argument_spec`: validate_argument_spec_options?
+    hidden options: ValidateArgumentSpecOptions
 
-    function into(): validate_argument_spec = this
+    `ansible.builtin.validate_argument_spec`: ValidateArgumentSpecOptions?
+
+    function into(): ValidateArgumentSpec = this
         .toMap()
         .put("ansible.builtin.validate_argument_spec", this.options)
-        .toTyped(validate_argument_spec)
+        .toTyped(ValidateArgumentSpec)
+
 }
 
-//
-
-class wait_for_options {
-    
+// Waits for a condition before continuing
+class WaitForOptions {
     
     active_connection_states: Listing<String>?
     
-    
-    
     connect_timeout: Int?
     
-    
-    
     delay: Int?
-    
-    
     
     exclude_hosts: Listing<String>?
     
-    
-    
     host: String?
-    
-    
     
     msg: String?
     
-    
-    
     path: String?
-    
-    
     
     port: Int?
     
-    
-    
     search_regex: String?
     
-    
-    
     sleep: Int?
-    
-    
     
     state: ("absent"|"drained"|"present"|"started"|"stopped")?
     
-    
-    
     timeout: Int?
     
-    
 }
 
-class wait_for extends playbook.task {
-    hidden options: wait_for_options
+// Task class for wait_for
+class WaitFor extends Playbook.Task {
 
-    `ansible.builtin.wait_for`: wait_for_options?
+    hidden options: WaitForOptions
 
-    function into(): wait_for = this
+    `ansible.builtin.wait_for`: WaitForOptions?
+
+    function into(): WaitFor = this
         .toMap()
         .put("ansible.builtin.wait_for", this.options)
-        .toTyped(wait_for)
+        .toTyped(WaitFor)
+
 }
 
-//
-
-class wait_for_connection_options {
-    
+// Waits until remote system is reachable/usable
+class WaitForConnectionOptions {
     
     connect_timeout: Int?
     
-    
-    
     delay: Int?
-    
-    
     
     sleep: Int?
     
-    
-    
     timeout: Int?
     
-    
 }
 
-class wait_for_connection extends playbook.task {
-    hidden options: wait_for_connection_options
+// Task class for wait_for_connection
+class WaitForConnection extends Playbook.Task {
 
-    `ansible.builtin.wait_for_connection`: wait_for_connection_options?
+    hidden options: WaitForConnectionOptions
 
-    function into(): wait_for_connection = this
+    `ansible.builtin.wait_for_connection`: WaitForConnectionOptions?
+
+    function into(): WaitForConnection = this
         .toMap()
         .put("ansible.builtin.wait_for_connection", this.options)
-        .toTyped(wait_for_connection)
+        .toTyped(WaitForConnection)
+
 }
 
-//
-
-class yum_options {
-    
+// Manages packages with the I(yum) package manager
+class YumOptions {
     
     allow_downgrade: Boolean?
     
-    
-    
     autoremove: Boolean?
-    
-    
     
     bugfix: Boolean?
     
-    
-    
     cacheonly: Boolean?
-    
-    
     
     conf_file: String?
     
-    
-    
     disable_excludes: String?
-    
-    
     
     disable_gpg_check: Boolean?
     
-    
-    
     disable_plugin: Listing<String>?
-    
-    
     
     disablerepo: Listing<String>?
     
-    
-    
     download_dir: String?
-    
-    
     
     download_only: Boolean?
     
-    
-    
     enable_plugin: Listing<String>?
-    
-    
     
     enablerepo: Listing<String>?
     
-    
-    
     exclude: Listing<String>?
-    
-    
     
     install_repoquery: Boolean?
     
-    
-    
     install_weak_deps: Boolean?
-    
-    
     
     installroot: String?
     
-    
-    
     list: String?
-    
-    
     
     lock_timeout: Int?
     
-    
-    
     name: Listing<String>?
-    
-    
     
     releasever: String?
     
-    
-    
     security: Boolean?
-    
-    
     
     skip_broken: Boolean?
     
-    
-    
     sslverify: Boolean?
-    
-    
     
     state: ("absent"|"installed"|"latest"|"present"|"removed")?
     
-    
-    
     update_cache: Boolean?
-    
-    
     
     update_only: Boolean?
     
-    
-    
     use_backend: ("auto"|"yum"|"yum4"|"dnf"|"dnf4"|"dnf5")?
-    
-    
     
     validate_certs: Boolean?
     
-    
 }
 
-class yum extends playbook.task {
-    hidden options: yum_options
+// Task class for yum
+class Yum extends Playbook.Task {
 
-    `ansible.builtin.yum`: yum_options?
+    hidden options: YumOptions
 
-    function into(): yum = this
+    `ansible.builtin.yum`: YumOptions?
+
+    function into(): Yum = this
         .toMap()
         .put("ansible.builtin.yum", this.options)
-        .toTyped(yum)
+        .toTyped(Yum)
+
 }
 
-//
-
-class yum_repository_options {
-    
+// Add or remove YUM repositories
+class YumRepositoryOptions {
     
     async: Boolean?
     
-    
-    
     bandwidth: String?
-    
-    
     
     baseurl: Listing<String>?
     
-    
-    
     cost: String?
-    
-    
     
     deltarpm_metadata_percentage: String?
     
-    
-    
     deltarpm_percentage: String?
-    
-    
     
     description: String?
     
-    
-    
     enabled: Boolean?
-    
-    
     
     enablegroups: Boolean?
     
-    
-    
     exclude: Listing<String>?
-    
-    
     
     failovermethod: ("roundrobin"|"priority")?
     
-    
-    
     file: String?
-    
-    
     
     gpgcakey: String?
     
-    
-    
     gpgcheck: Boolean?
-    
-    
     
     gpgkey: Listing<String>?
     
-    
-    
     http_caching: ("all"|"packages"|"none")?
-    
-    
     
     include: String?
     
-    
-    
     includepkgs: Listing<String>?
-    
-    
     
     ip_resolve: ("4"|"6"|"IPv4"|"IPv6"|"whatever")?
     
-    
-    
     keepalive: Boolean?
-    
-    
     
     keepcache: ("0"|"1")?
     
-    
-    
     metadata_expire: String?
-    
-    
     
     metadata_expire_filter: ("never"|"read-only:past"|"read-only:present"|"read-only:future")?
     
-    
-    
     metalink: String?
-    
-    
     
     mirrorlist: String?
     
-    
-    
     mirrorlist_expire: String?
-    
-    
     
     module_hotfixes: Boolean?
     
-    
-    
     name: String
-    
-    
     
     password: String?
     
-    
-    
     priority: String?
-    
-    
     
     protect: Boolean?
     
-    
-    
     proxy: String?
-    
-    
     
     proxy_password: String?
     
-    
-    
     proxy_username: String?
-    
-    
     
     repo_gpgcheck: Boolean?
     
-    
-    
     reposdir: String?
-    
-    
     
     retries: String?
     
-    
-    
     s3_enabled: Boolean?
-    
-    
     
     skip_if_unavailable: Boolean?
     
-    
-    
     ssl_check_cert_permissions: Boolean?
-    
-    
     
     sslcacert: String?
     
-    
-    
     sslclientcert: String?
-    
-    
     
     sslclientkey: String?
     
-    
-    
     sslverify: Boolean?
-    
-    
     
     state: ("absent"|"present")?
     
-    
-    
     throttle: String?
-    
-    
     
     timeout: String?
     
-    
-    
     ui_repoid_vars: String?
-    
-    
     
     username: String?
     
-    
 }
 
-class yum_repository extends playbook.task {
-    hidden options: yum_repository_options
+// Task class for yum_repository
+class YumRepository extends Playbook.Task {
 
-    `ansible.builtin.yum_repository`: yum_repository_options?
+    hidden options: YumRepositoryOptions
 
-    function into(): yum_repository = this
+    `ansible.builtin.yum_repository`: YumRepositoryOptions?
+
+    function into(): YumRepository = this
         .toMap()
         .put("ansible.builtin.yum_repository", this.options)
-        .toTyped(yum_repository)
+        .toTyped(YumRepository)
+
 }
+
