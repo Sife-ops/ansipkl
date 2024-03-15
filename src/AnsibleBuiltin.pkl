@@ -2,7 +2,7 @@ module AnsibleBuiltin
 
 import "./Playbook.pkl"
 
-// Add a host (and alternatively a group) to the ansible-playbook in-memory inventory
+/// Add a host (and alternatively a group) to the ansible-playbook in-memory inventory
 class AddHostOptions {
     
     groups: Listing<String>?
@@ -11,21 +11,28 @@ class AddHostOptions {
     
 }
 
-// Task class for add_host
+/// Task class for add_host
 class AddHost extends Playbook.Task {
 
-    hidden options: AddHostOptions
+    /// todo doc
+    `ansible.builtin.add_host`: Dynamic
 
-    `ansible.builtin.add_host`: AddHostOptions?
+    /// Options for ansible.builtin.add_host
+    hidden options: AddHostOptions?
 
-    function into(): AddHost = this
+    /// todo doc
+    function configure(): AddHost = this
         .toMap()
-        .put("ansible.builtin.add_host", this.options)
+        .put(
+            "ansible.builtin.add_host",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(AddHost)
 
 }
 
-// Manages apt-packages
+/// Manages apt-packages
 class AptOptions {
     
     allow_change_held_packages: Boolean?
@@ -78,21 +85,28 @@ class AptOptions {
     
 }
 
-// Task class for apt
+/// Task class for apt
 class Apt extends Playbook.Task {
 
-    hidden options: AptOptions
+    /// todo doc
+    `ansible.builtin.apt`: Dynamic
 
-    `ansible.builtin.apt`: AptOptions?
+    /// Options for ansible.builtin.apt
+    hidden options: AptOptions?
 
-    function into(): Apt = this
+    /// todo doc
+    function configure(): Apt = this
         .toMap()
-        .put("ansible.builtin.apt", this.options)
+        .put(
+            "ansible.builtin.apt",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Apt)
 
 }
 
-// Add or remove an apt key
+/// Add or remove an apt key
 class AptKeyOptions {
     
     data: String?
@@ -113,21 +127,28 @@ class AptKeyOptions {
     
 }
 
-// Task class for apt_key
+/// Task class for apt_key
 class AptKey extends Playbook.Task {
 
-    hidden options: AptKeyOptions
+    /// todo doc
+    `ansible.builtin.apt_key`: Dynamic
 
-    `ansible.builtin.apt_key`: AptKeyOptions?
+    /// Options for ansible.builtin.apt_key
+    hidden options: AptKeyOptions?
 
-    function into(): AptKey = this
+    /// todo doc
+    function configure(): AptKey = this
         .toMap()
-        .put("ansible.builtin.apt_key", this.options)
+        .put(
+            "ansible.builtin.apt_key",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(AptKey)
 
 }
 
-// Add and remove APT repositories
+/// Add and remove APT repositories
 class AptRepositoryOptions {
     
     codename: String?
@@ -152,21 +173,28 @@ class AptRepositoryOptions {
     
 }
 
-// Task class for apt_repository
+/// Task class for apt_repository
 class AptRepository extends Playbook.Task {
 
-    hidden options: AptRepositoryOptions
+    /// todo doc
+    `ansible.builtin.apt_repository`: Dynamic
 
-    `ansible.builtin.apt_repository`: AptRepositoryOptions?
+    /// Options for ansible.builtin.apt_repository
+    hidden options: AptRepositoryOptions?
 
-    function into(): AptRepository = this
+    /// todo doc
+    function configure(): AptRepository = this
         .toMap()
-        .put("ansible.builtin.apt_repository", this.options)
+        .put(
+            "ansible.builtin.apt_repository",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(AptRepository)
 
 }
 
-// Assemble configuration files from fragments
+/// Assemble configuration files from fragments
 class AssembleOptions {
     
     backup: Boolean?
@@ -187,21 +215,28 @@ class AssembleOptions {
     
 }
 
-// Task class for assemble
+/// Task class for assemble
 class Assemble extends Playbook.Task {
 
-    hidden options: AssembleOptions
+    /// todo doc
+    `ansible.builtin.assemble`: Dynamic
 
-    `ansible.builtin.assemble`: AssembleOptions?
+    /// Options for ansible.builtin.assemble
+    hidden options: AssembleOptions?
 
-    function into(): Assemble = this
+    /// todo doc
+    function configure(): Assemble = this
         .toMap()
-        .put("ansible.builtin.assemble", this.options)
+        .put(
+            "ansible.builtin.assemble",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Assemble)
 
 }
 
-// Asserts given expressions are true
+/// Asserts given expressions are true
 class AssertOptions {
     
     fail_msg: String?
@@ -214,21 +249,28 @@ class AssertOptions {
     
 }
 
-// Task class for assert
+/// Task class for assert
 class Assert extends Playbook.Task {
 
-    hidden options: AssertOptions
+    /// todo doc
+    `ansible.builtin.assert`: Dynamic
 
-    `ansible.builtin.assert`: AssertOptions?
+    /// Options for ansible.builtin.assert
+    hidden options: AssertOptions?
 
-    function into(): Assert = this
+    /// todo doc
+    function configure(): Assert = this
         .toMap()
-        .put("ansible.builtin.assert", this.options)
+        .put(
+            "ansible.builtin.assert",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Assert)
 
 }
 
-// Obtain status of asynchronous task
+/// Obtain status of asynchronous task
 class AsyncStatusOptions {
     
     jid: String
@@ -237,21 +279,28 @@ class AsyncStatusOptions {
     
 }
 
-// Task class for async_status
+/// Task class for async_status
 class AsyncStatus extends Playbook.Task {
 
-    hidden options: AsyncStatusOptions
+    /// todo doc
+    `ansible.builtin.async_status`: Dynamic
 
-    `ansible.builtin.async_status`: AsyncStatusOptions?
+    /// Options for ansible.builtin.async_status
+    hidden options: AsyncStatusOptions?
 
-    function into(): AsyncStatus = this
+    /// todo doc
+    function configure(): AsyncStatus = this
         .toMap()
-        .put("ansible.builtin.async_status", this.options)
+        .put(
+            "ansible.builtin.async_status",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(AsyncStatus)
 
 }
 
-// Insert/update/remove a text block surrounded by marker lines
+/// Insert/update/remove a text block surrounded by marker lines
 class BlockinfileOptions {
     
     append_newline: Boolean?
@@ -280,21 +329,28 @@ class BlockinfileOptions {
     
 }
 
-// Task class for blockinfile
+/// Task class for blockinfile
 class Blockinfile extends Playbook.Task {
 
-    hidden options: BlockinfileOptions
+    /// todo doc
+    `ansible.builtin.blockinfile`: Dynamic
 
-    `ansible.builtin.blockinfile`: BlockinfileOptions?
+    /// Options for ansible.builtin.blockinfile
+    hidden options: BlockinfileOptions?
 
-    function into(): Blockinfile = this
+    /// todo doc
+    function configure(): Blockinfile = this
         .toMap()
-        .put("ansible.builtin.blockinfile", this.options)
+        .put(
+            "ansible.builtin.blockinfile",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Blockinfile)
 
 }
 
-// Execute commands on targets
+/// Execute commands on targets
 class CommandOptions {
     
     argv: Listing<String>?
@@ -307,7 +363,7 @@ class CommandOptions {
     
     expand_argument_vars: Boolean?
     
-    free_form: String?
+    free_form: Any?
     
     removes: String?
     
@@ -319,21 +375,28 @@ class CommandOptions {
     
 }
 
-// Task class for command
+/// Task class for command
 class Command extends Playbook.Task {
 
-    hidden options: CommandOptions
+    /// todo doc
+    `ansible.builtin.command`: Dynamic
 
-    `ansible.builtin.command`: CommandOptions?
+    /// Options for ansible.builtin.command
+    hidden options: CommandOptions?
 
-    function into(): Command = this
+    /// todo doc
+    function configure(): Command = this
         .toMap()
-        .put("ansible.builtin.command", this.options)
+        .put(
+            "ansible.builtin.command",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Command)
 
 }
 
-// Copy files to remote locations
+/// Copy files to remote locations
 class CopyOptions {
     
     backup: Boolean?
@@ -352,7 +415,7 @@ class CopyOptions {
     
     local_follow: Boolean?
     
-    mode: String?
+    mode: Any?
     
     remote_src: Boolean?
     
@@ -360,21 +423,28 @@ class CopyOptions {
     
 }
 
-// Task class for copy
+/// Task class for copy
 class Copy extends Playbook.Task {
 
-    hidden options: CopyOptions
+    /// todo doc
+    `ansible.builtin.copy`: Dynamic
 
-    `ansible.builtin.copy`: CopyOptions?
+    /// Options for ansible.builtin.copy
+    hidden options: CopyOptions?
 
-    function into(): Copy = this
+    /// todo doc
+    function configure(): Copy = this
         .toMap()
-        .put("ansible.builtin.copy", this.options)
+        .put(
+            "ansible.builtin.copy",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Copy)
 
 }
 
-// Manage cron.d and crontab entries
+/// Manage cron.d and crontab entries
 class CronOptions {
     
     backup: Boolean?
@@ -411,21 +481,28 @@ class CronOptions {
     
 }
 
-// Task class for cron
+/// Task class for cron
 class Cron extends Playbook.Task {
 
-    hidden options: CronOptions
+    /// todo doc
+    `ansible.builtin.cron`: Dynamic
 
-    `ansible.builtin.cron`: CronOptions?
+    /// Options for ansible.builtin.cron
+    hidden options: CronOptions?
 
-    function into(): Cron = this
+    /// todo doc
+    function configure(): Cron = this
         .toMap()
-        .put("ansible.builtin.cron", this.options)
+        .put(
+            "ansible.builtin.cron",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Cron)
 
 }
 
-// Add and remove deb822 formatted repositories
+/// Add and remove deb822 formatted repositories
 class Deb822RepositoryOptions {
     
     allow_downgrade_to_insecure: Boolean?
@@ -474,21 +551,28 @@ class Deb822RepositoryOptions {
     
 }
 
-// Task class for deb822_repository
+/// Task class for deb822_repository
 class Deb822Repository extends Playbook.Task {
 
-    hidden options: Deb822RepositoryOptions
+    /// todo doc
+    `ansible.builtin.deb822_repository`: Dynamic
 
-    `ansible.builtin.deb822_repository`: Deb822RepositoryOptions?
+    /// Options for ansible.builtin.deb822_repository
+    hidden options: Deb822RepositoryOptions?
 
-    function into(): Deb822Repository = this
+    /// todo doc
+    function configure(): Deb822Repository = this
         .toMap()
-        .put("ansible.builtin.deb822_repository", this.options)
+        .put(
+            "ansible.builtin.deb822_repository",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Deb822Repository)
 
 }
 
-// Configure a .deb package
+/// Configure a .deb package
 class DebconfOptions {
     
     name: String
@@ -503,21 +587,28 @@ class DebconfOptions {
     
 }
 
-// Task class for debconf
+/// Task class for debconf
 class Debconf extends Playbook.Task {
 
-    hidden options: DebconfOptions
+    /// todo doc
+    `ansible.builtin.debconf`: Dynamic
 
-    `ansible.builtin.debconf`: DebconfOptions?
+    /// Options for ansible.builtin.debconf
+    hidden options: DebconfOptions?
 
-    function into(): Debconf = this
+    /// todo doc
+    function configure(): Debconf = this
         .toMap()
-        .put("ansible.builtin.debconf", this.options)
+        .put(
+            "ansible.builtin.debconf",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Debconf)
 
 }
 
-// Print statements during execution
+/// Print statements during execution
 class DebugOptions {
     
     msg: String?
@@ -528,21 +619,28 @@ class DebugOptions {
     
 }
 
-// Task class for debug
+/// Task class for debug
 class Debug extends Playbook.Task {
 
-    hidden options: DebugOptions
+    /// todo doc
+    `ansible.builtin.debug`: Dynamic
 
-    `ansible.builtin.debug`: DebugOptions?
+    /// Options for ansible.builtin.debug
+    hidden options: DebugOptions?
 
-    function into(): Debug = this
+    /// todo doc
+    function configure(): Debug = this
         .toMap()
-        .put("ansible.builtin.debug", this.options)
+        .put(
+            "ansible.builtin.debug",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Debug)
 
 }
 
-// Manages packages with the I(dnf) package manager
+/// Manages packages with the I(dnf) package manager
 class DnfOptions {
     
     allow_downgrade: Boolean?
@@ -609,21 +707,28 @@ class DnfOptions {
     
 }
 
-// Task class for dnf
+/// Task class for dnf
 class Dnf extends Playbook.Task {
 
-    hidden options: DnfOptions
+    /// todo doc
+    `ansible.builtin.dnf`: Dynamic
 
-    `ansible.builtin.dnf`: DnfOptions?
+    /// Options for ansible.builtin.dnf
+    hidden options: DnfOptions?
 
-    function into(): Dnf = this
+    /// todo doc
+    function configure(): Dnf = this
         .toMap()
-        .put("ansible.builtin.dnf", this.options)
+        .put(
+            "ansible.builtin.dnf",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Dnf)
 
 }
 
-// Manages packages with the I(dnf5) package manager
+/// Manages packages with the I(dnf5) package manager
 class Dnf5Options {
     
     allow_downgrade: Boolean?
@@ -688,21 +793,28 @@ class Dnf5Options {
     
 }
 
-// Task class for dnf5
+/// Task class for dnf5
 class Dnf5 extends Playbook.Task {
 
-    hidden options: Dnf5Options
+    /// todo doc
+    `ansible.builtin.dnf5`: Dynamic
 
-    `ansible.builtin.dnf5`: Dnf5Options?
+    /// Options for ansible.builtin.dnf5
+    hidden options: Dnf5Options?
 
-    function into(): Dnf5 = this
+    /// todo doc
+    function configure(): Dnf5 = this
         .toMap()
-        .put("ansible.builtin.dnf5", this.options)
+        .put(
+            "ansible.builtin.dnf5",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Dnf5)
 
 }
 
-// Dpkg package selection selections
+/// Dpkg package selection selections
 class DpkgSelectionsOptions {
     
     name: String
@@ -711,21 +823,28 @@ class DpkgSelectionsOptions {
     
 }
 
-// Task class for dpkg_selections
+/// Task class for dpkg_selections
 class DpkgSelections extends Playbook.Task {
 
-    hidden options: DpkgSelectionsOptions
+    /// todo doc
+    `ansible.builtin.dpkg_selections`: Dynamic
 
-    `ansible.builtin.dpkg_selections`: DpkgSelectionsOptions?
+    /// Options for ansible.builtin.dpkg_selections
+    hidden options: DpkgSelectionsOptions?
 
-    function into(): DpkgSelections = this
+    /// todo doc
+    function configure(): DpkgSelections = this
         .toMap()
-        .put("ansible.builtin.dpkg_selections", this.options)
+        .put(
+            "ansible.builtin.dpkg_selections",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(DpkgSelections)
 
 }
 
-// Executes a command and responds to prompts
+/// Executes a command and responds to prompts
 class ExpectOptions {
     
     chdir: String?
@@ -738,77 +857,98 @@ class ExpectOptions {
     
     removes: String?
     
-    responses: String
+    responses: Any
     
     timeout: String?
     
 }
 
-// Task class for expect
+/// Task class for expect
 class Expect extends Playbook.Task {
 
-    hidden options: ExpectOptions
+    /// todo doc
+    `ansible.builtin.expect`: Dynamic
 
-    `ansible.builtin.expect`: ExpectOptions?
+    /// Options for ansible.builtin.expect
+    hidden options: ExpectOptions?
 
-    function into(): Expect = this
+    /// todo doc
+    function configure(): Expect = this
         .toMap()
-        .put("ansible.builtin.expect", this.options)
+        .put(
+            "ansible.builtin.expect",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Expect)
 
 }
 
-// Fail with custom message
+/// Fail with custom message
 class FailOptions {
     
     msg: String?
     
 }
 
-// Task class for fail
+/// Task class for fail
 class Fail extends Playbook.Task {
 
-    hidden options: FailOptions
+    /// todo doc
+    `ansible.builtin.fail`: Dynamic
 
-    `ansible.builtin.fail`: FailOptions?
+    /// Options for ansible.builtin.fail
+    hidden options: FailOptions?
 
-    function into(): Fail = this
+    /// todo doc
+    function configure(): Fail = this
         .toMap()
-        .put("ansible.builtin.fail", this.options)
+        .put(
+            "ansible.builtin.fail",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Fail)
 
 }
 
-// Fetch files from remote nodes
+/// Fetch files from remote nodes
 class FetchOptions {
     
-    dest: String
+    dest: Any
     
     fail_on_missing: Boolean?
     
     flat: Boolean?
     
-    src: String
+    src: Any
     
     validate_checksum: Boolean?
     
 }
 
-// Task class for fetch
+/// Task class for fetch
 class Fetch extends Playbook.Task {
 
-    hidden options: FetchOptions
+    /// todo doc
+    `ansible.builtin.fetch`: Dynamic
 
-    `ansible.builtin.fetch`: FetchOptions?
+    /// Options for ansible.builtin.fetch
+    hidden options: FetchOptions?
 
-    function into(): Fetch = this
+    /// todo doc
+    function configure(): Fetch = this
         .toMap()
-        .put("ansible.builtin.fetch", this.options)
+        .put(
+            "ansible.builtin.fetch",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Fetch)
 
 }
 
-// Manage files and file properties
+/// Manage files and file properties
 class FileOptions {
     
     access_time: String?
@@ -833,21 +973,28 @@ class FileOptions {
     
 }
 
-// Task class for file
+/// Task class for file
 class File extends Playbook.Task {
 
-    hidden options: FileOptions
+    /// todo doc
+    `ansible.builtin.file`: Dynamic
 
-    `ansible.builtin.file`: FileOptions?
+    /// Options for ansible.builtin.file
+    hidden options: FileOptions?
 
-    function into(): File = this
+    /// todo doc
+    function configure(): File = this
         .toMap()
-        .put("ansible.builtin.file", this.options)
+        .put(
+            "ansible.builtin.file",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(File)
 
 }
 
-// Return a list of files based on specific criteria
+/// Return a list of files based on specific criteria
 class FindOptions {
     
     age: String?
@@ -886,42 +1033,56 @@ class FindOptions {
     
 }
 
-// Task class for find
+/// Task class for find
 class Find extends Playbook.Task {
 
-    hidden options: FindOptions
+    /// todo doc
+    `ansible.builtin.find`: Dynamic
 
-    `ansible.builtin.find`: FindOptions?
+    /// Options for ansible.builtin.find
+    hidden options: FindOptions?
 
-    function into(): Find = this
+    /// todo doc
+    function configure(): Find = this
         .toMap()
-        .put("ansible.builtin.find", this.options)
+        .put(
+            "ansible.builtin.find",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Find)
 
 }
 
-// Gathers facts about remote hosts
+/// Gathers facts about remote hosts
 class GatherFactsOptions {
     
     parallel: Boolean?
     
 }
 
-// Task class for gather_facts
+/// Task class for gather_facts
 class GatherFacts extends Playbook.Task {
 
-    hidden options: GatherFactsOptions
+    /// todo doc
+    `ansible.builtin.gather_facts`: Dynamic
 
-    `ansible.builtin.gather_facts`: GatherFactsOptions?
+    /// Options for ansible.builtin.gather_facts
+    hidden options: GatherFactsOptions?
 
-    function into(): GatherFacts = this
+    /// todo doc
+    function configure(): GatherFacts = this
         .toMap()
-        .put("ansible.builtin.gather_facts", this.options)
+        .put(
+            "ansible.builtin.gather_facts",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(GatherFacts)
 
 }
 
-// Downloads files from HTTP, HTTPS, or FTP to node
+/// Downloads files from HTTP, HTTPS, or FTP to node
 class GetUrlOptions {
     
     backup: Boolean?
@@ -942,7 +1103,7 @@ class GetUrlOptions {
     
     force_basic_auth: Boolean?
     
-    headers: String?
+    headers: Any?
     
     http_agent: String?
     
@@ -968,21 +1129,28 @@ class GetUrlOptions {
     
 }
 
-// Task class for get_url
+/// Task class for get_url
 class GetUrl extends Playbook.Task {
 
-    hidden options: GetUrlOptions
+    /// todo doc
+    `ansible.builtin.get_url`: Dynamic
 
-    `ansible.builtin.get_url`: GetUrlOptions?
+    /// Options for ansible.builtin.get_url
+    hidden options: GetUrlOptions?
 
-    function into(): GetUrl = this
+    /// todo doc
+    function configure(): GetUrl = this
         .toMap()
-        .put("ansible.builtin.get_url", this.options)
+        .put(
+            "ansible.builtin.get_url",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(GetUrl)
 
 }
 
-// A wrapper to the unix getent utility
+/// A wrapper to the unix getent utility
 class GetentOptions {
     
     database: String
@@ -997,21 +1165,28 @@ class GetentOptions {
     
 }
 
-// Task class for getent
+/// Task class for getent
 class Getent extends Playbook.Task {
 
-    hidden options: GetentOptions
+    /// todo doc
+    `ansible.builtin.getent`: Dynamic
 
-    `ansible.builtin.getent`: GetentOptions?
+    /// Options for ansible.builtin.getent
+    hidden options: GetentOptions?
 
-    function into(): Getent = this
+    /// todo doc
+    function configure(): Getent = this
         .toMap()
-        .put("ansible.builtin.getent", this.options)
+        .put(
+            "ansible.builtin.getent",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Getent)
 
 }
 
-// Deploy software (or files) from git checkouts
+/// Deploy software (or files) from git checkouts
 class GitOptions {
     
     accept_hostkey: Boolean?
@@ -1066,21 +1241,28 @@ class GitOptions {
     
 }
 
-// Task class for git
+/// Task class for git
 class Git extends Playbook.Task {
 
-    hidden options: GitOptions
+    /// todo doc
+    `ansible.builtin.git`: Dynamic
 
-    `ansible.builtin.git`: GitOptions?
+    /// Options for ansible.builtin.git
+    hidden options: GitOptions?
 
-    function into(): Git = this
+    /// todo doc
+    function configure(): Git = this
         .toMap()
-        .put("ansible.builtin.git", this.options)
+        .put(
+            "ansible.builtin.git",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Git)
 
 }
 
-// Add or remove groups
+/// Add or remove groups
 class GroupOptions {
     
     force: Boolean?
@@ -1099,21 +1281,28 @@ class GroupOptions {
     
 }
 
-// Task class for group
+/// Task class for group
 class Group extends Playbook.Task {
 
-    hidden options: GroupOptions
+    /// todo doc
+    `ansible.builtin.group`: Dynamic
 
-    `ansible.builtin.group`: GroupOptions?
+    /// Options for ansible.builtin.group
+    hidden options: GroupOptions?
 
-    function into(): Group = this
+    /// todo doc
+    function configure(): Group = this
         .toMap()
-        .put("ansible.builtin.group", this.options)
+        .put(
+            "ansible.builtin.group",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Group)
 
 }
 
-// Create Ansible groups based on facts
+/// Create Ansible groups based on facts
 class GroupByOptions {
     
     key: String
@@ -1122,21 +1311,28 @@ class GroupByOptions {
     
 }
 
-// Task class for group_by
+/// Task class for group_by
 class GroupBy extends Playbook.Task {
 
-    hidden options: GroupByOptions
+    /// todo doc
+    `ansible.builtin.group_by`: Dynamic
 
-    `ansible.builtin.group_by`: GroupByOptions?
+    /// Options for ansible.builtin.group_by
+    hidden options: GroupByOptions?
 
-    function into(): GroupBy = this
+    /// todo doc
+    function configure(): GroupBy = this
         .toMap()
-        .put("ansible.builtin.group_by", this.options)
+        .put(
+            "ansible.builtin.group_by",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(GroupBy)
 
 }
 
-// Manage hostname
+/// Manage hostname
 class HostnameOptions {
     
     name: String
@@ -1145,43 +1341,57 @@ class HostnameOptions {
     
 }
 
-// Task class for hostname
+/// Task class for hostname
 class Hostname extends Playbook.Task {
 
-    hidden options: HostnameOptions
+    /// todo doc
+    `ansible.builtin.hostname`: Dynamic
 
-    `ansible.builtin.hostname`: HostnameOptions?
+    /// Options for ansible.builtin.hostname
+    hidden options: HostnameOptions?
 
-    function into(): Hostname = this
+    /// todo doc
+    function configure(): Hostname = this
         .toMap()
-        .put("ansible.builtin.hostname", this.options)
+        .put(
+            "ansible.builtin.hostname",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Hostname)
 
 }
 
-// Import a playbook
+/// Import a playbook
 class ImportPlaybookOptions {
     
-    // free-form: String?
+    // free-form: Any?
     
     
 }
 
-// Task class for import_playbook
+/// Task class for import_playbook
 class ImportPlaybook extends Playbook.Task {
 
-    hidden options: ImportPlaybookOptions
+    /// todo doc
+    `ansible.builtin.import_playbook`: Dynamic
 
-    `ansible.builtin.import_playbook`: ImportPlaybookOptions?
+    /// Options for ansible.builtin.import_playbook
+    hidden options: ImportPlaybookOptions?
 
-    function into(): ImportPlaybook = this
+    /// todo doc
+    function configure(): ImportPlaybook = this
         .toMap()
-        .put("ansible.builtin.import_playbook", this.options)
+        .put(
+            "ansible.builtin.import_playbook",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(ImportPlaybook)
 
 }
 
-// Import a role into a play
+/// Import a role into a play
 class ImportRoleOptions {
     
     allow_duplicates: Boolean?
@@ -1200,50 +1410,64 @@ class ImportRoleOptions {
     
 }
 
-// Task class for import_role
+/// Task class for import_role
 class ImportRole extends Playbook.Task {
 
-    hidden options: ImportRoleOptions
+    /// todo doc
+    `ansible.builtin.import_role`: Dynamic
 
-    `ansible.builtin.import_role`: ImportRoleOptions?
+    /// Options for ansible.builtin.import_role
+    hidden options: ImportRoleOptions?
 
-    function into(): ImportRole = this
+    /// todo doc
+    function configure(): ImportRole = this
         .toMap()
-        .put("ansible.builtin.import_role", this.options)
+        .put(
+            "ansible.builtin.import_role",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(ImportRole)
 
 }
 
-// Import a task list
+/// Import a task list
 class ImportTasksOptions {
     
     file: String?
     
-    // free-form: String?
+    // free-form: Any?
     
     
 }
 
-// Task class for import_tasks
+/// Task class for import_tasks
 class ImportTasks extends Playbook.Task {
 
-    hidden options: ImportTasksOptions
+    /// todo doc
+    `ansible.builtin.import_tasks`: Dynamic
 
-    `ansible.builtin.import_tasks`: ImportTasksOptions?
+    /// Options for ansible.builtin.import_tasks
+    hidden options: ImportTasksOptions?
 
-    function into(): ImportTasks = this
+    /// todo doc
+    function configure(): ImportTasks = this
         .toMap()
-        .put("ansible.builtin.import_tasks", this.options)
+        .put(
+            "ansible.builtin.import_tasks",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(ImportTasks)
 
 }
 
-// Load and execute a role
+/// Load and execute a role
 class IncludeRoleOptions {
     
     allow_duplicates: Boolean?
     
-    apply: String?
+    apply: Any?
     
     defaults_from: String?
     
@@ -1261,47 +1485,61 @@ class IncludeRoleOptions {
     
 }
 
-// Task class for include_role
+/// Task class for include_role
 class IncludeRole extends Playbook.Task {
 
-    hidden options: IncludeRoleOptions
+    /// todo doc
+    `ansible.builtin.include_role`: Dynamic
 
-    `ansible.builtin.include_role`: IncludeRoleOptions?
+    /// Options for ansible.builtin.include_role
+    hidden options: IncludeRoleOptions?
 
-    function into(): IncludeRole = this
+    /// todo doc
+    function configure(): IncludeRole = this
         .toMap()
-        .put("ansible.builtin.include_role", this.options)
+        .put(
+            "ansible.builtin.include_role",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(IncludeRole)
 
 }
 
-// Dynamically include a task list
+/// Dynamically include a task list
 class IncludeTasksOptions {
     
     apply: String?
     
     file: String?
     
-    // free-form: String?
+    // free-form: Any?
     
     
 }
 
-// Task class for include_tasks
+/// Task class for include_tasks
 class IncludeTasks extends Playbook.Task {
 
-    hidden options: IncludeTasksOptions
+    /// todo doc
+    `ansible.builtin.include_tasks`: Dynamic
 
-    `ansible.builtin.include_tasks`: IncludeTasksOptions?
+    /// Options for ansible.builtin.include_tasks
+    hidden options: IncludeTasksOptions?
 
-    function into(): IncludeTasks = this
+    /// todo doc
+    function configure(): IncludeTasks = this
         .toMap()
-        .put("ansible.builtin.include_tasks", this.options)
+        .put(
+            "ansible.builtin.include_tasks",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(IncludeTasks)
 
 }
 
-// Load variables from files, dynamically within a task
+/// Load variables from files, dynamically within a task
 class IncludeVarsOptions {
     
     depth: Int?
@@ -1314,7 +1552,7 @@ class IncludeVarsOptions {
     
     files_matching: String?
     
-    // free-form: String?
+    // free-form: Any?
     
     
     hash_behaviour: ("replace"|"merge")?
@@ -1327,21 +1565,28 @@ class IncludeVarsOptions {
     
 }
 
-// Task class for include_vars
+/// Task class for include_vars
 class IncludeVars extends Playbook.Task {
 
-    hidden options: IncludeVarsOptions
+    /// todo doc
+    `ansible.builtin.include_vars`: Dynamic
 
-    `ansible.builtin.include_vars`: IncludeVarsOptions?
+    /// Options for ansible.builtin.include_vars
+    hidden options: IncludeVarsOptions?
 
-    function into(): IncludeVars = this
+    /// todo doc
+    function configure(): IncludeVars = this
         .toMap()
-        .put("ansible.builtin.include_vars", this.options)
+        .put(
+            "ansible.builtin.include_vars",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(IncludeVars)
 
 }
 
-// Modify iptables rules
+/// Modify iptables rules
 class IptablesOptions {
     
     action: ("append"|"insert")?
@@ -1424,7 +1669,7 @@ class IptablesOptions {
     
     table: ("filter"|"nat"|"mangle"|"raw"|"security")?
     
-    tcp_flags: String?
+    tcp_flags: Any?
     
     to_destination: String?
     
@@ -1438,21 +1683,28 @@ class IptablesOptions {
     
 }
 
-// Task class for iptables
+/// Task class for iptables
 class Iptables extends Playbook.Task {
 
-    hidden options: IptablesOptions
+    /// todo doc
+    `ansible.builtin.iptables`: Dynamic
 
-    `ansible.builtin.iptables`: IptablesOptions?
+    /// Options for ansible.builtin.iptables
+    hidden options: IptablesOptions?
 
-    function into(): Iptables = this
+    /// todo doc
+    function configure(): Iptables = this
         .toMap()
-        .put("ansible.builtin.iptables", this.options)
+        .put(
+            "ansible.builtin.iptables",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Iptables)
 
 }
 
-// Add or remove a host from the C(known_hosts) file
+/// Add or remove a host from the C(known_hosts) file
 class KnownHostsOptions {
     
     hash_host: Boolean?
@@ -1467,21 +1719,28 @@ class KnownHostsOptions {
     
 }
 
-// Task class for known_hosts
+/// Task class for known_hosts
 class KnownHosts extends Playbook.Task {
 
-    hidden options: KnownHostsOptions
+    /// todo doc
+    `ansible.builtin.known_hosts`: Dynamic
 
-    `ansible.builtin.known_hosts`: KnownHostsOptions?
+    /// Options for ansible.builtin.known_hosts
+    hidden options: KnownHostsOptions?
 
-    function into(): KnownHosts = this
+    /// todo doc
+    function configure(): KnownHosts = this
         .toMap()
-        .put("ansible.builtin.known_hosts", this.options)
+        .put(
+            "ansible.builtin.known_hosts",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(KnownHosts)
 
 }
 
-// Manage lines in text files
+/// Manage lines in text files
 class LineinfileOptions {
     
     backrefs: Boolean?
@@ -1510,67 +1769,88 @@ class LineinfileOptions {
     
 }
 
-// Task class for lineinfile
+/// Task class for lineinfile
 class Lineinfile extends Playbook.Task {
 
-    hidden options: LineinfileOptions
+    /// todo doc
+    `ansible.builtin.lineinfile`: Dynamic
 
-    `ansible.builtin.lineinfile`: LineinfileOptions?
+    /// Options for ansible.builtin.lineinfile
+    hidden options: LineinfileOptions?
 
-    function into(): Lineinfile = this
+    /// todo doc
+    function configure(): Lineinfile = this
         .toMap()
-        .put("ansible.builtin.lineinfile", this.options)
+        .put(
+            "ansible.builtin.lineinfile",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Lineinfile)
 
 }
 
-// Execute Ansible 'actions'
+/// Execute Ansible 'actions'
 class MetaOptions {
     
-    free_form: String
+    free_form: Any
     
 }
 
-// Task class for meta
+/// Task class for meta
 class Meta extends Playbook.Task {
 
-    hidden options: MetaOptions
+    /// todo doc
+    `ansible.builtin.meta`: Dynamic
 
-    `ansible.builtin.meta`: MetaOptions?
+    /// Options for ansible.builtin.meta
+    hidden options: MetaOptions?
 
-    function into(): Meta = this
+    /// todo doc
+    function configure(): Meta = this
         .toMap()
-        .put("ansible.builtin.meta", this.options)
+        .put(
+            "ansible.builtin.meta",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Meta)
 
 }
 
-// Generic OS package manager
+/// Generic OS package manager
 class PackageOptions {
     
-    name: String
+    name: Any
     
-    state: String
+    state: Any
     
-    use: String?
+    use: Any?
     
 }
 
-// Task class for package
+/// Task class for package
 class Package extends Playbook.Task {
 
-    hidden options: PackageOptions
+    /// todo doc
+    `ansible.builtin.package`: Dynamic
 
-    `ansible.builtin.package`: PackageOptions?
+    /// Options for ansible.builtin.package
+    hidden options: PackageOptions?
 
-    function into(): Package = this
+    /// todo doc
+    function configure(): Package = this
         .toMap()
-        .put("ansible.builtin.package", this.options)
+        .put(
+            "ansible.builtin.package",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Package)
 
 }
 
-// Package information as facts
+/// Package information as facts
 class PackageFactsOptions {
     
     manager: Listing<("auto"|"rpm"|"apt"|"portage"|"pkg"|"pacman"|"apk"|"pkg_info")>?
@@ -1579,69 +1859,90 @@ class PackageFactsOptions {
     
 }
 
-// Task class for package_facts
+/// Task class for package_facts
 class PackageFacts extends Playbook.Task {
 
-    hidden options: PackageFactsOptions
+    /// todo doc
+    `ansible.builtin.package_facts`: Dynamic
 
-    `ansible.builtin.package_facts`: PackageFactsOptions?
+    /// Options for ansible.builtin.package_facts
+    hidden options: PackageFactsOptions?
 
-    function into(): PackageFacts = this
+    /// todo doc
+    function configure(): PackageFacts = this
         .toMap()
-        .put("ansible.builtin.package_facts", this.options)
+        .put(
+            "ansible.builtin.package_facts",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(PackageFacts)
 
 }
 
-// Pause playbook execution
+/// Pause playbook execution
 class PauseOptions {
     
     echo: Boolean?
     
-    minutes: String?
+    minutes: Any?
     
-    prompt: String?
+    prompt: Any?
     
-    seconds: String?
+    seconds: Any?
     
 }
 
-// Task class for pause
+/// Task class for pause
 class Pause extends Playbook.Task {
 
-    hidden options: PauseOptions
+    /// todo doc
+    `ansible.builtin.pause`: Dynamic
 
-    `ansible.builtin.pause`: PauseOptions?
+    /// Options for ansible.builtin.pause
+    hidden options: PauseOptions?
 
-    function into(): Pause = this
+    /// todo doc
+    function configure(): Pause = this
         .toMap()
-        .put("ansible.builtin.pause", this.options)
+        .put(
+            "ansible.builtin.pause",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Pause)
 
 }
 
-// Try to connect to host, verify a usable python and return V(pong) on success
+/// Try to connect to host, verify a usable python and return V(pong) on success
 class PingOptions {
     
     data: String?
     
 }
 
-// Task class for ping
+/// Task class for ping
 class Ping extends Playbook.Task {
 
-    hidden options: PingOptions
+    /// todo doc
+    `ansible.builtin.ping`: Dynamic
 
-    `ansible.builtin.ping`: PingOptions?
+    /// Options for ansible.builtin.ping
+    hidden options: PingOptions?
 
-    function into(): Ping = this
+    /// todo doc
+    function configure(): Ping = this
         .toMap()
-        .put("ansible.builtin.ping", this.options)
+        .put(
+            "ansible.builtin.ping",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Ping)
 
 }
 
-// Manages Python library dependencies
+/// Manages Python library dependencies
 class PipOptions {
     
     chdir: String?
@@ -1672,44 +1973,58 @@ class PipOptions {
     
 }
 
-// Task class for pip
+/// Task class for pip
 class Pip extends Playbook.Task {
 
-    hidden options: PipOptions
+    /// todo doc
+    `ansible.builtin.pip`: Dynamic
 
-    `ansible.builtin.pip`: PipOptions?
+    /// Options for ansible.builtin.pip
+    hidden options: PipOptions?
 
-    function into(): Pip = this
+    /// todo doc
+    function configure(): Pip = this
         .toMap()
-        .put("ansible.builtin.pip", this.options)
+        .put(
+            "ansible.builtin.pip",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Pip)
 
 }
 
-// Executes a low-down and dirty command
+/// Executes a low-down and dirty command
 class RawOptions {
     
-    executable: String?
+    executable: Any?
     
-    free_form: String
+    free_form: Any
     
 }
 
-// Task class for raw
+/// Task class for raw
 class Raw extends Playbook.Task {
 
-    hidden options: RawOptions
+    /// todo doc
+    `ansible.builtin.raw`: Dynamic
 
-    `ansible.builtin.raw`: RawOptions?
+    /// Options for ansible.builtin.raw
+    hidden options: RawOptions?
 
-    function into(): Raw = this
+    /// todo doc
+    function configure(): Raw = this
         .toMap()
-        .put("ansible.builtin.raw", this.options)
+        .put(
+            "ansible.builtin.raw",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Raw)
 
 }
 
-// Reboot a machine
+/// Reboot a machine
 class RebootOptions {
     
     boot_time_command: String?
@@ -1732,21 +2047,28 @@ class RebootOptions {
     
 }
 
-// Task class for reboot
+/// Task class for reboot
 class Reboot extends Playbook.Task {
 
-    hidden options: RebootOptions
+    /// todo doc
+    `ansible.builtin.reboot`: Dynamic
 
-    `ansible.builtin.reboot`: RebootOptions?
+    /// Options for ansible.builtin.reboot
+    hidden options: RebootOptions?
 
-    function into(): Reboot = this
+    /// todo doc
+    function configure(): Reboot = this
         .toMap()
-        .put("ansible.builtin.reboot", this.options)
+        .put(
+            "ansible.builtin.reboot",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Reboot)
 
 }
 
-// Replace all instances of a particular string in a file using a back-referenced regular expression
+/// Replace all instances of a particular string in a file using a back-referenced regular expression
 class ReplaceOptions {
     
     after: String?
@@ -1767,21 +2089,28 @@ class ReplaceOptions {
     
 }
 
-// Task class for replace
+/// Task class for replace
 class Replace extends Playbook.Task {
 
-    hidden options: ReplaceOptions
+    /// todo doc
+    `ansible.builtin.replace`: Dynamic
 
-    `ansible.builtin.replace`: ReplaceOptions?
+    /// Options for ansible.builtin.replace
+    hidden options: ReplaceOptions?
 
-    function into(): Replace = this
+    /// todo doc
+    function configure(): Replace = this
         .toMap()
-        .put("ansible.builtin.replace", this.options)
+        .put(
+            "ansible.builtin.replace",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Replace)
 
 }
 
-// Adds or removes a gpg key from the rpm db
+/// Adds or removes a gpg key from the rpm db
 class RpmKeyOptions {
     
     fingerprint: String?
@@ -1794,21 +2123,28 @@ class RpmKeyOptions {
     
 }
 
-// Task class for rpm_key
+/// Task class for rpm_key
 class RpmKey extends Playbook.Task {
 
-    hidden options: RpmKeyOptions
+    /// todo doc
+    `ansible.builtin.rpm_key`: Dynamic
 
-    `ansible.builtin.rpm_key`: RpmKeyOptions?
+    /// Options for ansible.builtin.rpm_key
+    hidden options: RpmKeyOptions?
 
-    function into(): RpmKey = this
+    /// todo doc
+    function configure(): RpmKey = this
         .toMap()
-        .put("ansible.builtin.rpm_key", this.options)
+        .put(
+            "ansible.builtin.rpm_key",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(RpmKey)
 
 }
 
-// Runs a local script on a remote node after transferring it
+/// Runs a local script on a remote node after transferring it
 class ScriptOptions {
     
     chdir: String?
@@ -1825,21 +2161,28 @@ class ScriptOptions {
     
 }
 
-// Task class for script
+/// Task class for script
 class Script extends Playbook.Task {
 
-    hidden options: ScriptOptions
+    /// todo doc
+    `ansible.builtin.script`: Dynamic
 
-    `ansible.builtin.script`: ScriptOptions?
+    /// Options for ansible.builtin.script
+    hidden options: ScriptOptions?
 
-    function into(): Script = this
+    /// todo doc
+    function configure(): Script = this
         .toMap()
-        .put("ansible.builtin.script", this.options)
+        .put(
+            "ansible.builtin.script",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Script)
 
 }
 
-// Manage services
+/// Manage services
 class ServiceOptions {
     
     arguments: String?
@@ -1860,88 +2203,116 @@ class ServiceOptions {
     
 }
 
-// Task class for service
+/// Task class for service
 class Service extends Playbook.Task {
 
-    hidden options: ServiceOptions
+    /// todo doc
+    `ansible.builtin.service`: Dynamic
 
-    `ansible.builtin.service`: ServiceOptions?
+    /// Options for ansible.builtin.service
+    hidden options: ServiceOptions?
 
-    function into(): Service = this
+    /// todo doc
+    function configure(): Service = this
         .toMap()
-        .put("ansible.builtin.service", this.options)
+        .put(
+            "ansible.builtin.service",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Service)
 
 }
 
-// Return service state information as fact data
+/// Return service state information as fact data
 class ServiceFactsOptions {
     
 }
 
-// Task class for service_facts
+/// Task class for service_facts
 class ServiceFacts extends Playbook.Task {
 
-    hidden options: ServiceFactsOptions
+    /// todo doc
+    `ansible.builtin.service_facts`: Dynamic
 
-    `ansible.builtin.service_facts`: ServiceFactsOptions?
+    /// Options for ansible.builtin.service_facts
+    hidden options: ServiceFactsOptions?
 
-    function into(): ServiceFacts = this
+    /// todo doc
+    function configure(): ServiceFacts = this
         .toMap()
-        .put("ansible.builtin.service_facts", this.options)
+        .put(
+            "ansible.builtin.service_facts",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(ServiceFacts)
 
 }
 
-// Set host variable(s) and fact(s).
+/// Set host variable(s) and fact(s).
 class SetFactOptions {
     
     cacheable: Boolean?
     
-    key_value: String
+    key_value: Any
     
 }
 
-// Task class for set_fact
+/// Task class for set_fact
 class SetFact extends Playbook.Task {
 
-    hidden options: SetFactOptions
+    /// todo doc
+    `ansible.builtin.set_fact`: Dynamic
 
-    `ansible.builtin.set_fact`: SetFactOptions?
+    /// Options for ansible.builtin.set_fact
+    hidden options: SetFactOptions?
 
-    function into(): SetFact = this
+    /// todo doc
+    function configure(): SetFact = this
         .toMap()
-        .put("ansible.builtin.set_fact", this.options)
+        .put(
+            "ansible.builtin.set_fact",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(SetFact)
 
 }
 
-// Define and display stats for the current ansible run
+/// Define and display stats for the current ansible run
 class SetStatsOptions {
     
     aggregate: Boolean?
     
-    data: String
+    data: Any
     
     per_host: Boolean?
     
 }
 
-// Task class for set_stats
+/// Task class for set_stats
 class SetStats extends Playbook.Task {
 
-    hidden options: SetStatsOptions
+    /// todo doc
+    `ansible.builtin.set_stats`: Dynamic
 
-    `ansible.builtin.set_stats`: SetStatsOptions?
+    /// Options for ansible.builtin.set_stats
+    hidden options: SetStatsOptions?
 
-    function into(): SetStats = this
+    /// todo doc
+    function configure(): SetStats = this
         .toMap()
-        .put("ansible.builtin.set_stats", this.options)
+        .put(
+            "ansible.builtin.set_stats",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(SetStats)
 
 }
 
-// Gathers facts about remote hosts
+/// Gathers facts about remote hosts
 class SetupOptions {
     
     fact_path: String?
@@ -1954,21 +2325,28 @@ class SetupOptions {
     
 }
 
-// Task class for setup
+/// Task class for setup
 class Setup extends Playbook.Task {
 
-    hidden options: SetupOptions
+    /// todo doc
+    `ansible.builtin.setup`: Dynamic
 
-    `ansible.builtin.setup`: SetupOptions?
+    /// Options for ansible.builtin.setup
+    hidden options: SetupOptions?
 
-    function into(): Setup = this
+    /// todo doc
+    function configure(): Setup = this
         .toMap()
-        .put("ansible.builtin.setup", this.options)
+        .put(
+            "ansible.builtin.setup",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Setup)
 
 }
 
-// Execute shell commands on targets
+/// Execute shell commands on targets
 class ShellOptions {
     
     chdir: String?
@@ -1989,42 +2367,56 @@ class ShellOptions {
     
 }
 
-// Task class for shell
+/// Task class for shell
 class Shell extends Playbook.Task {
 
-    hidden options: ShellOptions
+    /// todo doc
+    `ansible.builtin.shell`: Dynamic
 
-    `ansible.builtin.shell`: ShellOptions?
+    /// Options for ansible.builtin.shell
+    hidden options: ShellOptions?
 
-    function into(): Shell = this
+    /// todo doc
+    function configure(): Shell = this
         .toMap()
-        .put("ansible.builtin.shell", this.options)
+        .put(
+            "ansible.builtin.shell",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Shell)
 
 }
 
-// Slurps a file from remote nodes
+/// Slurps a file from remote nodes
 class SlurpOptions {
     
     src: String
     
 }
 
-// Task class for slurp
+/// Task class for slurp
 class Slurp extends Playbook.Task {
 
-    hidden options: SlurpOptions
+    /// todo doc
+    `ansible.builtin.slurp`: Dynamic
 
-    `ansible.builtin.slurp`: SlurpOptions?
+    /// Options for ansible.builtin.slurp
+    hidden options: SlurpOptions?
 
-    function into(): Slurp = this
+    /// todo doc
+    function configure(): Slurp = this
         .toMap()
-        .put("ansible.builtin.slurp", this.options)
+        .put(
+            "ansible.builtin.slurp",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Slurp)
 
 }
 
-// Retrieve file or file system status
+/// Retrieve file or file system status
 class StatOptions {
     
     checksum_algorithm: ("md5"|"sha1"|"sha224"|"sha256"|"sha384"|"sha512")?
@@ -2041,21 +2433,28 @@ class StatOptions {
     
 }
 
-// Task class for stat
+/// Task class for stat
 class Stat extends Playbook.Task {
 
-    hidden options: StatOptions
+    /// todo doc
+    `ansible.builtin.stat`: Dynamic
 
-    `ansible.builtin.stat`: StatOptions?
+    /// Options for ansible.builtin.stat
+    hidden options: StatOptions?
 
-    function into(): Stat = this
+    /// todo doc
+    function configure(): Stat = this
         .toMap()
-        .put("ansible.builtin.stat", this.options)
+        .put(
+            "ansible.builtin.stat",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Stat)
 
 }
 
-// Deploys a subversion repository
+/// Deploys a subversion repository
 class SubversionOptions {
     
     checkout: Boolean?
@@ -2086,21 +2485,28 @@ class SubversionOptions {
     
 }
 
-// Task class for subversion
+/// Task class for subversion
 class Subversion extends Playbook.Task {
 
-    hidden options: SubversionOptions
+    /// todo doc
+    `ansible.builtin.subversion`: Dynamic
 
-    `ansible.builtin.subversion`: SubversionOptions?
+    /// Options for ansible.builtin.subversion
+    hidden options: SubversionOptions?
 
-    function into(): Subversion = this
+    /// todo doc
+    function configure(): Subversion = this
         .toMap()
-        .put("ansible.builtin.subversion", this.options)
+        .put(
+            "ansible.builtin.subversion",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Subversion)
 
 }
 
-// Manage systemd units
+/// Manage systemd units
 class SystemdServiceOptions {
     
     daemon_reexec: Boolean?
@@ -2123,21 +2529,28 @@ class SystemdServiceOptions {
     
 }
 
-// Task class for systemd_service
+/// Task class for systemd_service
 class SystemdService extends Playbook.Task {
 
-    hidden options: SystemdServiceOptions
+    /// todo doc
+    `ansible.builtin.systemd_service`: Dynamic
 
-    `ansible.builtin.systemd_service`: SystemdServiceOptions?
+    /// Options for ansible.builtin.systemd_service
+    hidden options: SystemdServiceOptions?
 
-    function into(): SystemdService = this
+    /// todo doc
+    function configure(): SystemdService = this
         .toMap()
-        .put("ansible.builtin.systemd_service", this.options)
+        .put(
+            "ansible.builtin.systemd_service",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(SystemdService)
 
 }
 
-// Manage SysV services.
+/// Manage SysV services.
 class SysvinitOptions {
     
     arguments: String?
@@ -2158,21 +2571,28 @@ class SysvinitOptions {
     
 }
 
-// Task class for sysvinit
+/// Task class for sysvinit
 class Sysvinit extends Playbook.Task {
 
-    hidden options: SysvinitOptions
+    /// todo doc
+    `ansible.builtin.sysvinit`: Dynamic
 
-    `ansible.builtin.sysvinit`: SysvinitOptions?
+    /// Options for ansible.builtin.sysvinit
+    hidden options: SysvinitOptions?
 
-    function into(): Sysvinit = this
+    /// todo doc
+    function configure(): Sysvinit = this
         .toMap()
-        .put("ansible.builtin.sysvinit", this.options)
+        .put(
+            "ansible.builtin.sysvinit",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Sysvinit)
 
 }
 
-// Creates temporary files and directories
+/// Creates temporary files and directories
 class TempfileOptions {
     
     path: String?
@@ -2185,42 +2605,56 @@ class TempfileOptions {
     
 }
 
-// Task class for tempfile
+/// Task class for tempfile
 class Tempfile extends Playbook.Task {
 
-    hidden options: TempfileOptions
+    /// todo doc
+    `ansible.builtin.tempfile`: Dynamic
 
-    `ansible.builtin.tempfile`: TempfileOptions?
+    /// Options for ansible.builtin.tempfile
+    hidden options: TempfileOptions?
 
-    function into(): Tempfile = this
+    /// todo doc
+    function configure(): Tempfile = this
         .toMap()
-        .put("ansible.builtin.tempfile", this.options)
+        .put(
+            "ansible.builtin.tempfile",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Tempfile)
 
 }
 
-// Template a file out to a target host
+/// Template a file out to a target host
 class TemplateOptions {
     
     follow: Boolean?
     
 }
 
-// Task class for template
+/// Task class for template
 class Template extends Playbook.Task {
 
-    hidden options: TemplateOptions
+    /// todo doc
+    `ansible.builtin.template`: Dynamic
 
-    `ansible.builtin.template`: TemplateOptions?
+    /// Options for ansible.builtin.template
+    hidden options: TemplateOptions?
 
-    function into(): Template = this
+    /// todo doc
+    function configure(): Template = this
         .toMap()
-        .put("ansible.builtin.template", this.options)
+        .put(
+            "ansible.builtin.template",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Template)
 
 }
 
-// Unpacks an archive after (optionally) copying it from the local machine
+/// Unpacks an archive after (optionally) copying it from the local machine
 class UnarchiveOptions {
     
     copy: Boolean?
@@ -2249,21 +2683,28 @@ class UnarchiveOptions {
     
 }
 
-// Task class for unarchive
+/// Task class for unarchive
 class Unarchive extends Playbook.Task {
 
-    hidden options: UnarchiveOptions
+    /// todo doc
+    `ansible.builtin.unarchive`: Dynamic
 
-    `ansible.builtin.unarchive`: UnarchiveOptions?
+    /// Options for ansible.builtin.unarchive
+    hidden options: UnarchiveOptions?
 
-    function into(): Unarchive = this
+    /// todo doc
+    function configure(): Unarchive = this
         .toMap()
-        .put("ansible.builtin.unarchive", this.options)
+        .put(
+            "ansible.builtin.unarchive",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Unarchive)
 
 }
 
-// Interacts with webservices
+/// Interacts with webservices
 class UriOptions {
     
     body: String?
@@ -2290,7 +2731,7 @@ class UriOptions {
     
     force_basic_auth: Boolean?
     
-    headers: String?
+    headers: Any?
     
     http_agent: String?
     
@@ -2328,21 +2769,28 @@ class UriOptions {
     
 }
 
-// Task class for uri
+/// Task class for uri
 class Uri extends Playbook.Task {
 
-    hidden options: UriOptions
+    /// todo doc
+    `ansible.builtin.uri`: Dynamic
 
-    `ansible.builtin.uri`: UriOptions?
+    /// Options for ansible.builtin.uri
+    hidden options: UriOptions?
 
-    function into(): Uri = this
+    /// todo doc
+    function configure(): Uri = this
         .toMap()
-        .put("ansible.builtin.uri", this.options)
+        .put(
+            "ansible.builtin.uri",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Uri)
 
 }
 
-// Manage user accounts
+/// Manage user accounts
 class UserOptions {
     
     append: Boolean?
@@ -2353,7 +2801,7 @@ class UserOptions {
     
     create_home: Boolean?
     
-    expires: String?
+    expires: Any?
     
     force: Boolean?
     
@@ -2421,44 +2869,58 @@ class UserOptions {
     
 }
 
-// Task class for user
+/// Task class for user
 class User extends Playbook.Task {
 
-    hidden options: UserOptions
+    /// todo doc
+    `ansible.builtin.user`: Dynamic
 
-    `ansible.builtin.user`: UserOptions?
+    /// Options for ansible.builtin.user
+    hidden options: UserOptions?
 
-    function into(): User = this
+    /// todo doc
+    function configure(): User = this
         .toMap()
-        .put("ansible.builtin.user", this.options)
+        .put(
+            "ansible.builtin.user",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(User)
 
 }
 
-// Validate role argument specs.
+/// Validate role argument specs.
 class ValidateArgumentSpecOptions {
     
-    argument_spec: String
+    argument_spec: Any
     
-    provided_arguments: String?
+    provided_arguments: Any?
     
 }
 
-// Task class for validate_argument_spec
+/// Task class for validate_argument_spec
 class ValidateArgumentSpec extends Playbook.Task {
 
-    hidden options: ValidateArgumentSpecOptions
+    /// todo doc
+    `ansible.builtin.validate_argument_spec`: Dynamic
 
-    `ansible.builtin.validate_argument_spec`: ValidateArgumentSpecOptions?
+    /// Options for ansible.builtin.validate_argument_spec
+    hidden options: ValidateArgumentSpecOptions?
 
-    function into(): ValidateArgumentSpec = this
+    /// todo doc
+    function configure(): ValidateArgumentSpec = this
         .toMap()
-        .put("ansible.builtin.validate_argument_spec", this.options)
+        .put(
+            "ansible.builtin.validate_argument_spec",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(ValidateArgumentSpec)
 
 }
 
-// Waits for a condition before continuing
+/// Waits for a condition before continuing
 class WaitForOptions {
     
     active_connection_states: Listing<String>?
@@ -2487,21 +2949,28 @@ class WaitForOptions {
     
 }
 
-// Task class for wait_for
+/// Task class for wait_for
 class WaitFor extends Playbook.Task {
 
-    hidden options: WaitForOptions
+    /// todo doc
+    `ansible.builtin.wait_for`: Dynamic
 
-    `ansible.builtin.wait_for`: WaitForOptions?
+    /// Options for ansible.builtin.wait_for
+    hidden options: WaitForOptions?
 
-    function into(): WaitFor = this
+    /// todo doc
+    function configure(): WaitFor = this
         .toMap()
-        .put("ansible.builtin.wait_for", this.options)
+        .put(
+            "ansible.builtin.wait_for",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(WaitFor)
 
 }
 
-// Waits until remote system is reachable/usable
+/// Waits until remote system is reachable/usable
 class WaitForConnectionOptions {
     
     connect_timeout: Int?
@@ -2514,21 +2983,28 @@ class WaitForConnectionOptions {
     
 }
 
-// Task class for wait_for_connection
+/// Task class for wait_for_connection
 class WaitForConnection extends Playbook.Task {
 
-    hidden options: WaitForConnectionOptions
+    /// todo doc
+    `ansible.builtin.wait_for_connection`: Dynamic
 
-    `ansible.builtin.wait_for_connection`: WaitForConnectionOptions?
+    /// Options for ansible.builtin.wait_for_connection
+    hidden options: WaitForConnectionOptions?
 
-    function into(): WaitForConnection = this
+    /// todo doc
+    function configure(): WaitForConnection = this
         .toMap()
-        .put("ansible.builtin.wait_for_connection", this.options)
+        .put(
+            "ansible.builtin.wait_for_connection",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(WaitForConnection)
 
 }
 
-// Manages packages with the I(yum) package manager
+/// Manages packages with the I(yum) package manager
 class YumOptions {
     
     allow_downgrade: Boolean?
@@ -2591,21 +3067,28 @@ class YumOptions {
     
 }
 
-// Task class for yum
+/// Task class for yum
 class Yum extends Playbook.Task {
 
-    hidden options: YumOptions
+    /// todo doc
+    `ansible.builtin.yum`: Dynamic
 
-    `ansible.builtin.yum`: YumOptions?
+    /// Options for ansible.builtin.yum
+    hidden options: YumOptions?
 
-    function into(): Yum = this
+    /// todo doc
+    function configure(): Yum = this
         .toMap()
-        .put("ansible.builtin.yum", this.options)
+        .put(
+            "ansible.builtin.yum",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(Yum)
 
 }
 
-// Add or remove YUM repositories
+/// Add or remove YUM repositories
 class YumRepositoryOptions {
     
     async: Boolean?
@@ -2708,16 +3191,23 @@ class YumRepositoryOptions {
     
 }
 
-// Task class for yum_repository
+/// Task class for yum_repository
 class YumRepository extends Playbook.Task {
 
-    hidden options: YumRepositoryOptions
+    /// todo doc
+    `ansible.builtin.yum_repository`: Dynamic
 
-    `ansible.builtin.yum_repository`: YumRepositoryOptions?
+    /// Options for ansible.builtin.yum_repository
+    hidden options: YumRepositoryOptions?
 
-    function into(): YumRepository = this
+    /// todo doc
+    function configure(): YumRepository = this
         .toMap()
-        .put("ansible.builtin.yum_repository", this.options)
+        .put(
+            "ansible.builtin.yum_repository",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(YumRepository)
 
 }

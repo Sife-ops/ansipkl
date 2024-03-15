@@ -3,11 +3,13 @@ import "@ansipkl/AnsibleBuiltin.pkl"
 import "@ansipkl/CommunityGeneral.pkl"
 
 example_00_pb = new Listing<Playbook.Play> {
+
     new {
         name = "play00"
         hosts = "self"
         remote_user = "root"
-        tasks {
+
+        tasks = Playbook.TaskListing(new Listing {
             new AnsibleBuiltin.Apt {
                 name = "install firefox"
                 options {
@@ -15,7 +17,7 @@ example_00_pb = new Listing<Playbook.Play> {
                         "firefox"
                     }
                 }
-            }.into()
+            }
 
             new AnsibleBuiltin.Apt {
                 name = "install vim"
@@ -24,95 +26,35 @@ example_00_pb = new Listing<Playbook.Play> {
                         "vim"
                     }
                 }
-            }.into()
-        }
+            }
+
+        })
     }
+
 }
 
 example_01_pb = new Listing<Playbook.Play> {
     new {
-        name = "play0"
+        name = "play01"
         hosts = "self"
         remote_user = "root"
-        tasks {
-            new CommunityGeneral.Pacman {
-                name = "install emacs"
-                options {
-                    name {
-                        "emacs"
-                    }
+
+        tasks = Playbook.TaskListing(new Listing {
+            new AnsibleBuiltin.SetFact {
+                name = "set hasProfile"
+                options_mixin {
+                    hasProfile = "yeahno"
                 }
-            }.into()
-        }
+            }
+
+            new AnsibleBuiltin.Debug {
+                name = "debug hasProfile"
+                options {
+                    var = "hasProfile"
+                }
+            }
+
+        })
     }
 }
 
-// example_00_pb = new Listing<playbook.play> {
-//     new {
-//         name = "play"
-//         hosts = "self"
-//         remote_user = "wyatt"
-//         vars {
-//             ["variable00"] = "value00"
-//         }
-//         tasks {
-//             new `ansible.builtin`.apt {
-//                 name = "docker"
-//                 options {
-//                     state = "present"
-//                     name {
-//                         "docker"
-//                     }
-//                 }
-//             }.into()
-//         }
-//     }
-//     new {
-//         name = "play2"
-//         hosts = "self"
-//         remote_user = "wyatt"
-//         environment {
-//             ["aaa"] = "bbb"
-//         }
-//         tasks {
-//             new `ansible.builtin`.apt {
-//                 name = "firefox"
-//                 vars {
-//                     ["variable01"] = "value01"
-//                 }
-//                 options {
-//                     name {
-//                         "firefox"
-//                     }
-//                 }
-//             }.into()
-//         }
-//     }
-// }
-//
-// example_01_pb = new Listing<playbook.play> {
-//     new {
-//         name = "play3"
-//         hosts = "self"
-//         remote_user = "root"
-//
-//         roles {
-//             new {
-//                 role = "docker"
-//             }
-//             new {
-//                 role = "nginx"
-//             }
-//         }
-//
-//         tasks {
-//             new `community.general`.pacman {
-//                 name = "irssi"
-//                 options {
-//                     name { "irssi" }
-//                 }
-//                 `when` = "{{ hostvars['custom'] }}"
-//             }.into()
-//         }
-//     }
-// }

@@ -17,9 +17,9 @@ type moduleOpt struct {
 	Type        *string
 	Description *any
 	Choices     *[]string
-	Elements *string
-	Required *bool
-	Aliases  *[]string // todo use aliases?
+	Elements    *string
+	Required    *bool
+	Aliases     *[]string // todo use aliases?
 }
 
 func (x moduleOpt) IntoDescription() (t []string) {
@@ -50,7 +50,7 @@ func (x moduleOpt) IntoType() (t string) {
 	outer = func(s *string) (t string) {
 		switch {
 		case s == nil:
-			t = "String"
+			t = "Any"
 
 		case *s == "bool": // todo default yes???
 			t = "Boolean"
@@ -78,9 +78,10 @@ func (x moduleOpt) IntoType() (t string) {
 		case *s == "path": // todo path
 			fallthrough
 		case *s == "raw": // todo raw
-			fallthrough
-		default:
 			t = "String"
+
+		default:
+			t = "Any"
 		}
 		return t
 	}
@@ -102,7 +103,7 @@ type ansibleModule struct {
 }
 
 func (x ansibleModule) ToCamel() string {
-    return strcase.ToCamel(x.Module)
+	return strcase.ToCamel(x.Module)
 }
 
 func main() {
@@ -170,14 +171,14 @@ func readModules(
 			return err
 		}
 
-        if strings.HasPrefix(string(outBytes), "TODO_NODOC") {
-            log.Printf("TODO_NODOC %s", srcPath)
-            continue
-        }
-        if strings.HasPrefix(string(outBytes), "TODO_EXCEPTION") {
-            log.Printf("TODO_EXCEPTION %s", srcPath)
-            continue
-        }
+		if strings.HasPrefix(string(outBytes), "TODO_NODOC") {
+			log.Printf("TODO_NODOC %s", srcPath)
+			continue
+		}
+		if strings.HasPrefix(string(outBytes), "TODO_EXCEPTION") {
+			log.Printf("TODO_EXCEPTION %s", srcPath)
+			continue
+		}
 
 		var m ansibleModule
 		if err := yaml.Unmarshal(outBytes, &m); err != nil {
@@ -187,7 +188,7 @@ func readModules(
 		modules = append(modules, m)
 	}
 
-    pklModName := strcase.ToCamel(ansibleModName)
+	pklModName := strcase.ToCamel(ansibleModName)
 
 	file, err := os.Create(outDir + "/" + pklModName + ".pkl")
 	if err != nil {
@@ -228,12 +229,12 @@ import "./Playbook.pkl"
 				}
 				return
 			},
-		}).Parse(`// ` + m.ShortDescription + `
+		}).Parse(`/// ` + m.ShortDescription + `
 class ` + m.ToCamel() + `Options {
     {{ range $key, $value := .module.Options }}
     {{- range $i, $v :=  $value.IntoDescription }}
     {{- if lt $i 0 }}
-    // {{ . }}
+    /// {{ . }}
     {{- end }}
     {{- end }}
     {{- if eq $key "free-form" }}
@@ -244,16 +245,23 @@ class ` + m.ToCamel() + `Options {
     {{ end }}
 }
 
-// Task class for ` + m.Module + `
+/// Task class for ` + m.Module + `
 class ` + m.ToCamel() + ` extends Playbook.Task {
 
-    hidden options: ` + m.ToCamel() + `Options
+    /// todo doc
+    ` + "`" + ansibleModName + "." + m.Module + "`" + `: Dynamic
 
-    ` + "`" + ansibleModName + "." + m.Module + "`" + ": " + m.ToCamel() + `Options?
+    /// Options for ` + ansibleModName + `.` + m.Module + `
+    hidden options: ` + m.ToCamel() + `Options?
 
-    function into(): ` + m.ToCamel() + ` = this
+    /// todo doc
+    function configure(): ` + m.ToCamel() + ` = this
         .toMap()
-        .put("` + ansibleModName + "." + m.Module + `", this.options)
+        .put(
+            "` + ansibleModName + "." + m.Module + `",
+            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
+                |> (this.options_mixin ?? new Mixin<Dynamic>{})
+        )
         .toTyped(` + m.ToCamel() + `)
 
 }

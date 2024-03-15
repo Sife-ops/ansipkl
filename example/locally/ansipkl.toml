@@ -2,7 +2,8 @@
 exclude = [
     "foo",
     "^bar/.*",
-    "^oof/.*"
+    "^oof/.*",
+    "^roles/.*"
 ]
 executables = [
     "^.*_pb$"

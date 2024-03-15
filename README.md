@@ -2,7 +2,7 @@
 
 ![example](https://i.imgur.com/iKgLWzc.png)
 
-ansipkl provides `pkl` types for Ansible plays, tasks, and modules, etc.
+`ansipkl` provides `pkl` types for Ansible plays, tasks, and modules, etc.
 
 ## add to project
 
@@ -11,7 +11,7 @@ amends "pkl:Project"
 
 dependencies {
     ["ansipkl"] { 
-        uri = "package://github.com/Sife-ops/ansipkl/releases/download/v0.0.4/ansipkl@0.0.4"
+        uri = "package://github.com/Sife-ops/ansipkl/releases/download/v<version>/ansipkl@<version>"
     }
 }
 ```
@@ -22,7 +22,8 @@ pkl project resolve
 
 ## install cli
 
-you must have the `pkl` executable installed
+The `ansipkl` command depends on the `pkl` executable. You must have `pkl`
+installed.
 
 ```bash
 go install github.com/Sife-ops/ansipkl@latest
@@ -40,5 +41,5 @@ exclude = [
 
 ## usage
 
-Use `ansipkl` to convert all `.pkl` files to `.yml` recursively.
-Check out `/example`.
+Use `ansipkl` to convert all `.pkl` files to `.yml` recursively. Check out
+`/example`.

@@ -1,10 +1,12 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: play0
+- name: play01
   remote_user: root
   hosts: self
   tasks:
-  - name: install emacs
-    community.general.pacman:
-      name:
-      - emacs
+  - name: set hasProfile
+    ansible.builtin.set_fact:
+      hasProfile: yeahno
+  - name: debug hasProfile
+    ansible.builtin.debug:
+      var: hasProfile

@@ -3,6 +3,6 @@
 default:
 	pkl eval -f yaml example.pkl
 
-install:
+resolve:
 	pkl project resolve
 
