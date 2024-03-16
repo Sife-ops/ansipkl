@@ -1,6 +1,6 @@
 # ansipkl
 
-![example](https://i.imgur.com/iKgLWzc.png)
+![example](https://i.imgur.com/ATcJ90A.png)
 
 `ansipkl` provides `pkl` types for Ansible plays, tasks, and modules, etc.
 

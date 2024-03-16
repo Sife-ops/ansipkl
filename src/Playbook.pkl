@@ -115,10 +115,10 @@ class Play extends Base {
     order: String?
 }
 
-function TaskListing(tasks: Listing<Task>): Listing<Task> = tasks
+function Tasks(tasks: Listing<Task>): Listing<Task> = tasks
     .fold(new Listing<Task> {}, (r, e) -> new Listing<Task> {
         ...r
-        e.configure()
+        e.build()
     })
 
 abstract class Task extends Base {

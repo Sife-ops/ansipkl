@@ -33,11 +33,11 @@ func (x moduleOpt) IntoDescription() (t []string) {
 	case "[]interface {}":
 		y := *x.Description
 		for _, v := range y.([]interface{}) {
-			t = append(t, v.(string))
+			t = append(t, strings.ReplaceAll(v.(string), "\n", ""))
 		}
 	case "string":
 		y := *x.Description
-		t = append(t, y.(string))
+		t = append(t, strings.ReplaceAll(y.(string), "\n", ""))
 	default:
 		log.Printf("%+v", ty)
 	}
@@ -98,8 +98,32 @@ func (x moduleOpt) IntoType() (t string) {
 
 type ansibleModule struct {
 	Module           string
+	Description      *any
 	ShortDescription string `yaml:"short_description"`
 	Options          map[string]moduleOpt
+}
+
+func (x ansibleModule) IntoDescription() (t []string) {
+	t = []string{}
+	if x.Description == nil {
+		return
+	}
+
+	ty := reflect.TypeOf(*x.Description)
+	switch ty.String() {
+	case "[]interface {}":
+		y := *x.Description
+		for _, v := range y.([]interface{}) {
+			t = append(t, strings.ReplaceAll(v.(string), "\n", ""))
+		}
+	case "string":
+		y := *x.Description
+		t = append(t, strings.ReplaceAll(y.(string), "\n", ""))
+	default:
+		log.Printf("%+v", ty)
+	}
+
+	return
 }
 
 func (x ansibleModule) ToCamel() string {
@@ -205,9 +229,8 @@ import "./Playbook.pkl"
 		return err
 	}
 
-	// todo "free-form" option
-	// todo IntoDescription crashes
-	for _, m := range modules {
+	// todo "free-form"
+	for i, m := range modules {
 		t, err := template.New(m.Module).Funcs(template.FuncMap{
 			"IntoProperty": func(s string) (z string) {
 				z = s
@@ -229,40 +252,43 @@ import "./Playbook.pkl"
 				}
 				return
 			},
-		}).Parse(`/// ` + m.ShortDescription + `
-class ` + m.ToCamel() + `Options {
+		}).Parse(`/// {{ .module.ShortDescription }}
+{{- range $.module.IntoDescription }}
+/// {{ . }}
+{{- end }}
+class {{ .module.ToCamel }}Options {
     {{ range $key, $value := .module.Options }}
-    {{- range $i, $v :=  $value.IntoDescription }}
-    {{- if lt $i 0 }}
+    {{- if eq $key "free-form" }}
+
+    // {{ IntoProperty $key }}: {{ $value.IntoType }}
+
+    {{ else }}
+
+    {{- range $value.IntoDescription }}
     /// {{ . }}
     {{- end }}
-    {{- end }}
-    {{- if eq $key "free-form" }}
-    // {{ IntoProperty $key }}: {{ $value.IntoType }}
-    {{ else }}
     {{ IntoProperty $key }}: {{ $value.IntoType }}
+
     {{- end }}
     {{ end }}
 }
 
-/// Task class for ` + m.Module + `
-class ` + m.ToCamel() + ` extends Playbook.Task {
+/// Task class for {{ .module.Module }}
+class {{ .module.ToCamel }} extends Playbook.Task {
 
-    /// todo doc
-    ` + "`" + ansibleModName + "." + m.Module + "`" + `: Dynamic
+    /// Options for ` + ansibleModName + `.{{ .module.Module }}
+    hidden options: {{ .module.ToCamel }}Options?
 
-    /// Options for ` + ansibleModName + `.` + m.Module + `
-    hidden options: ` + m.ToCamel() + `Options?
+    ` + "`" + ansibleModName + ".{{ .module.Module }}"  + "`" + `: Dynamic
 
-    /// todo doc
-    function configure(): ` + m.ToCamel() + ` = this
+    function build(): {{ .module.ToCamel }} = this
         .toMap()
         .put(
-            "` + ansibleModName + "." + m.Module + `",
+            "` + ansibleModName + `.{{ .module.Module }}",
             (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
                 |> (this.options_mixin ?? new Mixin<Dynamic>{})
         )
-        .toTyped(` + m.ToCamel() + `)
+        .toTyped({{ .module.ToCamel }})
 
 }
 
@@ -273,6 +299,7 @@ class ` + m.ToCamel() + ` extends Playbook.Task {
 
 		if err := t.Execute(file, map[string]interface{}{
 			"module": m,
+            "moduleIndex": i,
 		}); err != nil {
 			return err
 		}
