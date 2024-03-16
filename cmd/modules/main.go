@@ -153,6 +153,14 @@ func mainErr() error {
 		return err
 	}
 
+	if err := readModules(
+		"community.docker",
+		"./community.docker/plugins/modules",
+		"./src",
+	); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -167,7 +175,6 @@ func readModules(
 	}
 
 	var modules []ansibleModule
-
 	for _, entry := range entries {
 		// deprecated module
 		if entry.Name() == "webfaction_site.py" {
@@ -229,30 +236,35 @@ import "./Playbook.pkl"
 		return err
 	}
 
+	funcMap := template.FuncMap{
+		"IntoProperty": func(s string) (z string) {
+			z = s
+			switch s {
+			case "hidden":
+				z = "`hidden`"
+			case "local":
+				z = "`local`"
+			case "switch":
+				z = "`switch`"
+			case "record":
+				z = "`record`"
+			case "external":
+				z = "`external`"
+			case "override":
+				z = "`override`"
+			case "delete":
+				z = "`delete`"
+			}
+			return
+		},
+	}
+
 	// todo "free-form"
 	for i, m := range modules {
-		t, err := template.New(m.Module).Funcs(template.FuncMap{
-			"IntoProperty": func(s string) (z string) {
-				z = s
-				switch s {
-				case "hidden":
-					z = "`hidden`"
-				case "local":
-					z = "`local`"
-				case "switch":
-					z = "`switch`"
-				case "record":
-					z = "`record`"
-				case "external":
-					z = "`external`"
-				case "override":
-					z = "`override`"
-				case "delete":
-					z = "`delete`"
-				}
-				return
-			},
-		}).Parse(`/// {{ .module.ShortDescription }}
+		t, err := template.
+			New(m.Module).
+			Funcs(funcMap).
+			Parse(`/// {{ .module.ShortDescription }}
 {{- range $.module.IntoDescription }}
 /// {{ . }}
 {{- end }}
@@ -279,7 +291,7 @@ class {{ .module.ToCamel }} extends Playbook.Task {
     /// Options for ` + ansibleModName + `.{{ .module.Module }}
     hidden options: {{ .module.ToCamel }}Options?
 
-    ` + "`" + ansibleModName + ".{{ .module.Module }}"  + "`" + `: Dynamic
+    ` + "`" + ansibleModName + ".{{ .module.Module }}" + "`" + `: Dynamic
 
     function build(): {{ .module.ToCamel }} = this
         .toMap()
@@ -298,8 +310,8 @@ class {{ .module.ToCamel }} extends Playbook.Task {
 		}
 
 		if err := t.Execute(file, map[string]interface{}{
-			"module": m,
-            "moduleIndex": i,
+			"moduleIndex": i,
+			"module":      m,
 		}); err != nil {
 			return err
 		}

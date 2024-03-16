@@ -6,3 +6,6 @@
 	path = community.general
 	url = https://github.com/ansible-collections/community.general.git
 	branch = stable-8
+[submodule "community.docker"]
+	path = community.docker
+	url = https://github.com/ansible-collections/community.docker.git
