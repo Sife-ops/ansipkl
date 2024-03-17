@@ -1,7 +1,9 @@
+module roles
+
 import "@ansipkl/AnsibleBuiltin.pkl"
 import "@ansipkl/Playbook.pkl"
 
-main = Playbook.Tasks(new Listing {
+docker = Playbook.Tasks(new Listing {
     new AnsibleBuiltin.Apt {
         name = "install ca-certs for docker"
         options {

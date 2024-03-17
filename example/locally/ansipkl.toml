@@ -1,9 +1,0 @@
-[options]
-exclude = [
-    "foo",
-    "^bar/.*",
-    "^oof/.*",
-]
-executables = [
-    "^.*_pb$"
-]

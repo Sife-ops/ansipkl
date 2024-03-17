@@ -20,25 +20,6 @@ dependencies {
 pkl project resolve
 ```
 
-## install cli
-
-The `ansipkl` command depends on the `pkl` executable. You must have `pkl`
-installed.
-
-```bash
-go install github.com/Sife-ops/ansipkl@latest
-```
-
-example `ansipkl.toml`
-
-```toml
-[options]
-exclude = [
-    "foo",
-    "^bar/.*"
-]
-```
-
 ## usage
 
 Use `ansipkl` to convert all `.pkl` files to `.yml` recursively. Check out

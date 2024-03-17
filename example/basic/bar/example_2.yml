@@ -1,0 +1,10 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: play02
+  remote_user: root
+  hosts: self
+  tasks:
+  - name: install thunderbird
+    community.general.pacman:
+      name:
+      - thunderbird

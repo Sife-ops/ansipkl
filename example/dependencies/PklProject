@@ -1,0 +1,7 @@
+amends "pkl:Project"
+
+dependencies {
+    ["ansipkl"] { 
+        uri = "package://github.com/Sife-ops/ansipkl/releases/download/v0.0.8/ansipkl@0.0.8"
+    }
+}

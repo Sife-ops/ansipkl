@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "resolvedDependencies": {
+    "package://github.com/Sife-ops/ansipkl/releases/download/v0.0.8/ansipkl@0": {
+      "type": "remote",
+      "uri": "projectpackage://github.com/Sife-ops/ansipkl/releases/download/v0.0.8/ansipkl@0.0.8",
+      "checksums": {
+        "sha256": "5920ede9f87678e544cb473910c8af18c01a3890c443e54ef64a890ca51673f1"
+      }
+    }
+  }
+}

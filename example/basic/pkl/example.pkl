@@ -1,15 +1,17 @@
-import "@ansipkl/Playbook.pkl"
+module example
+
 import "@ansipkl/AnsibleBuiltin.pkl"
 import "@ansipkl/CommunityGeneral.pkl"
+import "@ansipkl/Playbook.pkl"
 
-example_00_pb = new Listing<Playbook.Play> {
-
+pb0 = new Listing<Playbook.Play> {
     new {
         name = "play00"
         hosts = "self"
         remote_user = "root"
 
         tasks = Playbook.Tasks(new Listing {
+
             new AnsibleBuiltin.Apt {
                 name = "install firefox"
                 options {
@@ -30,17 +32,16 @@ example_00_pb = new Listing<Playbook.Play> {
 
         })
     }
-
 }
 
-example_01_pb = new Listing<Playbook.Play> {
-
+pb1 = new Listing<Playbook.Play> {
     new {
         name = "play01"
         hosts = "self"
         remote_user = "root"
 
         tasks = Playbook.Tasks(new Listing {
+
             new AnsibleBuiltin.SetFact {
                 name = "set hasProfile"
                 options_mixin {
@@ -57,6 +58,25 @@ example_01_pb = new Listing<Playbook.Play> {
 
         })
     }
-
 }
 
+pb2 = new Listing<Playbook.Play> {
+    new {
+        name = "play02"
+        hosts = "self"
+        remote_user = "root"
+
+        tasks = Playbook.Tasks(new Listing {
+
+            new CommunityGeneral.Pacman {
+                name = "install thunderbird"
+                options {
+                    name {
+                        "thunderbird"
+                    }
+                }
+            }
+
+        })
+    }
+}
