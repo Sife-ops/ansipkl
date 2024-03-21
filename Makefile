@@ -1,4 +1,4 @@
-.PHONY: modules
+.PHONY: build
 
-modules:
-	go build -o ./bin/modules ./cmd/modules/main.go
+build:
+	go build -o ./bin/build ./cmd/build/main.go

@@ -22,5 +22,4 @@ pkl project resolve
 
 ## usage
 
-Use `ansipkl` to convert all `.pkl` files to `.yml` recursively. Check out
-`/example`.
+Check out `/example` for full examples.

@@ -1,10 +1,10 @@
 module roles
 
-import "@ansipkl/AnsibleBuiltin.pkl"
-import "@ansipkl/Playbook.pkl"
+import "@ansipkl/AnsibleBuiltin.pkl" as AB
+import "@ansipkl/Playbook.pkl" as P
 
-docker = Playbook.Tasks(new Listing {
-    new AnsibleBuiltin.Apt {
+docker = P.NewRole(new Listing {
+    new AB.Apt {
         name = "install ca-certs for docker"
         options {
             state = "present"
@@ -12,26 +12,26 @@ docker = Playbook.Tasks(new Listing {
                 "ca-certificates"
             }
         }
-    }
+    }.Task()
 
-    new AnsibleBuiltin.GetUrl {
-        name = "download docker apt keyring"
+    new AB.GetUrl {
+        name = "download docker apt keyrings"
         options {
             url = "https://download.docker.com/linux/debian/gpg"
             dest = "/etc/apt/keyrings/docker.asc"
         }
-    }
+    }.Task()
 
-    new AnsibleBuiltin.AptRepository {
+    new AB.AptRepository {
         name = "configure docker apt repository"
         options {
             repo = "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
             state = "present"
         }
         register = "repo"
-    }
+    }.Task()
 
-    new AnsibleBuiltin.Apt {
+    new AB.Apt {
         name = "install ca-certs for docker"
         options {
             state = "present"
@@ -44,5 +44,5 @@ docker = Playbook.Tasks(new Listing {
             }
         }
         `when` = "repo.changed"
-    }
+    }.Task()
 })

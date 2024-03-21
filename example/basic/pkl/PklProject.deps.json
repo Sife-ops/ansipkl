@@ -3,7 +3,7 @@
   "resolvedDependencies": {
     "package://github.com/Sife-ops/ansipkl@0": {
       "type": "local",
-      "uri": "projectpackage://github.com/Sife-ops/ansipkl@0.0.9",
+      "uri": "projectpackage://github.com/Sife-ops/ansipkl@0.0.10",
       "path": "../../../src"
     }
   }

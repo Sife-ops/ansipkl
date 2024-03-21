@@ -5,26 +5,25 @@ import "./roles.pkl"
 
 shebang = "#!/usr/bin/env ansible-playbook\n"
 dashes = "---\n"
-
-yamlRenderer = new YamlRenderer{}
+r = new YamlRenderer{}
 
 output {
     files {
 
         ["example_0.yml"] {
-            text = "\(shebang)\(dashes)\(yamlRenderer.renderDocument(example.pb0))"
+            text = "\(shebang)\(dashes)\(r.renderDocument(example.pb0))"
         }
 
         ["example_1.yml"] {
-            text = "\(shebang)\(dashes)\(yamlRenderer.renderDocument(example.pb1))"
+            text = "\(shebang)\(dashes)\(r.renderDocument(example.pb1))"
         }
 
         ["bar/example_2.yml"] {
-            text = "\(shebang)\(dashes)\(yamlRenderer.renderDocument(example.pb2))"
+            text = "\(shebang)\(dashes)\(r.renderDocument(example.pb2))"
         }
 
         ["roles/docker/tasks/main.yml"] {
-            text = "\(dashes)\(yamlRenderer.renderDocument(roles.docker))"
+            text = "\(dashes)\(r.renderDocument(roles.docker))"
         }
 
     }

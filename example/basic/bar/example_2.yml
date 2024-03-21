@@ -2,9 +2,45 @@
 ---
 - name: play02
   remote_user: root
+  module_defaults:
+    ansible.builtin.uri:
+      force_basic_auth: true
+      url: example.com
   hosts: self
   tasks:
-  - name: install thunderbird
-    community.general.pacman:
-      name:
-      - thunderbird
+  - name: handle error
+    block:
+    - name: print msg
+      ansible.builtin.debug:
+        msg: execute normal
+    - name: force failure
+      ansible.builtin.command:
+        cmd: /bin/false
+    - name: unreachable
+      changed_when:
+      - output
+      - result.idk == 2
+      register: result
+      ansible.builtin.debug:
+        msg: this code is unreachable
+    rescue:
+    - name: print on error
+      ansible.builtin.debug:
+        msg: an error was caught
+    always:
+    - name: always do
+      ansible.builtin.debug:
+        msg: this always prints
+  - name: copy something
+    ansible.builtin.copy:
+      content: |-
+        this is the content
+        this is the content
+        this is the content
+      dest: /var/something
+  roles:
+  - role: docker
+  serial:
+  - 1
+  - 5
+  - 20%

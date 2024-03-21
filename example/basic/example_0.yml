@@ -1,14 +1,20 @@
 #!/usr/bin/env ansible-playbook
 ---
+- vars:
+    one: 1
+    two: 2
+  ansible.builtin.import_playbook: foo.yml
 - name: play00
   remote_user: root
   hosts: self
   tasks:
-  - name: install firefox
+  - name: install programs
     ansible.builtin.apt:
       name:
       - firefox
-  - name: install vim
-    ansible.builtin.apt:
-      name:
       - vim
+  - name: install thunderbird
+    community.general.pacman:
+      name:
+      - thunderbird
+      - obs

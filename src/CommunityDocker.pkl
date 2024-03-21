@@ -6,26 +6,27 @@ import "./Playbook.pkl"
 /// Return facts about whether the module runs in a Docker or podman container.
 /// This module attempts a best-effort detection. There might be special cases where it does not work; if you encounter one, L(please file an issue, https://github.com/ansible-collections/community.docker/issues/new?assignees=&labels=&template=bug_report.md).
 class CurrentContainerFactsOptions {
-    
 }
 
 /// Task class for current_container_facts
-class CurrentContainerFacts extends Playbook.Task {
-
-    /// Options for community.docker.current_container_facts
-    hidden options: CurrentContainerFactsOptions?
+class CurrentContainerFactsTask extends Playbook.Task {
 
     `community.docker.current_container_facts`: Dynamic
 
-    function build(): CurrentContainerFacts = this
-        .toMap()
-        .put(
-            "community.docker.current_container_facts",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(CurrentContainerFacts)
+    function GetModuleName(): String = "community.docker.current_container_facts"
+    function GetModuleOptions(): Dynamic = this.`community.docker.current_container_facts`
+}
 
+/// TaskBuilder class for current_container_facts
+class CurrentContainerFacts extends Playbook.TaskBuilder {
+    /// Options for community.docker.current_container_facts
+    options: CurrentContainerFactsOptions?
+
+    function Task(): CurrentContainerFactsTask = this
+        .toMap()
+        .put("community.docker.current_container_facts", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(CurrentContainerFactsTask)
 }
 
 /// Manage multi-container Docker applications with Docker Compose V1
@@ -35,227 +36,194 @@ class CurrentContainerFacts extends Playbook.Task {
 /// Supports check mode.
 /// This module was called C(docker_service) before Ansible 2.8. The usage did not change.
 class DockerComposeOptions {
-    
     /// Use with O(state=present) to always build images prior to starting the application.
     /// Same as running C(docker-compose build) with the pull option.
     /// Images will only be rebuilt if Docker detects a change in the Dockerfile or build directory contents.
     /// Use the O(nocache) option to ignore the image cache when performing the build.
     /// If an existing image is replaced, services using the image will be recreated unless O(recreate=never).
     build: Boolean?
-    
     /// Compose file describing one or more services, networks and volumes.
     /// Mutually exclusive with O(project_src) and O(files).
     definition: Any?
-    
     /// When O(state) is V(present) specify whether or not to include linked services.
     dependencies: Boolean?
-    
     /// By default environment files are loaded from a C(.env) file located directly under the O(project_src) directory.
     /// O(env_file) can be used to specify the path of a custom environment file instead.
     /// The path is relative to the O(project_src) directory.
     /// Requires C(docker-compose) version 1.25.0 or greater.
     /// Note: C(docker-compose) versions C(<=1.28) load the env file from the current working directory of the C(docker-compose) command rather than O(project_src).
     env_file: String?
-    
     /// List of Compose file names relative to O(project_src). Overrides C(docker-compose.yml) or C(docker-compose.yaml).
     /// Files are loaded and merged in the order given.
     files: Listing<String>?
-    
     /// Whether or not to check the Docker daemon's hostname against the name provided in the client certificate.
     hostname_check: Boolean?
-    
     /// Use with the O(build) option to ignore the cache during the image build process.
     nocache: Boolean?
-    
     /// List of profiles to enable when starting services.
     /// Equivalent to C(docker-compose --profile).
     /// Requires C(docker-compose) version 1.28.0 or greater.
     profiles: Listing<String>?
-    
     /// Provide a project name. If not provided, the project name is taken from the basename of O(project_src).
     /// Required when O(definition) is provided.
     project_name: String?
-    
     /// Path to a directory containing a C(docker-compose.yml) or C(docker-compose.yaml) file.
     /// Mutually exclusive with O(definition).
     /// Required when no O(definition) is provided.
     project_src: String?
-    
     /// Use with O(state=present) to always pull images prior to starting the application.
     /// Same as running C(docker-compose pull).
     /// When a new image is pulled, services using the image will be recreated unless O(recreate=never).
     pull: Boolean?
-    
     /// By default containers will be recreated when their configuration differs from the service definition.
     /// Setting to V(never) ignores configuration differences and leaves existing containers unchanged.
     /// Setting to V(always) forces recreation of all existing containers.
     recreate: ("always"|"never"|"smart")?
-    
     /// Use with O(state=absent) to remove all images or only local images.
     remove_images: ("all"|"local")?
-    
     /// Remove containers for services not defined in the Compose file.
     remove_orphans: Boolean?
-    
     /// Use with O(state=absent) to remove data volumes.
     remove_volumes: Boolean?
-    
     /// Use with O(state=present) to restart all containers defined in the Compose file.
     /// If O(services) is defined, only the containers listed there will be restarted.
     restarted: Boolean?
-    
     /// When O(state) is V(present) scale services. Provide a dictionary of key/value pairs where the key is the name of the service and the value is an integer count for the number of containers.
     scale: Any?
-    
     /// When O(state) is V(present) run C(docker-compose up) resp. C(docker-compose stop) (with O(stopped=true)) resp. C(docker-compose restart) (with O(restarted=true)) on a subset of services.
     /// If empty, which is the default, the operation will be performed on all services defined in the Compose file (or inline O(definition)).
     services: Listing<String>?
-    
     /// Desired state of the project.
     /// Specifying V(present) is the same as running C(docker-compose up) resp. C(docker-compose stop) (with O(stopped=true)) resp. C(docker-compose restart) (with O(restarted=true)).
     /// Specifying V(absent) is the same as running C(docker-compose down).
     state: ("absent"|"present")?
-    
     /// Use with O(state=present) to stop all containers defined in the Compose file.
     /// If O(services) is defined, only the containers listed there will be stopped.
     /// Requires C(docker-compose) version 1.17.0 or greater for full support. For older versions, the services will first be started and then stopped when the service is supposed to be created as stopped.
     stopped: Boolean?
-    
     /// Timeout in seconds for container shutdown when attached or when containers are already running.
     /// By default C(docker-compose) will use a V(10) seconds timeout unless C(default_grace_period) is defined for a particular service in the O(project_src).
     timeout: Int?
-    
     /// Currently ignored for this module, but might suddenly be supported later on.
     use_ssh_client: Any?
-    
 }
 
 /// Task class for docker_compose
-class DockerCompose extends Playbook.Task {
-
-    /// Options for community.docker.docker_compose
-    hidden options: DockerComposeOptions?
+class DockerComposeTask extends Playbook.Task {
 
     `community.docker.docker_compose`: Dynamic
 
-    function build(): DockerCompose = this
-        .toMap()
-        .put(
-            "community.docker.docker_compose",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerCompose)
+    function GetModuleName(): String = "community.docker.docker_compose"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_compose`
+}
 
+/// TaskBuilder class for docker_compose
+class DockerCompose extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_compose
+    options: DockerComposeOptions?
+
+    function Task(): DockerComposeTask = this
+        .toMap()
+        .put("community.docker.docker_compose", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerComposeTask)
 }
 
 /// Manage multi-container Docker applications with Docker Compose CLI plugin
 /// Uses Docker Compose to start or shutdown services.
 class DockerComposeV2Options {
-    
     /// Whether to build images before starting containers. This is used when C(docker compose up) is run.
     /// V(always) always builds before starting containers. This is equivalent to the C(--build) option of C(docker compose up).
     /// V(never) never builds before starting containers. This is equivalent to the C(--no-build) option of C(docker compose up).
     /// V(policy) uses the policy as defined in the Compose file.
     build: ("always"|"never"|"policy")?
-    
     /// When O(state) is V(present) or V(restarted), specify whether or not to include linked services.
     dependencies: Boolean?
-    
     /// Whether to pull images before running. This is used when C(docker compose up) is run.
     /// V(always) ensures that the images are always pulled, even when already present on the Docker daemon.
     /// V(missing) only pulls them when they are not present on the Docker daemon.
     /// V(never) never pulls images. If they are not present, the module will fail when trying to create the containers that need them.
     /// V(policy) use the Compose file's C(pull_policy) defined for the service to figure out what to do.
     pull: ("always"|"missing"|"never"|"policy")?
-    
     /// By default containers will be recreated when their configuration differs from the service definition.
     /// Setting to V(never) ignores configuration differences and leaves existing containers unchanged.
     /// Setting to V(always) forces recreation of all existing containers.
     recreate: ("always"|"never"|"auto")?
-    
     /// Use with O(state=absent) to remove all images or only local images.
     remove_images: ("all"|"local")?
-    
     /// Remove containers for services not defined in the Compose file.
     remove_orphans: Boolean?
-    
     /// Use with O(state=absent) to remove data volumes.
     remove_volumes: Boolean?
-    
     /// Define how to scale services when running C(docker compose up).
     /// Provide a dictionary of key/value pairs where the key is the name of the service and the value is an integer count for the number of containers.
     scale: Any?
-    
     /// Specifies a subset of services to be targeted.
     services: Listing<String>?
-    
     /// Desired state of the project.
     /// V(present) is equivalent to running C(docker compose up).
     /// V(stopped) is equivalent to running C(docker compose stop).
     /// V(absent) is equivalent to running C(docker compose down).
     /// V(restarted) is equivalent to running C(docker compose restart).
     state: ("absent"|"stopped"|"restarted"|"present")?
-    
     /// Timeout in seconds for container shutdown when attached or when containers are already running.
     timeout: Int?
-    
     /// When running C(docker compose up), pass C(--wait) to wait for services to be running/healthy.
     /// A timeout can be set with the O(wait_timeout) option.
     wait: Boolean?
-    
     /// When O(wait=true), wait at most this amount of seconds.
     wait_timeout: Int?
-    
 }
 
 /// Task class for docker_compose_v2
-class DockerComposeV2 extends Playbook.Task {
-
-    /// Options for community.docker.docker_compose_v2
-    hidden options: DockerComposeV2Options?
+class DockerComposeV2Task extends Playbook.Task {
 
     `community.docker.docker_compose_v2`: Dynamic
 
-    function build(): DockerComposeV2 = this
-        .toMap()
-        .put(
-            "community.docker.docker_compose_v2",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerComposeV2)
+    function GetModuleName(): String = "community.docker.docker_compose_v2"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_compose_v2`
+}
 
+/// TaskBuilder class for docker_compose_v2
+class DockerComposeV2 extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_compose_v2
+    options: DockerComposeV2Options?
+
+    function Task(): DockerComposeV2Task = this
+        .toMap()
+        .put("community.docker.docker_compose_v2", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerComposeV2Task)
 }
 
 /// Pull a Docker compose project
 /// Uses Docker Compose to pull images for a project.
 class DockerComposeV2PullOptions {
-    
     /// Whether to pull images before running. This is used when C(docker compose up) is ran.
     /// V(always) ensures that the images are always pulled, even when already present on the Docker daemon.
     /// V(missing) only pulls them when they are not present on the Docker daemon. This is only supported since Docker Compose 2.22.0.
     policy: ("always"|"missing")?
-    
 }
 
 /// Task class for docker_compose_v2_pull
-class DockerComposeV2Pull extends Playbook.Task {
-
-    /// Options for community.docker.docker_compose_v2_pull
-    hidden options: DockerComposeV2PullOptions?
+class DockerComposeV2PullTask extends Playbook.Task {
 
     `community.docker.docker_compose_v2_pull`: Dynamic
 
-    function build(): DockerComposeV2Pull = this
-        .toMap()
-        .put(
-            "community.docker.docker_compose_v2_pull",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerComposeV2Pull)
+    function GetModuleName(): String = "community.docker.docker_compose_v2_pull"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_compose_v2_pull`
+}
 
+/// TaskBuilder class for docker_compose_v2_pull
+class DockerComposeV2Pull extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_compose_v2_pull
+    options: DockerComposeV2PullOptions?
+
+    function Task(): DockerComposeV2PullTask = this
+        .toMap()
+        .put("community.docker.docker_compose_v2_pull", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerComposeV2PullTask)
 }
 
 /// Manage docker configs.
@@ -263,106 +231,87 @@ class DockerComposeV2Pull extends Playbook.Task {
 /// Adds to the metadata of new configs 'ansible_key', an encrypted hash representation of the data, which is then used in future runs to test if a config has changed. If 'ansible_key' is not present, then a config will not be updated unless the O(force) option is set.
 /// Updates to configs are performed by removing the config and creating it again.
 class DockerConfigOptions {
-    
     /// The value of the config.
     /// Mutually exclusive with O(data_src). One of O(data) and O(data_src) is required if O(state=present).
     data: String?
-    
     /// If set to V(true), the data is assumed to be Base64 encoded and will be decoded before being used.
     /// To use binary O(data), it is better to keep it Base64 encoded and let it be decoded by this option.
     data_is_b64: Boolean?
-    
     /// The file on the target from which to read the config.
     /// Mutually exclusive with O(data). One of O(data) and O(data_src) is required if O(state=present).
     data_src: String?
-    
     /// Use with O(state=present) to always remove and recreate an existing config.
     /// If V(true), an existing config will be replaced, even if it has not been changed.
     force: Boolean?
-    
     /// A map of key:value meta data, where both the C(key) and C(value) are expected to be a string.
     /// If new meta data is provided, or existing meta data is modified, the config will be updated by removing it and creating it again.
     labels: Any?
-    
     /// The name of the config.
     name: String
-    
     /// If set to V(true), configs are created with an increasing version number appended to their name.
     /// Adds a label containing the version number to the managed configs with the name C(ansible_version).
     rolling_versions: Boolean?
-    
     /// Set to V(present), if the config should exist, and V(absent), if it should not.
     state: ("absent"|"present")?
-    
     /// Set to V(golang) to use a Go template in O(data) or a Go template file in O(data_src).
     template_driver: ("golang")?
-    
     /// When using O(rolling_versions), the number of old versions of the config to keep.
     /// Extraneous old configs are deleted after the new one is created.
     /// Set to V(-1) to keep everything or V(0) or V(1) to keep only the current one.
     versions_to_keep: Int?
-    
 }
 
 /// Task class for docker_config
-class DockerConfig extends Playbook.Task {
-
-    /// Options for community.docker.docker_config
-    hidden options: DockerConfigOptions?
+class DockerConfigTask extends Playbook.Task {
 
     `community.docker.docker_config`: Dynamic
 
-    function build(): DockerConfig = this
-        .toMap()
-        .put(
-            "community.docker.docker_config",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerConfig)
+    function GetModuleName(): String = "community.docker.docker_config"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_config`
+}
 
+/// TaskBuilder class for docker_config
+class DockerConfig extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_config
+    options: DockerConfigOptions?
+
+    function Task(): DockerConfigTask = this
+        .toMap()
+        .put("community.docker.docker_config", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerConfigTask)
 }
 
 /// manage Docker containers
 /// Manage the life cycle of Docker containers.
 /// Supports check mode. Run with C(--check) and C(--diff) to view config difference and list of actions to be taken.
 class DockerContainerOptions {
-    
     /// Enable auto-removal of the container on daemon side when the container's process exits.
     /// If O(container_default_behavior=compatibility), this option has a default of V(false).
     auto_remove: Boolean?
-    
     /// Block IO (relative weight), between 10 and 1000.
     blkio_weight: Int?
-    
     /// List of capabilities to drop from the container.
     cap_drop: Listing<String>?
-    
     /// List of capabilities to add to the container.
     /// This is equivalent to C(docker run --cap-add), or the docker-compose option C(cap_add).
     capabilities: Listing<String>?
-    
     /// Specify the parent cgroup for the container.
     cgroup_parent: String?
-    
     /// Specify the cgroup namespace mode for the container.
     /// The Docker CLI calls this simply C(cgroupns).
     cgroupns_mode: ("host"|"private")?
-    
     /// Use with O(detach=false) to remove the container after successful execution.
     cleanup: Boolean?
-    
     /// Command to execute when the container starts. A command may be either a string or a list.
     /// Prior to version 2.4, strings were split on commas.
     /// See O(command_handling) for differences in how strings and lists are handled.
     command: String?
-    
     /// The default behavior for O(command) (when provided as a list) and O(entrypoint) is to convert them to strings without considering shell quoting rules. (For comparing idempotency, the resulting string is split considering shell quoting rules.)
     /// Also, setting O(command) to an empty list of string, and setting O(entrypoint) to an empty list will be handled as if these options are not specified. This is different from idempotency handling for other container-config related options.
     /// When this is set to V(compatibility), which was the default until community.docker 3.0.0, the current behavior will be kept.
     /// When this is set to V(correct), these options are kept as lists, and an empty value or empty list will be handled correctly for idempotency checks. This has been the default since community.docker 3.0.0.
     command_handling: ("compatibility"|"correct")?
-    
     /// Allows to specify how properties of existing containers are compared with module options to decide whether the container should be recreated / updated or not.
     /// Only options which correspond to the state of a container as handled by the Docker daemon can be specified, as well as O(networks).
     /// Must be a dictionary specifying for an option one of the keys V(strict), V(ignore) and V(allow_more_present).
@@ -371,252 +320,189 @@ class DockerContainerOptions {
     /// The wildcard option C(*) can be used to set one of the default values V(strict) or V(ignore) to I(all) comparisons which are not explicitly set to other values.
     /// See the examples for details.
     comparisons: Any?
-    
     /// In older versions of this module, various module options used to have default values. This caused problems with containers which use different values for these options.
     /// The default value is now V(no_defaults). To restore the old behavior, set it to V(compatibility), which will ensure that the default values are used when the values are not explicitly specified by the user.
     /// This affects the O(auto_remove), O(detach), O(init), O(interactive), O(memory), O(paused), O(privileged), O(read_only), and O(tty) options.
     container_default_behavior: ("compatibility"|"no_defaults")?
-    
     /// Limit CPU CFS (Completely Fair Scheduler) period.
     /// See O(cpus) for an easier to use alternative.
     cpu_period: Int?
-    
     /// Limit CPU CFS (Completely Fair Scheduler) quota.
     /// See O(cpus) for an easier to use alternative.
     cpu_quota: Int?
-    
     /// CPU shares (relative weight).
     cpu_shares: Int?
-    
     /// Specify how much of the available CPU resources a container can use.
     /// A value of V(1.5) means that at most one and a half CPU (core) will be used.
     cpus: Any?
-    
     /// CPUs in which to allow execution.
     /// For example V(1,3) or V(1-3).
     cpuset_cpus: String?
-    
     /// Memory nodes (MEMs) in which to allow execution V(0-3) or V(0,1).
     cpuset_mems: String?
-    
     /// Define the default host IP to use.
     /// Must be an empty string, an IPv4 address, or an IPv6 address.
     /// With Docker 20.10.2 or newer, this should be set to an empty string (V("")) to avoid the port bindings without an explicit IP address to only bind to IPv4. See U(https://github.com/ansible-collections/community.docker/issues/70) for details.
     /// By default, the module will try to auto-detect this value from the C(bridge) network's C(com.docker.network.bridge.host_binding_ipv4) option. If it cannot auto-detect it, it will fall back to V(0.0.0.0).
     default_host_ip: String?
-    
     /// Enable detached mode to leave the container running in background.
     /// If disabled, the task will reflect the status of the container run (failed if the command failed).
     /// If O(container_default_behavior=compatibility), this option has a default of V(true).
     detach: Boolean?
-    
     /// List of device path and read rate (bytes per second) from device.
     device_read_bps: Listing<Any>?
-    
     /// List of device and read rate (IO per second) from device.
     device_read_iops: Listing<Any>?
-    
     /// Allows to request additional resources, such as GPUs.
     device_requests: Listing<Any>?
-    
     /// List of device and write rate (bytes per second) to device.
     device_write_bps: Listing<Any>?
-    
     /// List of device and write rate (IO per second) to device.
     device_write_iops: Listing<Any>?
-    
     /// List of host device bindings to add to the container.
     /// Each binding is a mapping expressed in the format C(<path_on_host>:<path_in_container>:<cgroup_permissions>).
     devices: Listing<String>?
-    
     /// List of DNS options.
     dns_opts: Listing<String>?
-    
     /// List of custom DNS search domains.
     dns_search_domains: Listing<String>?
-    
     /// List of custom DNS servers.
     dns_servers: Listing<String>?
-    
     /// Container domainname.
     domainname: String?
-    
     /// Command that overwrites the default C(ENTRYPOINT) of the image.
     /// See O(command_handling) for differences in how strings and lists are handled.
     entrypoint: Listing<String>?
-    
     /// Dictionary of key,value pairs.
     /// Values which might be parsed as numbers, booleans or other types by the YAML parser must be quoted (for example V("true")) in order to avoid data loss.
     /// Please note that if you are passing values in with Jinja2 templates, like V("{{ value }}"), you need to add V(| string) to prevent Ansible to convert strings such as V("true") back to booleans. The correct way is to use V("{{ value | string }}").
     env: Any?
-    
     /// Path to a file, present on the target, containing environment variables C(FOO=BAR).
     /// If variable also present in O(env), then the O(env) value will override.
     env_file: String?
-    
     /// Dict of host-to-IP mappings, where each host name is a key in the dictionary. Each host name will be added to the container's C(/etc/hosts) file.
     etc_hosts: Any?
-    
     /// List of additional container ports which informs Docker that the container listens on the specified network ports at runtime.
     /// If the port is already exposed using C(EXPOSE) in a Dockerfile, it does not need to be exposed again.
     exposed_ports: Listing<String>?
-    
     /// Use the kill command when stopping a running container.
     force_kill: Boolean?
-    
     /// List of additional group names and/or IDs that the container process will run as.
     groups: Listing<String>?
-    
     /// Configure a check that is run to determine whether or not containers for this service are "healthy".
     /// See the docs for the L(HEALTHCHECK Dockerfile instruction,https://docs.docker.com/engine/reference/builder/#healthcheck) for details on how healthchecks work.
     /// O(healthcheck.interval), O(healthcheck.timeout) and O(healthcheck.start_period) are specified as durations. They accept duration as a string in a format that look like: V(5h34m56s), V(1m30s), and so on. The supported units are V(us), V(ms), V(s), V(m) and V(h).
     healthcheck: Any?
-    
     /// The container's hostname.
     hostname: String?
-    
     /// When O(state) is V(present) or V(started), the module compares the configuration of an existing container to requested configuration. The evaluation includes the image version. If the image version in the registry does not match the container, the container will be recreated. You can stop this behavior by setting O(ignore_image) to V(true).
     /// B(Warning:) This option is ignored if C(image: ignore) or C(*: ignore) is specified in the O(comparisons) option.
     /// This option is deprecated since community.docker 3.2.0 and will be removed in community.docker 4.0.0. Use C(image: ignore) in O(comparisons) instead of O(ignore_image=true).
     ignore_image: Boolean?
-    
     /// Repository path and tag used to create the container. If an image is not found or pull is true, the image will be pulled from the registry. If no tag is included, V(latest) will be used.
     /// Can also be an image ID. If this is the case, the image is assumed to be available locally. The O(pull) option is ignored for this case.
     image: String?
-    
     /// Determines which image to use for idempotency checks that depend on image parameters.
     /// The default, V(desired-image), will use the image that is provided to the module via the O(image) parameter.
     /// V(current-image) will use the image that the container is currently using, if the container exists. It falls back to the image that is provided in case the container does not yet exist.
     /// This affects the O(env), O(env_file), O(exposed_ports), O(labels), and O(volumes) options.
     image_comparison: ("desired-image"|"current-image")?
-    
     /// How to handle labels inherited from the image that are not set explicitly.
     /// When V(ignore), labels that are present in the image but not specified in O(labels) will be ignored. This is useful to avoid having to specify the image labels in O(labels) while keeping labels O(comparisons) V(strict).
     /// When V(fail), if there are labels present in the image which are not set from O(labels), the module will fail. This prevents introducing unexpected labels from the base image.
     /// B(Warning:) This option is ignored unless C(labels: strict) or C(*: strict) is specified in the O(comparisons) option.
     image_label_mismatch: ("ignore"|"fail")?
-    
     /// Determines what the module does if the image matches, but the image name in the container's configuration does not match the image name provided to the module.
     /// This is ignored if C(image: ignore) is set in O(comparisons).
     /// If set to V(recreate) the container will be recreated.
     /// If set to V(ignore) (currently the default) the container will not be recreated because of this. It might still get recreated for other reasons. This has been the default behavior of the module for a long time, but might not be what users expect.
     /// Since community.docker 3.5.0, the default V(ignore) has been deprecated. If not specified, a deprecation warning will be emitted if this setting would make a difference. The default will change to V(recreate) in community.docker 4.0.0.
     image_name_mismatch: ("recreate"|"ignore")?
-    
     /// Run an init inside the container that forwards signals and reaps processes.
     /// If O(container_default_behavior=compatibility), this option has a default of V(false).
     init: Boolean?
-    
     /// Keep stdin open after a container is launched, even if not attached.
     /// If O(container_default_behavior=compatibility), this option has a default of V(false).
     interactive: Boolean?
-    
     /// Set the IPC mode for the container.
     /// Can be one of V(container:<name|id>) to reuse another container's IPC namespace or V(host) to use the host's IPC namespace within the container.
     ipc_mode: String?
-    
     /// Retain anonymous volumes associated with a removed container.
     keep_volumes: Boolean?
-    
     /// Kernel memory limit in format C(<number>[<unit>]). Number is a positive integer. Unit can be V(B) (byte), V(K) (kibibyte, 1024B), V(M) (mebibyte), V(G) (gibibyte), V(T) (tebibyte), or V(P) (pebibyte). Minimum is V(4M).
     /// Omitting the unit defaults to bytes.
     kernel_memory: String?
-    
     /// Override default signal used to kill a running container.
     kill_signal: String?
-    
     /// Dictionary of key value pairs.
     labels: Any?
-    
     /// List of name aliases for linked containers in the format C(container_name:alias).
     /// Setting this will force container to be restarted.
     links: Listing<String>?
-    
     /// Specify the logging driver. Docker uses V(json-file) by default.
     /// See L(the Docker logging configuration documentation,https://docs.docker.com/config/containers/logging/configure/) for possible choices.
     log_driver: String?
-    
     /// Dictionary of options specific to the chosen O(log_driver).
     /// See U(https://docs.docker.com/engine/admin/logging/overview/) for details.
     /// O(log_driver) needs to be specified for O(log_options) to take effect, even if using the default V(json-file) driver.
     log_options: Any?
-    
     /// Container MAC address (for example, V(92:d0:c6:0a:29:33)).
     /// Note that the global container-wide MAC address is deprecated and no longer used since Docker API version 1.44.
     /// Use O(networks[].mac_address) instead.
     mac_address: String?
-    
     /// Memory limit in format C(<number>[<unit>]). Number is a positive integer. Unit can be V(B) (byte), V(K) (kibibyte, 1024B), V(M) (mebibyte), V(G) (gibibyte), V(T) (tebibyte), or V(P) (pebibyte).
     /// Omitting the unit defaults to bytes.
     /// If O(container_default_behavior=compatibility), this option has a default of V("0").
     memory: String?
-    
     /// Memory soft limit in format C(<number>[<unit>]). Number is a positive integer. Unit can be V(B) (byte), V(K) (kibibyte, 1024B), V(M) (mebibyte), V(G) (gibibyte), V(T) (tebibyte), or V(P) (pebibyte).
     /// Omitting the unit defaults to bytes.
     memory_reservation: String?
-    
     /// Total memory limit (memory + swap) in format C(<number>[<unit>]), or the special values V(unlimited) or V(-1) for unlimited swap usage. Number is a positive integer. Unit can be V(B) (byte), V(K) (kibibyte, 1024B), V(M) (mebibyte), V(G) (gibibyte), V(T) (tebibyte), or V(P) (pebibyte).
     /// Omitting the unit defaults to bytes.
     memory_swap: String?
-    
     /// Tune a container's memory swappiness behavior. Accepts an integer between 0 and 100.
     /// If not set, the value will be remain the same if container exists and will be inherited from the host machine if it is (re-)created.
     memory_swappiness: Int?
-    
     /// Specification for mounts to be added to the container. More powerful alternative to O(volumes).
     mounts: Listing<Any>?
-    
     /// Assign a name to a new container or match an existing container.
     /// When identifying an existing container name may be a name or a long or short container ID.
     name: String
-    
     /// Connect the container to a network. Choices are V(bridge), V(host), V(none), C(container:<name|id>), C(<network_name>) or V(default).
     /// Since community.docker 2.0.0, if O(networks_cli_compatible=true) and O(networks) contains at least one network, the default value for O(network_mode) is the name of the first network in the O(networks) list. You can prevent this by explicitly specifying a value for O(network_mode), like the default value V(default) which will be used by Docker if O(network_mode) is not specified.
     network_mode: String?
-    
     /// List of networks the container belongs to.
     /// For examples of the data structure and usage see EXAMPLES below.
     /// To remove a container from one or more networks, use C(networks: strict) in the O(comparisons) option.
     /// If O(networks_cli_compatible=false), this will not remove the default network if O(networks) is specified. This is different from the behavior of C(docker run ...). You need to explicitly use C(networks: strict) in O(comparisons) to enforce the removal of the default network (and all other networks not explicitly mentioned in O(networks)) in that case.
     networks: Listing<Any>?
-    
     /// If O(networks_cli_compatible=true) (default), this module will behave as C(docker run --network) and will B(not) add the default network if O(networks) is specified. If O(networks) is not specified, the default network will be attached.
     /// When O(networks_cli_compatible=false) and networks are provided to the module via the O(networks) option, the module behaves differently than C(docker run --network): C(docker run --network other) will create a container with network C(other) attached, but the default network not attached. This module with O(networks) set to C({name: other}) will create a container with both C(default) and C(other) attached. If C(networks: strict) or C(*: strict) is set in O(comparisons), the C(default) network will be removed afterwards.
     networks_cli_compatible: Boolean?
-    
     /// Whether or not to disable OOM Killer for the container.
     oom_killer: Boolean?
-    
     /// An integer value containing the score given to the container in order to tune OOM killer preferences.
     oom_score_adj: Int?
-    
     /// If set to true, output of the container command will be printed.
     /// Only effective when O(log_driver) is set to V(json-file), V(journald), or V(local).
     output_logs: Boolean?
-    
     /// Use with the started state to pause running processes inside the container.
     /// If O(container_default_behavior=compatibility), this option has a default of V(false).
     paused: Boolean?
-    
     /// Set the PID namespace mode for the container.
     pid_mode: String?
-    
     /// Set PIDs limit for the container. It accepts an integer value.
     /// Set V(-1) for unlimited PIDs.
     pids_limit: Int?
-    
     /// Platform for the container in the format C(os[/arch[/variant]]).
     /// Note that since community.docker 3.5.0, the module uses both the image's metadata and the Docker daemon's information to normalize platform strings similarly to how Docker itself is doing this. If you notice idempotency problems, L(please create an issue in the community.docker GitHub repository, https://github.com/ansible-collections/community.docker/issues/new?assignees=&labels=&projects=&template=bug_report.md). For older community.docker versions, you can use the O(comparisons) option with C(platform: ignore) to prevent accidental recreation of the container due to this.
     platform: String?
-    
     /// Give extended privileges to the container.
     /// If O(container_default_behavior=compatibility), this option has a default of V(false).
     privileged: Boolean?
-    
     /// Publish all ports to the host.
     /// Any specified port bindings from O(published_ports) will remain intact when V(true).
     publish_all_ports: Boolean?
-    
     /// List of ports to publish from the container to the host.
     /// Use docker CLI syntax: V(8000), V(9000:8000), or V(0.0.0.0:9000:8000), where 8000 is a container port, 9000 is a host port, and 0.0.0.0 is a host interface.
     /// Port ranges can be used for source and destination ports. If two ranges with different lengths are specified, the shorter range will be used. Since community.general 0.2.0, if the source port range has length 1, the port will not be assigned to the first port of the destination range, but to a free port in that range. This is the same behavior as for C(docker) command line utility.
@@ -624,56 +510,43 @@ class DockerContainerOptions {
     /// If O(networks) parameter is provided, will inspect each network to see if there exists a bridge network with optional parameter C(com.docker.network.bridge.host_binding_ipv4). If such a network is found, then published ports where no host IP address is specified will be bound to the host IP pointed to by C(com.docker.network.bridge.host_binding_ipv4). Note that the first bridge network with a C(com.docker.network.bridge.host_binding_ipv4) value encountered in the list of O(networks) is the one that will be used.
     /// The value V(all) was allowed in earlier versions of this module. Support for it was removed in community.docker 3.0.0. Use the O(publish_all_ports) option instead.
     published_ports: Listing<String>?
-    
     /// If set to V(never), will never try to pull an image. Will fail if the image is not available on the Docker daemon.
     /// If set to V(missing) or V(false), only pull the image if it is not available on the Docker daemon. This is the default behavior.
     /// If set to V(always) or V(true), always try to pull the latest version of the image.
     /// B(Note:) images are only pulled when specified by name. If the image is specified as a image ID (hash), it cannot be pulled, and this option is ignored.
     /// B(Note:) the values V(never), V(missing), and V(always) are only available since community.docker 3.8.0. Earlier versions only support V(true) and V(false).
     pull: String?
-    
     /// Allows to adjust the behavior when O(pull=always) or O(pull=true) in check mode.
     /// Since the Docker daemon does not expose any functionality to test whether a pull will result in a changed image, the module by default acts like O(pull=always) only results in a change when the image is not present.
     /// If set to V(image_not_present) (default), only report changes in check mode when the image is not present.
     /// If set to V(always), always report changes in check mode.
     pull_check_mode_behavior: ("image_not_present"|"always")?
-    
     /// Remove the container from ALL networks not included in O(networks) parameter.
     /// Any default networks such as C(bridge), if not found in O(networks), will be removed as well.
     /// This option is deprecated since community.docker 3.2.0 and will be removed in community.docker 4.0.0. Use C(networks: strict) in O(comparisons) instead of O(purge_networks=true) and make sure that O(networks) is specified. If you want to remove all networks, specify O(networks) as C([]).
     purge_networks: Boolean?
-    
     /// Mount the container's root file system as read-only.
     /// If O(container_default_behavior=compatibility), this option has a default of V(false).
     read_only: Boolean?
-    
     /// Use with present and started states to force the re-creation of an existing container.
     recreate: Boolean?
-    
     /// When removing an existing container, the docker daemon API call exists after the container is scheduled for removal. Removal usually is very fast, but it can happen that during high I/O load, removal can take longer. By default, the module will wait until the container has been removed before trying to (re-)create it, however long this takes.
     /// By setting this option, the module will wait at most this many seconds for the container to be removed. If the container is still in the removal phase after this many seconds, the module will fail.
     removal_wait_timeout: Any?
-    
     /// Use with started state to force a matching container to be stopped and restarted.
     restart: Boolean?
-    
     /// Container restart policy.
     /// Place quotes around V(no) option.
     restart_policy: ("no"|"on-failure"|"always"|"unless-stopped")?
-    
     /// Use with restart policy to control maximum number of restart attempts.
     restart_retries: Int?
-    
     /// Runtime to use for the container.
     runtime: String?
-    
     /// List of security options in the form of C("label:user:User").
     security_opts: Listing<String>?
-    
     /// Size of C(/dev/shm) in format C(<number>[<unit>]). Number is positive integer. Unit can be V(B) (byte), V(K) (kibibyte, 1024B), V(M) (mebibyte), V(G) (gibibyte), V(T) (tebibyte), or V(P) (pebibyte).
     /// Omitting the unit defaults to bytes. If you omit the size entirely, Docker daemon uses V(64M).
     shm_size: String?
-    
     /// V(absent) - A container matching the specified name will be stopped and removed. Use O(force_kill) to kill the container rather than stopping it. Use O(keep_volumes) to retain anonymous volumes associated with the removed container.
     /// V(present) - Asserts the existence of a container matching the name and any provided configuration parameters. If no container matches the name, a container will be created. If a container matches the name but the provided configuration does not match, the container will be updated, if it can be. If it cannot be updated, it will be removed and re-created with the requested config.
     /// V(started) - Asserts that the container is first V(present), and then if the container is not running moves it to a running state. Use O(restart) to force a matching container to be stopped and restarted.
@@ -683,75 +556,62 @@ class DockerContainerOptions {
     /// If the container should be killed instead of stopped in case it needs to be stopped for recreation, or because O(state) is V(stopped), please use the O(force_kill) option. Use O(keep_volumes) to retain anonymous volumes associated with a removed container.
     /// Use O(keep_volumes) to retain anonymous volumes associated with a removed container.
     state: ("absent"|"present"|"stopped"|"started")?
-    
     /// Override default signal used to stop the container.
     stop_signal: String?
-    
     /// Number of seconds to wait for the container to stop before sending C(SIGKILL). When the container is created by this module, its C(StopTimeout) configuration will be set to this value.
     /// When the container is stopped, will be used as a timeout for stopping the container. In case the container has a custom C(StopTimeout) configuration, the behavior depends on the version of the docker daemon. New versions of the docker daemon will always use the container's configured C(StopTimeout) value if it has been configured.
     stop_timeout: Int?
-    
     /// Storage driver options for this container as a key-value mapping.
     storage_opts: Any?
-    
     /// Dictionary of key,value pairs.
     sysctls: Any?
-    
     /// Mount a tmpfs directory.
     tmpfs: Listing<String>?
-    
     /// Allocate a pseudo-TTY.
     /// If O(container_default_behavior=compatibility), this option has a default of V(false).
     tty: Boolean?
-    
     /// List of ulimit options. A ulimit is specified as V(nofile:262144:262144).
     ulimits: Listing<String>?
-    
     /// Sets the username or UID used and optionally the groupname or GID for the specified command.
     /// Can be of the forms C(user), C(user:group), C(uid), C(uid:gid), C(user:gid) or C(uid:group).
     user: String?
-    
     /// Set the user namespace mode for the container. Currently, the only valid value are V(host) and the empty string (V("")).
     userns_mode: String?
-    
     /// Set the UTS namespace mode for the container.
     uts: String?
-    
     /// The container volume driver.
     volume_driver: String?
-    
     /// List of volumes to mount within the container.
     /// Use docker CLI-style syntax: C(/host:/container[:mode])
     /// Mount modes can be a comma-separated list of various modes such as V(ro), V(rw), V(consistent), V(delegated), V(cached), V(rprivate), V(private), V(rshared), V(shared), V(rslave), V(slave), and V(nocopy). Note that the docker daemon might not support all modes and combinations of such modes.
     /// SELinux hosts can additionally use V(z) or V(Z) to use a shared or private label for the volume.
     /// Note that Ansible 2.7 and earlier only supported one mode, which had to be one of V(ro), V(rw), V(z), and V(Z).
     volumes: Listing<String>?
-    
     /// List of container names or IDs to get volumes from.
     volumes_from: Listing<String>?
-    
     /// Path to the working directory.
     working_dir: String?
-    
 }
 
 /// Task class for docker_container
-class DockerContainer extends Playbook.Task {
-
-    /// Options for community.docker.docker_container
-    hidden options: DockerContainerOptions?
+class DockerContainerTask extends Playbook.Task {
 
     `community.docker.docker_container`: Dynamic
 
-    function build(): DockerContainer = this
-        .toMap()
-        .put(
-            "community.docker.docker_container",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerContainer)
+    function GetModuleName(): String = "community.docker.docker_container"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_container`
+}
 
+/// TaskBuilder class for docker_container
+class DockerContainer extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_container
+    options: DockerContainerOptions?
+
+    function Task(): DockerContainerTask = this
+        .toMap()
+        .put("community.docker.docker_container", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerContainerTask)
 }
 
 /// Copy a file into a Docker container
@@ -759,166 +619,146 @@ class DockerContainer extends Playbook.Task {
 /// Similar to C(docker cp).
 /// To copy files in a non-running container, you must provide the O(owner_id) and O(group_id) options. This is also necessary if the container does not contain a C(/bin/sh) shell with an C(id) tool.
 class DockerContainerCopyIntoOptions {
-    
     /// The name of the container to copy files to.
     container: String
-    
     /// Path to a file inside the Docker container.
     /// Must be an absolute path.
     container_path: String
-    
     /// The file's content.
     /// If you plan to provide binary data, provide it pre-encoded to base64, and set O(content_is_b64=true).
     /// Mutually exclusive with O(path). One of O(content) and O(path) is required.
     content: String?
-    
     /// If set to V(true), the content in O(content) is assumed to be Base64 encoded and will be decoded before being used.
     /// To use binary O(content), it is better to keep it Base64 encoded and let it be decoded by this option. Otherwise you risk the data to be interpreted as UTF-8 and corrupted.
     content_is_b64: Boolean?
-    
     /// This flag indicates that filesystem links in the Docker container, if they exist, should be followed.
     follow: Boolean?
-    
     /// If set to V(true), force writing the file (without performing any idempotency checks).
     /// If set to V(false), only write the file if it does not exist on the target. If a filesystem object exists at the destination, the module will not do any change.
     /// If this option is not specified, the module will be idempotent. To verify idempotency, it will try to get information on the filesystem object in the container, and if everything seems to match will download the file from the container to compare it to the file to upload.
     force: Boolean?
-    
     /// The group ID to use when writing the file to disk.
     /// If provided, O(owner_id) must also be provided.
     /// If not provided, the module will try to determine the user and group ID for the current user in the container. This will only work if C(/bin/sh) is present in the container and the C(id) binary or shell builtin is available. Also the container must be running.
     group_id: Int?
-    
     /// This flag indicates that filesystem links in the source tree (where the module is executed), if they exist, should be followed.
     local_follow: Boolean?
-    
     /// The file mode to use when writing the file to disk.
     /// Will use the file's mode from the source system if this option is not provided.
     mode: Int?
-    
     /// The owner ID to use when writing the file to disk.
     /// If provided, O(group_id) must also be provided.
     /// If not provided, the module will try to determine the user and group ID for the current user in the container. This will only work if C(/bin/sh) is present in the container and the C(id) binary or shell builtin is available. Also the container must be running.
     owner_id: Int?
-    
     /// Path to a file on the managed node.
     /// Mutually exclusive with O(content). One of O(content) and O(path) is required.
     path: String?
-    
 }
 
 /// Task class for docker_container_copy_into
-class DockerContainerCopyInto extends Playbook.Task {
-
-    /// Options for community.docker.docker_container_copy_into
-    hidden options: DockerContainerCopyIntoOptions?
+class DockerContainerCopyIntoTask extends Playbook.Task {
 
     `community.docker.docker_container_copy_into`: Dynamic
 
-    function build(): DockerContainerCopyInto = this
-        .toMap()
-        .put(
-            "community.docker.docker_container_copy_into",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerContainerCopyInto)
+    function GetModuleName(): String = "community.docker.docker_container_copy_into"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_container_copy_into`
+}
 
+/// TaskBuilder class for docker_container_copy_into
+class DockerContainerCopyInto extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_container_copy_into
+    options: DockerContainerCopyIntoOptions?
+
+    function Task(): DockerContainerCopyIntoTask = this
+        .toMap()
+        .put("community.docker.docker_container_copy_into", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerContainerCopyIntoTask)
 }
 
 /// Execute command in a docker container
 /// Executes a command in a Docker container.
 class DockerContainerExecOptions {
-    
     /// The command to execute.
     /// Since this is a list of arguments, no quoting is needed.
     /// Exactly one of O(argv) or O(command) must be specified.
     argv: Listing<String>?
-    
     /// The directory to run the command in.
     chdir: String?
-    
     /// The command to execute.
     /// Exactly one of O(argv) or O(command) must be specified.
     command: String?
-    
     /// The name of the container to execute the command in.
     container: String
-    
     /// Whether to run the command synchronously (O(detach=false), default) or asynchronously (O(detach=true)).
     /// If set to V(true), O(stdin) cannot be provided, and the return values RV(stdout), RV(stderr), and RV(rc) are not returned.
     detach: Boolean?
-    
     /// Dictionary of environment variables with their respective values to be passed to the command ran inside the container.
     /// Values which might be parsed as numbers, booleans or other types by the YAML parser must be quoted (for example V("true")) in order to avoid data loss.
     /// Please note that if you are passing values in with Jinja2 templates, like V("{{ value }}"), you need to add V(| string) to prevent Ansible to convert strings such as V("true") back to booleans. The correct way is to use V("{{ value | string }}").
     env: Any?
-    
     /// Set the stdin of the command directly to the specified value.
     /// Can only be used if O(detach=false).
     stdin: String?
-    
     /// If set to V(true), appends a newline to O(stdin).
     stdin_add_newline: Boolean?
-    
     /// Strip empty lines from the end of stdout/stderr in result.
     strip_empty_ends: Boolean?
-    
     /// Whether to allocate a TTY.
     tty: Boolean?
-    
     /// If specified, the user to execute this command with.
     user: String?
-    
 }
 
 /// Task class for docker_container_exec
-class DockerContainerExec extends Playbook.Task {
-
-    /// Options for community.docker.docker_container_exec
-    hidden options: DockerContainerExecOptions?
+class DockerContainerExecTask extends Playbook.Task {
 
     `community.docker.docker_container_exec`: Dynamic
 
-    function build(): DockerContainerExec = this
-        .toMap()
-        .put(
-            "community.docker.docker_container_exec",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerContainerExec)
+    function GetModuleName(): String = "community.docker.docker_container_exec"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_container_exec`
+}
 
+/// TaskBuilder class for docker_container_exec
+class DockerContainerExec extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_container_exec
+    options: DockerContainerExecOptions?
+
+    function Task(): DockerContainerExecTask = this
+        .toMap()
+        .put("community.docker.docker_container_exec", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerContainerExecTask)
 }
 
 /// Retrieves facts about docker container
 /// Retrieves facts about a docker container.
 /// Essentially returns the output of C(docker inspect <name>), similar to what M(community.docker.docker_container) returns for a non-absent container.
 class DockerContainerInfoOptions {
-    
     /// The name of the container to inspect.
     /// When identifying an existing container name may be a name or a long or short container ID.
     name: String
-    
 }
 
 /// Task class for docker_container_info
-class DockerContainerInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_container_info
-    hidden options: DockerContainerInfoOptions?
+class DockerContainerInfoTask extends Playbook.Task {
 
     `community.docker.docker_container_info`: Dynamic
 
-    function build(): DockerContainerInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_container_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerContainerInfo)
+    function GetModuleName(): String = "community.docker.docker_container_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_container_info`
+}
 
+/// TaskBuilder class for docker_container_info
+class DockerContainerInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_container_info
+    options: DockerContainerInfoOptions?
+
+    function Task(): DockerContainerInfoTask = this
+        .toMap()
+        .put("community.docker.docker_container_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerContainerInfoTask)
 }
 
 /// Retrieves facts about docker host and lists of objects of the services.
@@ -928,262 +768,223 @@ class DockerContainerInfo extends Playbook.Task {
 /// The output differs depending on API version of the docker daemon.
 /// If the docker daemon cannot be contacted or does not meet the API version requirements, the module will fail.
 class DockerHostInfoOptions {
-    
     /// Whether to list containers.
     containers: Boolean?
-    
     /// By default, only running containers are returned.
     /// This corresponds to the C(--all) option to C(docker container list).
     containers_all: Boolean?
-    
     /// A dictionary of filter values used for selecting containers to list.
     /// For example, C(until: 24h).
     /// C(label) is a special case of filter which can be a string C(<key>) matching when a label is present, a string C(<key>=<value>) matching when a label has a particular value, or a list of strings C(<key>)/C(<key>=<value).
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/container_prune/#filtering) for more information on possible filters.
     containers_filters: Any?
-    
     /// Summary information on used disk space by all Docker layers.
     /// The output is a sum of images, volumes, containers and build cache.
     disk_usage: Boolean?
-    
     /// Whether to list images.
     images: Boolean?
-    
     /// A dictionary of filter values used for selecting images to list.
     /// For example, C(dangling: true).
     /// C(label) is a special case of filter which can be a string C(<key>) matching when a label is present, a string C(<key>=<value>) matching when a label has a particular value, or a list of strings C(<key>)/C(<key>=<value).
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/image_prune/#filtering) for more information on possible filters.
     images_filters: Any?
-    
     /// Whether to list networks.
     networks: Boolean?
-    
     /// A dictionary of filter values used for selecting networks to list.
     /// C(label) is a special case of filter which can be a string C(<key>) matching when a label is present, a string C(<key>=<value>) matching when a label has a particular value, or a list of strings C(<key>)/C(<key>=<value).
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/network_prune/#filtering) for more information on possible filters.
     networks_filters: Any?
-    
     /// When set to V(true) and O(networks), O(volumes), O(images), O(containers), or O(disk_usage) is set to V(true) then output will contain verbose information about objects matching the full output of API method. For details see the documentation of your version of Docker API at U(https://docs.docker.com/engine/api/).
     /// The verbose output in this module contains only subset of information returned by this module for each type of the objects.
     verbose_output: Boolean?
-    
     /// Whether to list volumes.
     volumes: Boolean?
-    
     /// A dictionary of filter values used for selecting volumes to list.
     /// C(label) is a special case of filter which can be a string C(<key>) matching when a label is present, a string C(<key>=<value>) matching when a label has a particular value, or a list of strings C(<key>)/C(<key>=<value).
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/volume_prune/#filtering) for more information on possible filters.
     volumes_filters: Any?
-    
 }
 
 /// Task class for docker_host_info
-class DockerHostInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_host_info
-    hidden options: DockerHostInfoOptions?
+class DockerHostInfoTask extends Playbook.Task {
 
     `community.docker.docker_host_info`: Dynamic
 
-    function build(): DockerHostInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_host_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerHostInfo)
+    function GetModuleName(): String = "community.docker.docker_host_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_host_info`
+}
 
+/// TaskBuilder class for docker_host_info
+class DockerHostInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_host_info
+    options: DockerHostInfoOptions?
+
+    function Task(): DockerHostInfoTask = this
+        .toMap()
+        .put("community.docker.docker_host_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerHostInfoTask)
 }
 
 /// Manage docker images
 /// Build, load or pull an image, making the image available for creating containers. Also supports tagging an image, pushing an image, and archiving an image to a C(.tar) file.
 class DockerImageOptions {
-    
     /// Use with O(state=present) to archive an image to a C(.tar) file.
     archive_path: String?
-    
     /// Specifies options used for building images.
     build: Any?
-    
     /// Use with O(state=absent) to un-tag and remove all images matching the specified name.
     force_absent: Boolean?
-    
     /// Use with O(state=present) to build, load or pull an image (depending on the value of the O(source) option) when the image already exists.
     force_source: Boolean?
-    
     /// Use with O(state=present) to force tagging an image.
     force_tag: Boolean?
-    
     /// Use with O(state=present) to load an image from a C(.tar) file.
     /// Set O(source=load) if you want to load the image.
     load_path: String?
-    
     /// Image name. Name format will be one of: C(name), C(repository/name), C(registry_server:port/name). When pushing or pulling an image the name can optionally include the tag by appending C(:tag_name).
     /// Note that image IDs (hashes) are only supported for O(state=absent), for O(state=present) with O(source=load), and for O(state=present) with O(source=local).
     name: String
-    
     /// Specifies options used for pulling images.
     pull: Any?
-    
     /// Push the image to the registry. Specify the registry as part of the O(name) or O(repository) parameter.
     push: Boolean?
-    
     /// Use with O(state=present) to tag the image.
     /// Expects format C(repository:tag). If no tag is provided, will use the value of the O(tag) parameter or V(latest).
     /// If O(push=true), O(repository) must either include a registry, or will be assumed to belong to the default registry (Docker Hub).
     repository: String?
-    
     /// Determines where the module will try to retrieve the image from.
     /// Use V(build) to build the image from a C(Dockerfile). O(build.path) must be specified when this value is used.
     /// Use V(load) to load the image from a C(.tar) file. O(load_path) must be specified when this value is used.
     /// Use V(pull) to pull the image from a registry.
     /// Use V(local) to make sure that the image is already available on the local docker daemon. This means that the module does not try to build, pull or load the image.
     source: ("build"|"load"|"pull"|"local")?
-    
     /// Make assertions about the state of an image.
     /// When V(absent) an image will be removed. Use the force option to un-tag and remove all images matching the provided name.
     /// When V(present) check if an image exists using the provided name and tag. If the image is not found or the force option is used, the image will either be pulled, built or loaded, depending on the O(source) option.
     state: ("absent"|"present")?
-    
     /// Used to select an image when pulling. Will be added to the image when pushing, tagging or building. Defaults to V(latest).
     /// If O(name) parameter format is C(name:tag), then tag value from O(name) will take precedence.
     tag: String?
-    
 }
 
 /// Task class for docker_image
-class DockerImage extends Playbook.Task {
-
-    /// Options for community.docker.docker_image
-    hidden options: DockerImageOptions?
+class DockerImageTask extends Playbook.Task {
 
     `community.docker.docker_image`: Dynamic
 
-    function build(): DockerImage = this
-        .toMap()
-        .put(
-            "community.docker.docker_image",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerImage)
+    function GetModuleName(): String = "community.docker.docker_image"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_image`
+}
 
+/// TaskBuilder class for docker_image
+class DockerImage extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_image
+    options: DockerImageOptions?
+
+    function Task(): DockerImageTask = this
+        .toMap()
+        .put("community.docker.docker_image", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerImageTask)
 }
 
 /// Build Docker images using Docker buildx
 /// This module allows you to build Docker images using Docker's buildx plugin (BuildKit).
 class DockerImageBuildOptions {
-    
     /// Provide a dictionary of C(key:value) build arguments that map to Dockerfile ARG directive.
     /// Docker expects the value to be a string. For convenience any non-string values will be converted to strings.
     args: Any?
-    
     /// List of image names to consider as cache source.
     cache_from: Listing<String>?
-    
     /// Provide an alternate name for the Dockerfile to use when building an image.
     /// This can also include a relative path (relative to O(path)).
     dockerfile: String?
-    
     /// Extra hosts to add to C(/etc/hosts) in building containers, as a mapping of hostname to IP address.
     etc_hosts: Any?
-    
     /// Dictionary of key value pairs.
     labels: Any?
-    
     /// Image name. Name format will be one of: C(name), C(repository/name), C(registry_server:port/name). When pushing or pulling an image the name can optionally include the tag by appending C(:tag_name).
     /// Note that image IDs (hashes) and names with digest cannot be used.
     name: String
-    
     /// The network to use for C(RUN) build instructions.
     network: String?
-    
     /// Do not use cache when building an image.
     nocache: Boolean?
-    
     /// The path for the build environment.
     path: String
-    
     /// Platform in the format C(os[/arch[/variant]]).
     platform: String?
-    
     /// When building an image downloads any updates to the FROM image in Dockerfile.
     pull: Boolean?
-    
     /// Defines the behavior of the module if the image to build (as specified in O(name) and O(tag)) already exists.
     rebuild: ("never"|"always")?
-    
     /// Size of C(/dev/shm) in format C(<number>[<unit>]). Number is positive integer. Unit can be V(B) (byte), V(K) (kibibyte, 1024B), V(M) (mebibyte), V(G) (gibibyte), V(T) (tebibyte), or V(P) (pebibyte).
     /// Omitting the unit defaults to bytes. If you omit the size entirely, Docker daemon uses V(64M).
     shm_size: String?
-    
     /// Tag for the image name O(name) that is to be tagged.
     /// If O(name)'s format is C(name:tag), then the tag value from O(name) will take precedence.
     tag: String?
-    
     /// When building an image specifies an intermediate build stage by name as a final stage for the resulting image.
     target: String?
-    
 }
 
 /// Task class for docker_image_build
-class DockerImageBuild extends Playbook.Task {
-
-    /// Options for community.docker.docker_image_build
-    hidden options: DockerImageBuildOptions?
+class DockerImageBuildTask extends Playbook.Task {
 
     `community.docker.docker_image_build`: Dynamic
 
-    function build(): DockerImageBuild = this
-        .toMap()
-        .put(
-            "community.docker.docker_image_build",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerImageBuild)
+    function GetModuleName(): String = "community.docker.docker_image_build"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_build`
+}
 
+/// TaskBuilder class for docker_image_build
+class DockerImageBuild extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_image_build
+    options: DockerImageBuildOptions?
+
+    function Task(): DockerImageBuildTask = this
+        .toMap()
+        .put("community.docker.docker_image_build", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerImageBuildTask)
 }
 
 /// Export (archive) Docker images
 /// Creates an archive (tarball) from one or more Docker images.
 /// This can be copied to another machine and loaded with M(community.docker.docker_image_load).
 class DockerImageExportOptions {
-    
     /// Export the image even if the C(.tar) file already exists and seems to contain the right image.
     force: Boolean?
-    
     /// One or more image names. Name format will be one of: C(name), C(repository/name), C(registry_server:port/name). When pushing or pulling an image the name can optionally include the tag by appending C(:tag_name).
     /// Note that image IDs (hashes) can also be used.
     names: Listing<String>
-    
     /// The C(.tar) file the image should be exported to.
     path: String?
-    
     /// Tag for the image name O(name) that is to be tagged.
     /// If O(name)'s format is C(name:tag), then the tag value from O(name) will take precedence.
     tag: String?
-    
 }
 
 /// Task class for docker_image_export
-class DockerImageExport extends Playbook.Task {
-
-    /// Options for community.docker.docker_image_export
-    hidden options: DockerImageExportOptions?
+class DockerImageExportTask extends Playbook.Task {
 
     `community.docker.docker_image_export`: Dynamic
 
-    function build(): DockerImageExport = this
-        .toMap()
-        .put(
-            "community.docker.docker_image_export",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerImageExport)
+    function GetModuleName(): String = "community.docker.docker_image_export"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_export`
+}
 
+/// TaskBuilder class for docker_image_export
+class DockerImageExport extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_image_export
+    options: DockerImageExportOptions?
+
+    function Task(): DockerImageExportTask = this
+        .toMap()
+        .put("community.docker.docker_image_export", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerImageExportTask)
 }
 
 /// Inspect docker images
@@ -1191,211 +992,201 @@ class DockerImageExport extends Playbook.Task {
 /// If an image does not exist locally, it will not appear in the results. If you want to check whether an image exists locally, you can call the module with the image name, then check whether the result list is empty (image does not exist) or has one element (the image exists locally).
 /// The module will not attempt to pull images from registries. Use M(community.docker.docker_image) with O(community.docker.docker_image#module:source=pull) to ensure an image is pulled.
 class DockerImageInfoOptions {
-    
     /// An image name or a list of image names. Name format will be C(name[:tag]) or C(repository/name[:tag]), where C(tag) is optional. If a tag is not provided, V(latest) will be used. Instead of image names, also image IDs can be used.
     /// If no name is provided, a list of all images will be returned.
     name: Listing<String>?
-    
 }
 
 /// Task class for docker_image_info
-class DockerImageInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_image_info
-    hidden options: DockerImageInfoOptions?
+class DockerImageInfoTask extends Playbook.Task {
 
     `community.docker.docker_image_info`: Dynamic
 
-    function build(): DockerImageInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_image_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerImageInfo)
+    function GetModuleName(): String = "community.docker.docker_image_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_info`
+}
 
+/// TaskBuilder class for docker_image_info
+class DockerImageInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_image_info
+    options: DockerImageInfoOptions?
+
+    function Task(): DockerImageInfoTask = this
+        .toMap()
+        .put("community.docker.docker_image_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerImageInfoTask)
 }
 
 /// Load docker image(s) from archives
 /// Load one or multiple Docker images from a C(.tar) archive, and return information on the loaded image(s).
 class DockerImageLoadOptions {
-    
     /// The path to the C(.tar) archive to load Docker image(s) from.
     path: String
-    
 }
 
 /// Task class for docker_image_load
-class DockerImageLoad extends Playbook.Task {
-
-    /// Options for community.docker.docker_image_load
-    hidden options: DockerImageLoadOptions?
+class DockerImageLoadTask extends Playbook.Task {
 
     `community.docker.docker_image_load`: Dynamic
 
-    function build(): DockerImageLoad = this
-        .toMap()
-        .put(
-            "community.docker.docker_image_load",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerImageLoad)
+    function GetModuleName(): String = "community.docker.docker_image_load"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_load`
+}
 
+/// TaskBuilder class for docker_image_load
+class DockerImageLoad extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_image_load
+    options: DockerImageLoadOptions?
+
+    function Task(): DockerImageLoadTask = this
+        .toMap()
+        .put("community.docker.docker_image_load", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerImageLoadTask)
 }
 
 /// Pull Docker images from registries
 /// Pulls a Docker image from a registry.
 class DockerImagePullOptions {
-    
     /// Image name. Name format must be one of V(name), V(repository/name), or V(registry_server:port/name). - The name can optionally include the tag by appending V(:tag_name), or it can contain a digest by appending V(@hash:digest).
     name: String
-    
     /// Ask for this specific platform when pulling.
     platform: String?
-    
     /// Determines when to pull an image.
     /// If V(always), will always pull the image.
     /// If V(not_present), will only pull the image if no image of the name exists on the current Docker daemon, or if O(platform) does not match.
     pull: ("always"|"not_present")?
-    
     /// Used to select an image when pulling. Defaults to V(latest).
     /// If O(name) parameter format is C(name:tag) or C(image@hash:digest), then O(tag) will be ignored.
     tag: String?
-    
 }
 
 /// Task class for docker_image_pull
-class DockerImagePull extends Playbook.Task {
-
-    /// Options for community.docker.docker_image_pull
-    hidden options: DockerImagePullOptions?
+class DockerImagePullTask extends Playbook.Task {
 
     `community.docker.docker_image_pull`: Dynamic
 
-    function build(): DockerImagePull = this
-        .toMap()
-        .put(
-            "community.docker.docker_image_pull",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerImagePull)
+    function GetModuleName(): String = "community.docker.docker_image_pull"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_pull`
+}
 
+/// TaskBuilder class for docker_image_pull
+class DockerImagePull extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_image_pull
+    options: DockerImagePullOptions?
+
+    function Task(): DockerImagePullTask = this
+        .toMap()
+        .put("community.docker.docker_image_pull", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerImagePullTask)
 }
 
 /// Push Docker images to registries
 /// Pushes a Docker image to a registry.
 class DockerImagePushOptions {
-    
     /// Image name. Name format must be one of V(name), V(repository/name), or V(registry_server:port/name). - The name can optionally include the tag by appending V(:tag_name), or it can contain a digest by appending V(@hash:digest).
     name: String
-    
     /// Select which image to push. Defaults to V(latest).
     /// If O(name) parameter format is C(name:tag) or C(image@hash:digest), then O(tag) will be ignored.
     tag: String?
-    
 }
 
 /// Task class for docker_image_push
-class DockerImagePush extends Playbook.Task {
-
-    /// Options for community.docker.docker_image_push
-    hidden options: DockerImagePushOptions?
+class DockerImagePushTask extends Playbook.Task {
 
     `community.docker.docker_image_push`: Dynamic
 
-    function build(): DockerImagePush = this
-        .toMap()
-        .put(
-            "community.docker.docker_image_push",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerImagePush)
+    function GetModuleName(): String = "community.docker.docker_image_push"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_push`
+}
 
+/// TaskBuilder class for docker_image_push
+class DockerImagePush extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_image_push
+    options: DockerImagePushOptions?
+
+    function Task(): DockerImagePushTask = this
+        .toMap()
+        .put("community.docker.docker_image_push", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerImagePushTask)
 }
 
 /// Remove Docker images
 /// Remove Docker images from the Docker daemon.
 class DockerImageRemoveOptions {
-    
     /// Un-tag and remove all images matching the specified name.
     force: Boolean?
-    
     /// Image name. Name format will be one of: C(name), C(repository/name), C(registry_server:port/name). When pushing or pulling an image the name can optionally include the tag by appending C(:tag_name).
     /// Note that image IDs (hashes) can also be used.
     name: String
-    
     /// Delete untagged parent images.
     prune: Boolean?
-    
     /// Tag for the image name O(name) that is to be tagged.
     /// If O(name)'s format is C(name:tag), then the tag value from O(name) will take precedence.
     tag: String?
-    
 }
 
 /// Task class for docker_image_remove
-class DockerImageRemove extends Playbook.Task {
-
-    /// Options for community.docker.docker_image_remove
-    hidden options: DockerImageRemoveOptions?
+class DockerImageRemoveTask extends Playbook.Task {
 
     `community.docker.docker_image_remove`: Dynamic
 
-    function build(): DockerImageRemove = this
-        .toMap()
-        .put(
-            "community.docker.docker_image_remove",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerImageRemove)
+    function GetModuleName(): String = "community.docker.docker_image_remove"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_remove`
+}
 
+/// TaskBuilder class for docker_image_remove
+class DockerImageRemove extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_image_remove
+    options: DockerImageRemoveOptions?
+
+    function Task(): DockerImageRemoveTask = this
+        .toMap()
+        .put("community.docker.docker_image_remove", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerImageRemoveTask)
 }
 
 /// Tag Docker images with new names and/or tags
 /// This module allows to tag Docker images with new names and/or tags.
 class DockerImageTagOptions {
-    
     /// Defines the behavior if the image to be tagged already exists and is another image than the one identified by O(name) and O(tag).
     /// If set to V(keep), the tagged image is kept.
     /// If set to V(overwrite), the tagged image is overwritten by the specified one.
     existing_images: ("keep"|"overwrite")?
-    
     /// Image name. Name format will be one of: C(name), C(repository/name), C(registry_server:port/name). When pushing or pulling an image the name can optionally include the tag by appending C(:tag_name).
     /// Note that image IDs (hashes) can also be used.
     name: String
-    
     /// List of new image names to tag the image as.
     /// Expects format C(repository:tag). If no tag is provided, will use the value of the O(tag) parameter if present, or V(latest).
     repository: Listing<String>
-    
     /// Tag for the image name O(name) that is to be tagged.
     /// If O(name)'s format is C(name:tag), then the tag value from O(name) will take precedence.
     tag: String?
-    
 }
 
 /// Task class for docker_image_tag
-class DockerImageTag extends Playbook.Task {
-
-    /// Options for community.docker.docker_image_tag
-    hidden options: DockerImageTagOptions?
+class DockerImageTagTask extends Playbook.Task {
 
     `community.docker.docker_image_tag`: Dynamic
 
-    function build(): DockerImageTag = this
-        .toMap()
-        .put(
-            "community.docker.docker_image_tag",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerImageTag)
+    function GetModuleName(): String = "community.docker.docker_image_tag"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_tag`
+}
 
+/// TaskBuilder class for docker_image_tag
+class DockerImageTag extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_image_tag
+    options: DockerImageTagOptions?
+
+    function Task(): DockerImageTagTask = this
+        .toMap()
+        .put("community.docker.docker_image_tag", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerImageTagTask)
 }
 
 /// Log into a Docker registry.
@@ -1403,206 +1194,182 @@ class DockerImageTag extends Playbook.Task {
 /// Authenticate with a docker registry and add the credentials to your local Docker config file respectively the credentials store associated to the registry. Adding the credentials to the config files resp. the credential store allows future connections to the registry using tools such as Ansible's Docker modules, the Docker CLI and Docker SDK for Python without needing to provide credentials.
 /// Running in check mode will perform the authentication without updating the config file.
 class DockerLoginOptions {
-    
     /// Custom path to the Docker CLI configuration file.
     config_path: String?
-    
     /// The plaintext password for the registry account.
     /// Required when O(state=present).
     password: String?
-    
     /// Refresh existing authentication found in the configuration file.
     reauthorize: Boolean?
-    
     /// The registry URL.
     registry_url: String?
-    
     /// This controls the current state of the user. V(present) will login in a user, V(absent) will log them out.
     /// To logout you only need the registry server, which defaults to DockerHub.
     /// Before 2.1 you could ONLY log in.
     /// Docker does not support 'logout' with a custom config file.
     state: ("present"|"absent")?
-    
     /// The username for the registry account.
     /// Required when O(state=present).
     username: String?
-    
 }
 
 /// Task class for docker_login
-class DockerLogin extends Playbook.Task {
-
-    /// Options for community.docker.docker_login
-    hidden options: DockerLoginOptions?
+class DockerLoginTask extends Playbook.Task {
 
     `community.docker.docker_login`: Dynamic
 
-    function build(): DockerLogin = this
-        .toMap()
-        .put(
-            "community.docker.docker_login",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerLogin)
+    function GetModuleName(): String = "community.docker.docker_login"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_login`
+}
 
+/// TaskBuilder class for docker_login
+class DockerLogin extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_login
+    options: DockerLoginOptions?
+
+    function Task(): DockerLoginTask = this
+        .toMap()
+        .put("community.docker.docker_login", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerLoginTask)
 }
 
 /// Manage Docker networks
 /// Create/remove Docker networks and connect containers to them.
 /// Performs largely the same function as the C(docker network) CLI subcommand.
 class DockerNetworkOptions {
-    
     /// By default the connected list is canonical, meaning containers not on the list are removed from the network.
     /// Use O(appends) to leave existing containers connected.
     appends: Boolean?
-    
     /// If enabled, and the network is in the global scope, non-service containers on worker nodes will be able to connect to the network.
     attachable: Boolean?
-    
     /// List of container names or container IDs to connect to a network.
     /// Please note that the module only makes sure that these containers are connected to the network, but does not care about connection options. If you rely on specific IP addresses etc., use the M(community.docker.docker_container) module to ensure your containers are correctly connected to this network.
     connected: Listing<String>?
-    
     /// Specify the type of network. Docker provides bridge and overlay drivers, but 3rd party drivers can also be used.
     driver: String?
-    
     /// Dictionary of network settings. Consult docker docs for valid options and values.
     driver_options: Any?
-    
     /// Enable IPv6 networking.
     enable_ipv6: Boolean?
-    
     /// With state V(absent) forces disconnecting all containers from the network prior to deleting the network. With state V(present) will disconnect all containers, delete the network and re-create the network.
     /// This option is required if you have changed the IPAM or driver options and want an existing network to be updated to use the new options.
     force: Boolean?
-    
     /// Restrict external access to the network.
     internal: Boolean?
-    
     /// List of IPAM config blocks. Consult L(Docker docs,https://docs.docker.com/compose/compose-file/compose-file-v2/#ipam) for valid options and values. Note that O(ipam_config[].iprange) is spelled differently here (we use the notation from the Docker SDK for Python).
     ipam_config: Listing<Any>?
-    
     /// Specify an IPAM driver.
     ipam_driver: String?
-    
     /// Dictionary of IPAM driver options.
     ipam_driver_options: Any?
-    
     /// Dictionary of labels.
     labels: Any?
-    
     /// Name of the network to operate on.
     name: String
-    
     /// Specify the network's scope.
     scope: ("local"|"global"|"swarm")?
-    
     /// V(absent) deletes the network. If a network has connected containers, it cannot be deleted. Use the O(force) option to disconnect all containers and delete the network.
     /// V(present) creates the network, if it does not already exist with the specified parameters, and connects the list of containers provided via the connected parameter. Containers not on the list will be disconnected. An empty list will leave no containers connected to the network. Use the O(appends) option to leave existing containers connected. Use the O(force) options to force re-creation of the network.
     state: ("absent"|"present")?
-    
 }
 
 /// Task class for docker_network
-class DockerNetwork extends Playbook.Task {
-
-    /// Options for community.docker.docker_network
-    hidden options: DockerNetworkOptions?
+class DockerNetworkTask extends Playbook.Task {
 
     `community.docker.docker_network`: Dynamic
 
-    function build(): DockerNetwork = this
-        .toMap()
-        .put(
-            "community.docker.docker_network",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerNetwork)
+    function GetModuleName(): String = "community.docker.docker_network"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_network`
+}
 
+/// TaskBuilder class for docker_network
+class DockerNetwork extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_network
+    options: DockerNetworkOptions?
+
+    function Task(): DockerNetworkTask = this
+        .toMap()
+        .put("community.docker.docker_network", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerNetworkTask)
 }
 
 /// Retrieves facts about docker network
 /// Retrieves facts about a docker network.
 /// Essentially returns the output of C(docker network inspect <name>), similar to what M(community.docker.docker_network) returns for a non-absent network.
 class DockerNetworkInfoOptions {
-    
     /// The name of the network to inspect.
     /// When identifying an existing network name may be a name or a long or short network ID.
     name: String
-    
 }
 
 /// Task class for docker_network_info
-class DockerNetworkInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_network_info
-    hidden options: DockerNetworkInfoOptions?
+class DockerNetworkInfoTask extends Playbook.Task {
 
     `community.docker.docker_network_info`: Dynamic
 
-    function build(): DockerNetworkInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_network_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerNetworkInfo)
+    function GetModuleName(): String = "community.docker.docker_network_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_network_info`
+}
 
+/// TaskBuilder class for docker_network_info
+class DockerNetworkInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_network_info
+    options: DockerNetworkInfoOptions?
+
+    function Task(): DockerNetworkInfoTask = this
+        .toMap()
+        .put("community.docker.docker_network_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerNetworkInfoTask)
 }
 
 /// Manage Docker Swarm node
 /// Manages the Docker nodes via Swarm Manager.
 /// This module allows to change the node's role, its availability, and to modify, add or remove node labels.
 class DockerNodeOptions {
-    
     /// Node availability to assign. If not provided then node availability remains unchanged.
     availability: ("active"|"pause"|"drain")?
-    
     /// The hostname or ID of node as registered in Swarm.
     /// If more than one node is registered using the same hostname the ID must be used, otherwise module will fail.
     hostname: String
-    
     /// User-defined key/value metadata that will be assigned as node attribute.
     /// Label operations in this module apply to the docker swarm node specified by O(hostname). Use M(community.docker.docker_swarm) module to add/modify/remove swarm cluster labels.
     /// The actual state of labels assigned to the node when module completes its work depends on O(labels_state) and O(labels_to_remove) parameters values. See description below.
     labels: Any?
-    
     /// It defines the operation on the labels assigned to node and labels specified in O(labels) option.
     /// Set to V(merge) to combine labels provided in O(labels) with those already assigned to the node. If no labels are assigned then it will add listed labels. For labels that are already assigned to the node, it will update their values. The labels not specified in O(labels) will remain unchanged. If O(labels) is empty then no changes will be made.
     /// Set to V(replace) to replace all assigned labels with provided ones. If O(labels) is empty then all labels assigned to the node will be removed.
     labels_state: ("merge"|"replace")?
-    
     /// List of labels that will be removed from the node configuration. The list has to contain only label names, not their values.
     /// If the label provided on the list is not assigned to the node, the entry is ignored.
     /// If the label is both on the O(labels_to_remove) and O(labels), then value provided in O(labels) remains assigned to the node.
     /// If O(labels_state=replace) and O(labels) is not provided or empty then all labels assigned to node are removed and O(labels_to_remove) is ignored.
     labels_to_remove: Listing<String>?
-    
     /// Node role to assign. If not provided then node role remains unchanged.
     role: ("manager"|"worker")?
-    
 }
 
 /// Task class for docker_node
-class DockerNode extends Playbook.Task {
-
-    /// Options for community.docker.docker_node
-    hidden options: DockerNodeOptions?
+class DockerNodeTask extends Playbook.Task {
 
     `community.docker.docker_node`: Dynamic
 
-    function build(): DockerNode = this
-        .toMap()
-        .put(
-            "community.docker.docker_node",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerNode)
+    function GetModuleName(): String = "community.docker.docker_node"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_node`
+}
 
+/// TaskBuilder class for docker_node
+class DockerNode extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_node
+    options: DockerNodeOptions?
+
+    function Task(): DockerNodeTask = this
+        .toMap()
+        .put("community.docker.docker_node", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerNodeTask)
 }
 
 /// Retrieves facts about docker swarm node from Swarm Manager
@@ -1610,143 +1377,129 @@ class DockerNode extends Playbook.Task {
 /// Essentially returns the output of C(docker node inspect <name>).
 /// Must be executed on a host running as Swarm Manager, otherwise the module will fail.
 class DockerNodeInfoOptions {
-    
     /// The name of the node to inspect.
     /// The list of nodes names to inspect.
     /// If empty then return information of all nodes in Swarm cluster.
     /// When identifying the node use either the hostname of the node (as registered in Swarm) or node ID.
     /// If O(self=true) then this parameter is ignored.
     name: Listing<String>?
-    
     /// If V(true), queries the node (that is, the docker daemon) the module communicates with.
     /// If V(true) then O(name) is ignored.
     /// If V(false) then query depends on O(name) presence and value.
     self: Boolean?
-    
 }
 
 /// Task class for docker_node_info
-class DockerNodeInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_node_info
-    hidden options: DockerNodeInfoOptions?
+class DockerNodeInfoTask extends Playbook.Task {
 
     `community.docker.docker_node_info`: Dynamic
 
-    function build(): DockerNodeInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_node_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerNodeInfo)
+    function GetModuleName(): String = "community.docker.docker_node_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_node_info`
+}
 
+/// TaskBuilder class for docker_node_info
+class DockerNodeInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_node_info
+    options: DockerNodeInfoOptions?
+
+    function Task(): DockerNodeInfoTask = this
+        .toMap()
+        .put("community.docker.docker_node_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerNodeInfoTask)
 }
 
 /// Manage Docker plugins
 /// This module allows to install, delete, enable and disable Docker plugins.
 /// Performs largely the same function as the C(docker plugin) CLI subcommand.
 class DockerPluginOptions {
-    
     /// Local name for plugin.
     alias: String?
-    
     /// Timeout in seconds.
     enable_timeout: Int?
-    
     /// Remove even if the plugin is enabled.
     force_remove: Boolean?
-    
     /// Name of the plugin to operate on.
     plugin_name: String
-    
     /// Dictionary of plugin settings.
     plugin_options: Any?
-    
     /// V(absent) remove the plugin.
     /// V(present) install the plugin, if it does not already exist.
     /// V(enable) enable the plugin.
     /// V(disable) disable the plugin.
     state: ("absent"|"present"|"enable"|"disable")?
-    
 }
 
 /// Task class for docker_plugin
-class DockerPlugin extends Playbook.Task {
-
-    /// Options for community.docker.docker_plugin
-    hidden options: DockerPluginOptions?
+class DockerPluginTask extends Playbook.Task {
 
     `community.docker.docker_plugin`: Dynamic
 
-    function build(): DockerPlugin = this
-        .toMap()
-        .put(
-            "community.docker.docker_plugin",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerPlugin)
+    function GetModuleName(): String = "community.docker.docker_plugin"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_plugin`
+}
 
+/// TaskBuilder class for docker_plugin
+class DockerPlugin extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_plugin
+    options: DockerPluginOptions?
+
+    function Task(): DockerPluginTask = this
+        .toMap()
+        .put("community.docker.docker_plugin", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerPluginTask)
 }
 
 /// Allows to prune various docker objects
 /// Allows to run C(docker container prune), C(docker image prune), C(docker network prune) and C(docker volume prune) via the Docker API.
 class DockerPruneOptions {
-    
     /// Whether to prune the builder cache.
     builder_cache: Boolean?
-    
     /// Whether to prune containers.
     containers: Boolean?
-    
     /// A dictionary of filter values used for selecting containers to delete.
     /// For example, C(until: 24h).
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/container_prune/#filtering) for more information on possible filters.
     containers_filters: Any?
-    
     /// Whether to prune images.
     images: Boolean?
-    
     /// A dictionary of filter values used for selecting images to delete.
     /// For example, C(dangling: true).
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/image_prune/#filtering) for more information on possible filters.
     images_filters: Any?
-    
     /// Whether to prune networks.
     networks: Boolean?
-    
     /// A dictionary of filter values used for selecting networks to delete.
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/network_prune/#filtering) for more information on possible filters.
     networks_filters: Any?
-    
     /// Whether to prune volumes.
     volumes: Boolean?
-    
     /// A dictionary of filter values used for selecting volumes to delete.
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/volume_prune/#filtering) for more information on possible filters.
     volumes_filters: Any?
-    
 }
 
 /// Task class for docker_prune
-class DockerPrune extends Playbook.Task {
-
-    /// Options for community.docker.docker_prune
-    hidden options: DockerPruneOptions?
+class DockerPruneTask extends Playbook.Task {
 
     `community.docker.docker_prune`: Dynamic
 
-    function build(): DockerPrune = this
-        .toMap()
-        .put(
-            "community.docker.docker_prune",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerPrune)
+    function GetModuleName(): String = "community.docker.docker_prune"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_prune`
+}
 
+/// TaskBuilder class for docker_prune
+class DockerPrune extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_prune
+    options: DockerPruneOptions?
+
+    function Task(): DockerPruneTask = this
+        .toMap()
+        .put("community.docker.docker_prune", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerPruneTask)
 }
 
 /// Manage docker secrets.
@@ -1754,373 +1507,303 @@ class DockerPrune extends Playbook.Task {
 /// Adds to the metadata of new secrets C(ansible_key), an encrypted hash representation of the data, which is then used in future runs to test if a secret has changed. If C(ansible_key) is not present, then a secret will not be updated unless the O(force) option is set.
 /// Updates to secrets are performed by removing the secret and creating it again.
 class DockerSecretOptions {
-    
     /// The value of the secret.
     /// Mutually exclusive with O(data_src). One of O(data) and O(data_src) is required if O(state=present).
     data: String?
-    
     /// If set to V(true), the data is assumed to be Base64 encoded and will be decoded before being used.
     /// To use binary O(data), it is better to keep it Base64 encoded and let it be decoded by this option.
     data_is_b64: Boolean?
-    
     /// The file on the target from which to read the secret.
     /// Mutually exclusive with O(data). One of O(data) and O(data_src) is required if O(state=present).
     data_src: String?
-    
     /// Use with O(state=present) to always remove and recreate an existing secret.
     /// If V(true), an existing secret will be replaced, even if it has not changed.
     force: Boolean?
-    
     /// A map of key:value meta data, where both key and value are expected to be strings.
     /// If new meta data is provided, or existing meta data is modified, the secret will be updated by removing it and creating it again.
     labels: Any?
-    
     /// The name of the secret.
     name: String
-    
     /// If set to V(true), secrets are created with an increasing version number appended to their name.
     /// Adds a label containing the version number to the managed secrets with the name C(ansible_version).
     rolling_versions: Boolean?
-    
     /// Set to V(present), if the secret should exist, and V(absent), if it should not.
     state: ("absent"|"present")?
-    
     /// When using O(rolling_versions), the number of old versions of the secret to keep.
     /// Extraneous old secrets are deleted after the new one is created.
     /// Set to V(-1) to keep everything or to V(0) or V(1) to keep only the current one.
     versions_to_keep: Int?
-    
 }
 
 /// Task class for docker_secret
-class DockerSecret extends Playbook.Task {
-
-    /// Options for community.docker.docker_secret
-    hidden options: DockerSecretOptions?
+class DockerSecretTask extends Playbook.Task {
 
     `community.docker.docker_secret`: Dynamic
 
-    function build(): DockerSecret = this
-        .toMap()
-        .put(
-            "community.docker.docker_secret",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerSecret)
+    function GetModuleName(): String = "community.docker.docker_secret"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_secret`
+}
 
+/// TaskBuilder class for docker_secret
+class DockerSecret extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_secret
+    options: DockerSecretOptions?
+
+    function Task(): DockerSecretTask = this
+        .toMap()
+        .put("community.docker.docker_secret", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerSecretTask)
 }
 
 /// docker stack module
 /// Manage docker stacks using the C(docker stack) command on the target node (see examples).
 class DockerStackOptions {
-    
     /// If larger than V(0) and O(state=absent) the module will retry up to O(absent_retries) times to delete the stack until all the resources have been effectively deleted. If the last try still reports the stack as not completely removed the module will fail.
     absent_retries: Int?
-    
     /// Interval in seconds between consecutive O(absent_retries).
     absent_retries_interval: Int?
-    
     api_version: Any?
-    
     ca_path: Any?
-    
     cli_context: Any?
-    
     client_cert: Any?
-    
     client_key: Any?
-    
     /// List of compose definitions. Any element may be a string referring to the path of the compose file on the target host or the YAML contents of a compose file nested as dictionary.
     compose: Listing<String>?
-    
     docker_cli: Any?
-    
     docker_host: Any?
-    
     /// Stack name
     name: String
-    
     /// If true will add the C(--prune) option to the C(docker stack deploy) command. This will have docker remove the services not present in the current stack definition.
     prune: Boolean?
-    
     /// If set will add the C(--resolve-image) option to the C(docker stack deploy) command. This will have docker query the registry to resolve image digest and supported platforms. If not set, docker use "always" by default.
     resolve_image: ("always"|"changed"|"never")?
-    
     /// Service state.
     state: ("present"|"absent")?
-    
     tls: Any?
-    
     tls_hostname: Any?
-    
     validate_certs: Any?
-    
     /// If true will add the C(--with-registry-auth) option to the C(docker stack deploy) command. This will have docker send registry authentication details to Swarm agents.
     with_registry_auth: Boolean?
-    
 }
 
 /// Task class for docker_stack
-class DockerStack extends Playbook.Task {
-
-    /// Options for community.docker.docker_stack
-    hidden options: DockerStackOptions?
+class DockerStackTask extends Playbook.Task {
 
     `community.docker.docker_stack`: Dynamic
 
-    function build(): DockerStack = this
-        .toMap()
-        .put(
-            "community.docker.docker_stack",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerStack)
+    function GetModuleName(): String = "community.docker.docker_stack"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_stack`
+}
 
+/// TaskBuilder class for docker_stack
+class DockerStack extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_stack
+    options: DockerStackOptions?
+
+    function Task(): DockerStackTask = this
+        .toMap()
+        .put("community.docker.docker_stack", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerStackTask)
 }
 
 /// Return information on all docker stacks
 /// Retrieve information on docker stacks using the C(docker stack) command on the target node (see examples).
 class DockerStackInfoOptions {
-    
     api_version: Any?
-    
     ca_path: Any?
-    
     cli_context: Any?
-    
     client_cert: Any?
-    
     client_key: Any?
-    
     docker_cli: Any?
-    
     docker_host: Any?
-    
     tls: Any?
-    
     tls_hostname: Any?
-    
     validate_certs: Any?
-    
 }
 
 /// Task class for docker_stack_info
-class DockerStackInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_stack_info
-    hidden options: DockerStackInfoOptions?
+class DockerStackInfoTask extends Playbook.Task {
 
     `community.docker.docker_stack_info`: Dynamic
 
-    function build(): DockerStackInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_stack_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerStackInfo)
+    function GetModuleName(): String = "community.docker.docker_stack_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_stack_info`
+}
 
+/// TaskBuilder class for docker_stack_info
+class DockerStackInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_stack_info
+    options: DockerStackInfoOptions?
+
+    function Task(): DockerStackInfoTask = this
+        .toMap()
+        .put("community.docker.docker_stack_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerStackInfoTask)
 }
 
 /// Return information of the tasks on a docker stack
 /// Retrieve information on docker stacks tasks using the C(docker stack) command on the target node (see examples).
 class DockerStackTaskInfoOptions {
-    
     api_version: Any?
-    
     ca_path: Any?
-    
     cli_context: Any?
-    
     client_cert: Any?
-    
     client_key: Any?
-    
     docker_cli: Any?
-    
     docker_host: Any?
-    
     /// Stack name.
     name: String
-    
     tls: Any?
-    
     tls_hostname: Any?
-    
     validate_certs: Any?
-    
 }
 
 /// Task class for docker_stack_task_info
-class DockerStackTaskInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_stack_task_info
-    hidden options: DockerStackTaskInfoOptions?
+class DockerStackTaskInfoTask extends Playbook.Task {
 
     `community.docker.docker_stack_task_info`: Dynamic
 
-    function build(): DockerStackTaskInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_stack_task_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerStackTaskInfo)
+    function GetModuleName(): String = "community.docker.docker_stack_task_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_stack_task_info`
+}
 
+/// TaskBuilder class for docker_stack_task_info
+class DockerStackTaskInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_stack_task_info
+    options: DockerStackTaskInfoOptions?
+
+    function Task(): DockerStackTaskInfoTask = this
+        .toMap()
+        .put("community.docker.docker_stack_task_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerStackTaskInfoTask)
 }
 
 /// Manage Swarm cluster
 /// Create a new Swarm cluster.
 /// Add/Remove nodes or managers to an existing cluster.
 class DockerSwarmOptions {
-    
     /// Externally reachable address advertised to other nodes.
     /// This can either be an address/port combination in the form V(192.168.1.1:4567), or an interface followed by a port number, like V(eth0:4567).
     /// If the port number is omitted, the port number from the listen address is used.
     /// If O(advertise_addr) is not specified, it will be automatically detected when possible.
     /// Only used when swarm is initialised or joined. Because of this it's not considered for idempotency checking.
     advertise_addr: String?
-    
     /// If set, generate a key and use it to lock data stored on the managers.
     /// Docker default value is V(false).
     /// M(community.docker.docker_swarm_info) can be used to retrieve the unlock key.
     autolock_managers: Boolean?
-    
     /// An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified.
     /// Docker default value is V(0).
     /// Requires API version >= 1.30.
     ca_force_rotate: Int?
-    
     /// Address or interface to use for data path traffic.
     /// This can either be an address in the form V(192.168.1.1), or an interface, like V(eth0).
     /// Only used when swarm is initialised or joined. Because of this it is not considered for idempotency checking.
     /// Requires API version >= 1.30.
     data_path_addr: String?
-    
     /// Port to use for data path traffic.
     /// This needs to be a port number like V(9789).
     /// Only used when swarm is initialised. Because of this it is not considered for idempotency checking.
     /// Requires API version >= 1.40.
     data_path_port: Int?
-    
     /// Default address pool in CIDR format.
     /// Only used when swarm is initialised. Because of this it's not considered for idempotency checking.
     /// Requires API version >= 1.39.
     default_addr_pool: Listing<String>?
-    
     /// The delay (in nanoseconds) for an agent to send a heartbeat to the dispatcher.
     /// Docker default value is 5 seconds, which corresponds to a value of V(5000000000).
     dispatcher_heartbeat_period: Int?
-    
     /// Amount of ticks (in seconds) needed without a leader to trigger a new election.
     /// Docker default value is V(10) seconds.
     election_tick: Int?
-    
     /// Use with state V(present) to force creating a new Swarm, even if already part of one.
     /// Use with state V(absent) to Leave the swarm even if this node is a manager.
     force: Boolean?
-    
     /// Amount of ticks (in seconds) between each heartbeat.
     /// Docker default value is V(1) seconds.
     heartbeat_tick: Int?
-    
     /// Swarm token used to join a swarm cluster.
     /// Used with O(state=join).
     /// If this value is specified, the corresponding value in the return values will be censored by Ansible. This is a side-effect of this value not being logged.
     join_token: String?
-    
     /// Number of snapshots to keep beyond the current snapshot.
     /// Docker default value is V(0).
     keep_old_snapshots: Int?
-    
     /// User-defined key/value metadata.
     /// Label operations in this module apply to the docker swarm cluster. Use M(community.docker.docker_node) module to add/modify/remove swarm node labels.
     /// Requires API version >= 1.32.
     labels: Any?
-    
     /// Listen address used for inter-manager communication.
     /// This can either be an address/port combination in the form V(192.168.1.1:4567), or an interface followed by a port number, like V(eth0:4567).
     /// If the port number is omitted, the default swarm listening port is used.
     /// Only used when swarm is initialised or joined. Because of this it's not considered for idempotency checking.
     listen_addr: String?
-    
     /// Number of log entries to keep around to sync up slow followers after a snapshot is created.
     log_entries_for_slow_followers: Int?
-    
     /// The name of the swarm.
     name: String?
-    
     /// Automatic expiry for nodes certificates, given in nanoseconds.
     /// Docker default value is 90 days, which corresponds to a value of V(7776000000000000).
     node_cert_expiry: Int?
-    
     /// Swarm id of the node to remove.
     /// Used with O(state=remove).
     node_id: String?
-    
     /// Remote address of one or more manager nodes of an existing Swarm to connect to.
     /// Used with O(state=join).
     remote_addrs: Listing<String>?
-    
     /// Rotate the manager join token.
     rotate_manager_token: Boolean?
-    
     /// Rotate the worker join token.
     rotate_worker_token: Boolean?
-    
     /// The desired signing CA certificate for all swarm node TLS leaf certificates, in PEM format.
     /// This must not be a path to a certificate, but the contents of the certificate.
     /// Requires API version >= 1.30.
     signing_ca_cert: String?
-    
     /// The desired signing CA key for all swarm node TLS leaf certificates, in PEM format.
     /// This must not be a path to a key, but the contents of the key.
     /// Requires API version >= 1.30.
     signing_ca_key: String?
-    
     /// Number of logs entries between snapshot.
     /// Docker default value is V(10000).
     snapshot_interval: Int?
-    
     /// Set to V(present), to create/update a new cluster.
     /// Set to V(join), to join an existing cluster.
     /// Set to V(absent), to leave an existing cluster.
     /// Set to V(remove), to remove an absent node from the cluster. Note that removing requires Docker SDK for Python >= 2.4.0.
     /// M(community.docker.docker_node) can be used to demote a manager before removal.
     state: ("present"|"join"|"absent"|"remove")?
-    
     /// Default address pool subnet mask length.
     /// Only used when swarm is initialised. Because of this it's not considered for idempotency checking.
     /// Requires API version >= 1.39.
     subnet_size: Int?
-    
     /// Maximum number of tasks history stored.
     /// Docker default value is V(5).
     task_history_retention_limit: Int?
-    
 }
 
 /// Task class for docker_swarm
-class DockerSwarm extends Playbook.Task {
-
-    /// Options for community.docker.docker_swarm
-    hidden options: DockerSwarmOptions?
+class DockerSwarmTask extends Playbook.Task {
 
     `community.docker.docker_swarm`: Dynamic
 
-    function build(): DockerSwarm = this
-        .toMap()
-        .put(
-            "community.docker.docker_swarm",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerSwarm)
+    function GetModuleName(): String = "community.docker.docker_swarm"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_swarm`
+}
 
+/// TaskBuilder class for docker_swarm
+class DockerSwarm extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_swarm
+    options: DockerSwarmOptions?
+
+    function Task(): DockerSwarmTask = this
+        .toMap()
+        .put("community.docker.docker_swarm", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerSwarmTask)
 }
 
 /// Retrieves facts about Docker Swarm cluster.
@@ -2129,259 +1812,211 @@ class DockerSwarm extends Playbook.Task {
 /// The output differs depending on API version available on docker host.
 /// Must be run on Swarm Manager node; otherwise module fails with error message. It does return boolean flags in on both error and success which indicate whether the docker daemon can be communicated with, whether it is in Swarm mode, and whether it is a Swarm Manager node.
 class DockerSwarmInfoOptions {
-    
     /// Whether to list swarm nodes.
     nodes: Boolean?
-    
     /// A dictionary of filter values used for selecting nodes to list.
     /// For example, C(name: mynode).
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/node_ls/#filtering) for more information on possible filters.
     nodes_filters: Any?
-    
     /// Whether to list swarm services.
     services: Boolean?
-    
     /// A dictionary of filter values used for selecting services to list.
     /// For example, C(name: myservice).
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/service_ls/#filtering) for more information on possible filters.
     services_filters: Any?
-    
     /// Whether to list containers.
     tasks: Boolean?
-    
     /// A dictionary of filter values used for selecting tasks to list.
     /// For example, C(node: mynode-1).
     /// See L(the docker documentation,https://docs.docker.com/engine/reference/commandline/service_ps/#filtering) for more information on possible filters.
     tasks_filters: Any?
-    
     /// Whether to retrieve the swarm unlock key.
     unlock_key: Boolean?
-    
     /// When set to V(true) and O(nodes), O(services), or O(tasks) is set to V(true), then the module output will contain verbose information about objects matching the full output of API method.
     /// For details see the documentation of your version of Docker API at U(https://docs.docker.com/engine/api/).
     /// The verbose output in this module contains only subset of information returned by this info module for each type of the objects.
     verbose_output: Boolean?
-    
 }
 
 /// Task class for docker_swarm_info
-class DockerSwarmInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_swarm_info
-    hidden options: DockerSwarmInfoOptions?
+class DockerSwarmInfoTask extends Playbook.Task {
 
     `community.docker.docker_swarm_info`: Dynamic
 
-    function build(): DockerSwarmInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_swarm_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerSwarmInfo)
+    function GetModuleName(): String = "community.docker.docker_swarm_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_swarm_info`
+}
 
+/// TaskBuilder class for docker_swarm_info
+class DockerSwarmInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_swarm_info
+    options: DockerSwarmInfoOptions?
+
+    function Task(): DockerSwarmInfoTask = this
+        .toMap()
+        .put("community.docker.docker_swarm_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerSwarmInfoTask)
 }
 
 /// docker swarm service
 /// Manages docker services via a swarm manager node.
 /// This modules does not support updating services in a stack.
 class DockerSwarmServiceOptions {
-    
     /// List arguments to be passed to the container.
     /// Corresponds to the C(ARG) parameter of C(docker service create).
     args: Listing<String>?
-    
     /// List of capabilities to add to the container.
     /// Requires API version >= 1.41.
     cap_add: Listing<String>?
-    
     /// List of capabilities to drop from the container.
     /// Requires API version >= 1.41.
     cap_drop: Listing<String>?
-    
     /// Command to execute when the container starts.
     /// A command may be either a string or a list or a list of strings.
     /// Corresponds to the C(COMMAND) parameter of C(docker service create).
     command: String?
-    
     /// List of dictionaries describing the service configs.
     /// Corresponds to the C(--config) option of C(docker service create).
     /// Requires API version >= 1.30.
     configs: Listing<Any>?
-    
     /// Dictionary of key value pairs.
     /// Corresponds to the C(--container-label) option of C(docker service create).
     container_labels: Any?
-    
     /// List of custom DNS servers.
     /// Corresponds to the C(--dns) option of C(docker service create).
     dns: Listing<String>?
-    
     /// List of custom DNS options.
     /// Corresponds to the C(--dns-option) option of C(docker service create).
     dns_options: Listing<String>?
-    
     /// List of custom DNS search domains.
     /// Corresponds to the C(--dns-search) option of C(docker service create).
     dns_search: Listing<String>?
-    
     /// Service endpoint mode.
     /// Corresponds to the C(--endpoint-mode) option of C(docker service create).
     endpoint_mode: ("vip"|"dnsrr")?
-    
     /// List or dictionary of the service environment variables.
     /// If passed a list each items need to be in the format of C(KEY=VALUE).
     /// If passed a dictionary values which might be parsed as numbers, booleans or other types by the YAML parser must be quoted (for example V("true")) in order to avoid data loss.
     /// Corresponds to the C(--env) option of C(docker service create).
     env: String?
-    
     /// List of paths to files, present on the target, containing environment variables C(FOO=BAR).
     /// The order of the list is significant in determining the value assigned to a variable that shows up more than once.
     /// If variable also present in O(env), then O(env) value will override.
     env_files: Listing<String>?
-    
     /// Force update even if no changes require it.
     /// Corresponds to the C(--force) option of C(docker service update).
     force_update: Boolean?
-    
     /// List of additional group names and/or IDs that the container process will run as.
     /// Corresponds to the C(--group) option of C(docker service update).
     groups: Listing<String>?
-    
     /// Configure a check that is run to determine whether or not containers for this service are "healthy". See the docs for the L(HEALTHCHECK Dockerfile instruction,https://docs.docker.com/engine/reference/builder/#healthcheck) for details on how healthchecks work.
     /// O(healthcheck.interval), O(healthcheck.timeout), and O(healthcheck.start_period) are specified as durations. They accept duration as a string in a format that look like: V(5h34m56s), V(1m30s), and so on. The supported units are V(us), V(ms), V(s), V(m) and V(h).
     healthcheck: Any?
-    
     /// Container hostname.
     /// Corresponds to the C(--hostname) option of C(docker service create).
     hostname: String?
-    
     /// Dict of host-to-IP mappings, where each host name is a key in the dictionary. Each host name will be added to the container's /etc/hosts file.
     /// Corresponds to the C(--host) option of C(docker service create).
     hosts: Any?
-    
     /// Service image path and tag.
     /// Corresponds to the C(IMAGE) parameter of C(docker service create).
     image: String?
-    
     /// Use an init inside each service container to forward signals and reap processes.
     /// Corresponds to the C(--init) option of C(docker service create).
     /// Requires API version >= 1.37.
     init: Boolean?
-    
     /// Dictionary of key value pairs.
     /// Corresponds to the C(--label) option of C(docker service create).
     labels: Any?
-    
     /// Configures service resource limits.
     limits: Any?
-    
     /// Logging configuration for the service.
     logging: Any?
-    
     /// Service replication mode.
     /// Service will be removed and recreated when changed.
     /// Corresponds to the C(--mode) option of C(docker service create).
     mode: ("replicated"|"global")?
-    
     /// List of dictionaries describing the service mounts.
     /// Corresponds to the C(--mount) option of C(docker service create).
     mounts: Listing<Any>?
-    
     /// Service name.
     /// Corresponds to the C(--name) option of C(docker service create).
     name: String
-    
     /// List of the service networks names or dictionaries.
     /// When passed dictionaries valid sub-options are C(name), which is required, and C(aliases) and C(options).
     /// Prior to API version 1.29, updating and removing networks is not supported. If changes are made the service will then be removed and recreated.
     /// Corresponds to the C(--network) option of C(docker service create).
     networks: Listing<String>?
-    
     /// Configures service placement preferences and constraints.
     placement: Any?
-    
     /// List of dictionaries describing the service published ports.
     /// Corresponds to the C(--publish) option of C(docker service create).
     publish: Listing<Any>?
-    
     /// Mount the containers root filesystem as read only.
     /// Corresponds to the C(--read-only) option of C(docker service create).
     read_only: Boolean?
-    
     /// Number of containers instantiated in the service. Valid only if O(mode=replicated).
     /// If set to V(-1), and service is not present, service replicas will be set to V(1).
     /// If set to V(-1), and service is present, service replicas will be unchanged.
     /// Corresponds to the C(--replicas) option of C(docker service create).
     replicas: Int?
-    
     /// Configures service resource reservations.
     reservations: Any?
-    
     /// If the current image digest should be resolved from registry and updated if changed.
     /// Requires API version >= 1.30.
     resolve_image: Boolean?
-    
     /// Configures if and how to restart containers when they exit.
     restart_config: Any?
-    
     /// Configures how the service should be rolled back in case of a failing update.
     rollback_config: Any?
-    
     /// List of dictionaries describing the service secrets.
     /// Corresponds to the C(--secret) option of C(docker service create).
     secrets: Listing<Any>?
-    
     /// V(absent) - A service matching the specified name will be removed and have its tasks stopped.
     /// V(present) - Asserts the existence of a service matching the name and provided configuration parameters. Unspecified configuration parameters will be set to docker defaults.
     state: ("present"|"absent")?
-    
     /// Time to wait before force killing a container.
     /// Accepts a duration as a string in a format that look like: V(5h34m56s), V(1m30s) etc. The supported units are V(us), V(ms), V(s), V(m) and V(h).
     /// Corresponds to the C(--stop-grace-period) option of C(docker service create).
     stop_grace_period: String?
-    
     /// Override default signal used to stop the container.
     /// Corresponds to the C(--stop-signal) option of C(docker service create).
     stop_signal: String?
-    
     /// Allocate a pseudo-TTY.
     /// Corresponds to the C(--tty) option of C(docker service create).
     tty: Boolean?
-    
     /// Configures how the service should be updated. Useful for configuring rolling updates.
     update_config: Any?
-    
     /// Sets the username or UID used for the specified command.
     /// Before Ansible 2.8, the default value for this option was V(root).
     /// The default has been removed so that the user defined in the image is used if no user is specified here.
     /// Corresponds to the C(--user) option of C(docker service create).
     user: String?
-    
     /// Path to the working directory.
     /// Corresponds to the C(--workdir) option of C(docker service create).
     working_dir: String?
-    
 }
 
 /// Task class for docker_swarm_service
-class DockerSwarmService extends Playbook.Task {
-
-    /// Options for community.docker.docker_swarm_service
-    hidden options: DockerSwarmServiceOptions?
+class DockerSwarmServiceTask extends Playbook.Task {
 
     `community.docker.docker_swarm_service`: Dynamic
 
-    function build(): DockerSwarmService = this
-        .toMap()
-        .put(
-            "community.docker.docker_swarm_service",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerSwarmService)
+    function GetModuleName(): String = "community.docker.docker_swarm_service"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_swarm_service`
+}
 
+/// TaskBuilder class for docker_swarm_service
+class DockerSwarmService extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_swarm_service
+    options: DockerSwarmServiceOptions?
+
+    function Task(): DockerSwarmServiceTask = this
+        .toMap()
+        .put("community.docker.docker_swarm_service", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerSwarmServiceTask)
 }
 
 /// Retrieves information about docker services from a Swarm Manager
@@ -2389,104 +2024,99 @@ class DockerSwarmService extends Playbook.Task {
 /// Essentially returns the output of C(docker service inspect <name>).
 /// Must be executed on a host running as Swarm Manager, otherwise the module will fail.
 class DockerSwarmServiceInfoOptions {
-    
     /// The name of the service to inspect.
     name: String
-    
 }
 
 /// Task class for docker_swarm_service_info
-class DockerSwarmServiceInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_swarm_service_info
-    hidden options: DockerSwarmServiceInfoOptions?
+class DockerSwarmServiceInfoTask extends Playbook.Task {
 
     `community.docker.docker_swarm_service_info`: Dynamic
 
-    function build(): DockerSwarmServiceInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_swarm_service_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerSwarmServiceInfo)
+    function GetModuleName(): String = "community.docker.docker_swarm_service_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_swarm_service_info`
+}
 
+/// TaskBuilder class for docker_swarm_service_info
+class DockerSwarmServiceInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_swarm_service_info
+    options: DockerSwarmServiceInfoOptions?
+
+    function Task(): DockerSwarmServiceInfoTask = this
+        .toMap()
+        .put("community.docker.docker_swarm_service_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerSwarmServiceInfoTask)
 }
 
 /// Manage Docker volumes
 /// Create/remove Docker volumes.
 /// Performs largely the same function as the C(docker volume) CLI subcommand.
 class DockerVolumeOptions {
-    
     /// Specify the type of volume. Docker provides the V(local) driver, but 3rd party drivers can also be used.
     driver: String?
-    
     /// Dictionary of volume settings. Consult docker docs for valid options and values: U(https://docs.docker.com/engine/reference/commandline/volume_create/#driver-specific-options).
     driver_options: Any?
-    
     /// Dictionary of label key/values to set for the volume
     labels: Any?
-    
     /// Controls when a volume will be recreated when O(state=present). Please note that recreating an existing volume will cause B(any data in the existing volume to be lost!) The volume will be deleted and a new volume with the same name will be created.
     /// The value V(always) forces the volume to be always recreated.
     /// The value V(never) makes sure the volume will not be recreated.
     /// The value V(options-changed) makes sure the volume will be recreated if the volume already exist and the driver, driver options or labels differ.
     recreate: ("always"|"never"|"options-changed")?
-    
     /// V(absent) deletes the volume.
     /// V(present) creates the volume, if it does not already exist.
     state: ("absent"|"present")?
-    
     /// Name of the volume to operate on.
     volume_name: String
-    
 }
 
 /// Task class for docker_volume
-class DockerVolume extends Playbook.Task {
-
-    /// Options for community.docker.docker_volume
-    hidden options: DockerVolumeOptions?
+class DockerVolumeTask extends Playbook.Task {
 
     `community.docker.docker_volume`: Dynamic
 
-    function build(): DockerVolume = this
-        .toMap()
-        .put(
-            "community.docker.docker_volume",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerVolume)
+    function GetModuleName(): String = "community.docker.docker_volume"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_volume`
+}
 
+/// TaskBuilder class for docker_volume
+class DockerVolume extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_volume
+    options: DockerVolumeOptions?
+
+    function Task(): DockerVolumeTask = this
+        .toMap()
+        .put("community.docker.docker_volume", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerVolumeTask)
 }
 
 /// Retrieve facts about Docker volumes
 /// Performs largely the same function as the C(docker volume inspect) CLI subcommand.
 class DockerVolumeInfoOptions {
-    
     /// Name of the volume to inspect.
     name: String
-    
 }
 
 /// Task class for docker_volume_info
-class DockerVolumeInfo extends Playbook.Task {
-
-    /// Options for community.docker.docker_volume_info
-    hidden options: DockerVolumeInfoOptions?
+class DockerVolumeInfoTask extends Playbook.Task {
 
     `community.docker.docker_volume_info`: Dynamic
 
-    function build(): DockerVolumeInfo = this
-        .toMap()
-        .put(
-            "community.docker.docker_volume_info",
-            (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic{})
-                |> (this.options_mixin ?? new Mixin<Dynamic>{})
-        )
-        .toTyped(DockerVolumeInfo)
+    function GetModuleName(): String = "community.docker.docker_volume_info"
+    function GetModuleOptions(): Dynamic = this.`community.docker.docker_volume_info`
+}
 
+/// TaskBuilder class for docker_volume_info
+class DockerVolumeInfo extends Playbook.TaskBuilder {
+    /// Options for community.docker.docker_volume_info
+    options: DockerVolumeInfoOptions?
+
+    function Task(): DockerVolumeInfoTask = this
+        .toMap()
+        .put("community.docker.docker_volume_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(DockerVolumeInfoTask)
 }
 

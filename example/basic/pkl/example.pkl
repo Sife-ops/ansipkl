@@ -1,82 +1,158 @@
 module example
 
-import "@ansipkl/AnsibleBuiltin.pkl"
-import "@ansipkl/CommunityGeneral.pkl"
-import "@ansipkl/Playbook.pkl"
+import "@ansipkl/AnsibleBuiltin.pkl" as AB
+import "@ansipkl/CommunityGeneral.pkl" as CG
+import "@ansipkl/Playbook.pkl" as P
 
-pb0 = new Listing<Playbook.Play> {
-    new {
+pb0 = P.NewPlaybook(new Listing {
+
+    new P.ImportPlaybook {
+        import_playbook = "foo.yml"
+        vars_val {
+            one = 1
+            two = 2
+        }
+    }.Include()
+
+    new P.Play {
         name = "play00"
         hosts = "self"
         remote_user = "root"
+        tasks {
 
-        tasks = Playbook.Tasks(new Listing {
-
-            new AnsibleBuiltin.Apt {
-                name = "install firefox"
+            new AB.Apt {
+                name = "install programs"
                 options {
                     name {
                         "firefox"
-                    }
-                }
-            }
-
-            new AnsibleBuiltin.Apt {
-                name = "install vim"
-                options {
-                    name {
                         "vim"
                     }
                 }
-            }
+            }.Task()
 
-        })
-    }
-}
-
-pb1 = new Listing<Playbook.Play> {
-    new {
-        name = "play01"
-        hosts = "self"
-        remote_user = "root"
-
-        tasks = Playbook.Tasks(new Listing {
-
-            new AnsibleBuiltin.SetFact {
-                name = "set hasProfile"
-                options_mixin {
-                    hasProfile = "yeahno"
-                }
-            }
-
-            new AnsibleBuiltin.Debug {
-                name = "debug hasProfile"
-                options {
-                    var = "hasProfile"
-                }
-            }
-
-        })
-    }
-}
-
-pb2 = new Listing<Playbook.Play> {
-    new {
-        name = "play02"
-        hosts = "self"
-        remote_user = "root"
-
-        tasks = Playbook.Tasks(new Listing {
-
-            new CommunityGeneral.Pacman {
+            new CG.Pacman {
                 name = "install thunderbird"
                 options {
                     name {
                         "thunderbird"
+                        "obs"
                     }
+                }
+            }.Task()
+
+        }
+    }
+
+})
+
+pb1 = P.NewPlaybook(new Listing {
+
+    new P.Play {
+        name = "play01"
+        hosts = "self"
+        remote_user = "root"
+        tasks {
+
+            new AB.SetFact {
+                name = "set hasProfile"
+                options_mixin {
+                    hasProfile = "yeahyes"
+                }
+            }.Task()
+
+            new AB.Debug {
+                name = "debug hasProfile"
+                options {
+                    var = "hasProfile"
+                }
+            }.Task()
+
+        }
+    }
+
+})
+
+pb2 = P.NewPlaybook(new Listing {
+    new P.Play {
+        name = "play02"
+        hosts = "self"
+        remote_user = "root"
+        serial = new Listing {
+            1
+            5
+            "20%"
+        }
+        roles {
+            new P.Role {
+                role = "docker"
+            }
+        }
+        tasks {
+            new P.Block {
+                name = "handle error"
+                block {
+                    new AB.Debug {
+                        name = "print msg"
+                        options {
+                            msg = "execute normal"
+                        }
+                    }.Task()
+
+                    new AB.Command {
+                        name = "force failure"
+                        options {
+                            cmd = "/bin/false"
+                        }
+                    }.Task()
+
+                    new AB.Debug {
+                        name = "unreachable"
+                        options {
+                            msg = "this code is unreachable"
+                        }
+                        register = "result"
+                        changed_when {
+                            "output"
+                            "result.idk == 2"
+                        }
+                    }.Task()
+                }
+                rescue {
+                    new AB.Debug {
+                        name = "print on error"
+                        options {
+                            msg = "an error was caught"
+                        }
+                    }.Task()
+                }
+                always {
+                    new AB.Debug {
+                        name = "always do"
+                        options {
+                            msg = "this always prints"
+                        }
+                    }.Task()
                 }
             }
 
-        })
-    }
-}
+            new AB.Copy {
+                name = "copy something"
+                options {
+                    dest = "/var/something"
+                    content = """
+                    this is the content
+                    this is the content
+                    this is the content
+                    """
+                }
+            }.Task()
+        }
+    }.ModuleDefaults(new Listing {
+            new AB.Uri {
+                options {
+                    url = "example.com"
+                    force_basic_auth = true
+                }
+            }.Task()
+    })
+})

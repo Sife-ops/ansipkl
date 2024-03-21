@@ -6,6 +6,6 @@ package {
         "Wyatt Goettsch <wyatt.goettsch@gmail.com>"
     }
     baseUri = "package://github.com/Sife-ops/\(name)"
-    version = "0.0.9" // VERSION
+    version = "0.0.10" // VERSION
     packageZipUrl = "https://github.com/Sife-ops/\(name)/releases/download/v\(version)/\(name)@\(version).zip"
 }

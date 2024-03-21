@@ -4,7 +4,7 @@
     name:
     - ca-certificates
     state: present
-- name: download docker apt keyring
+- name: download docker apt keyrings
   ansible.builtin.get_url:
     dest: /etc/apt/keyrings/docker.asc
     url: https://download.docker.com/linux/debian/gpg

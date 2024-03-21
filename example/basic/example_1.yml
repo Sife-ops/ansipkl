@@ -6,7 +6,7 @@
   tasks:
   - name: set hasProfile
     ansible.builtin.set_fact:
-      hasProfile: yeahno
+      hasProfile: yeahyes
   - name: debug hasProfile
     ansible.builtin.debug:
       var: hasProfile
