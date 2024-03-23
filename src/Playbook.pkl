@@ -67,7 +67,7 @@ class PlaybookInclude extends Plays {
     `ansible.builtin.import_playbook`: String?
     vars: Dynamic?
 
-    
+    // base classes
     `when`: String?
     tags: (String|Listing<String>)?
 }
@@ -82,7 +82,7 @@ class ImportPlaybook extends Base {
         .put("vars", this.vars_val)
         .toTyped(PlaybookInclude)
 
-    
+    // base classes
     `when`: String?
     tags: (String|Listing<String>)?
 }
@@ -108,7 +108,7 @@ abstract class Task extends Tasks {
     retries: Int?
     loop_with: String?
 
-    
+    // base classes
     `when`: String?
     tags: (String|Listing<String>)?
     collections: (String|Listing<String>)?
@@ -136,7 +136,7 @@ abstract class TaskBuilder extends Base {
     retries: Int?
     loop_with: String?
 
-    
+    // base classes
     `when`: String?
     tags: (String|Listing<String>)?
     collections: (String|Listing<String>)?
@@ -150,7 +150,7 @@ class Block extends Tasks {
     rescue: Listing<Tasks>?
     always: Listing<Tasks>?
 
-    
+    // base classes
     `when`: String?
     collections: (String|Listing<String>)?
     tags: (String|Listing<String>)?
@@ -166,7 +166,7 @@ class Handler extends Task {
 class Role extends Base {
     role: String
 
-    
+    // base classes
     `when`: String?
     collections: (String|Listing<String>)?
     tags: (String|Listing<String>)?

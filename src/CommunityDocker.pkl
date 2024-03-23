@@ -10,10 +10,11 @@ class CurrentContainerFactsOptions {
 
 /// Task class for current_container_facts
 class CurrentContainerFactsTask extends Playbook.Task {
-
-    `community.docker.current_container_facts`: Dynamic
-
+    /// todo doc
+    `community.docker.current_container_facts`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.current_container_facts"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.current_container_facts`
 }
 
@@ -21,7 +22,7 @@ class CurrentContainerFactsTask extends Playbook.Task {
 class CurrentContainerFacts extends Playbook.TaskBuilder {
     /// Options for community.docker.current_container_facts
     options: CurrentContainerFactsOptions?
-
+    /// todo doc
     function Task(): CurrentContainerFactsTask = this
         .toMap()
         .put("community.docker.current_container_facts", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -110,10 +111,11 @@ class DockerComposeOptions {
 
 /// Task class for docker_compose
 class DockerComposeTask extends Playbook.Task {
-
-    `community.docker.docker_compose`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_compose`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_compose"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_compose`
 }
 
@@ -121,7 +123,7 @@ class DockerComposeTask extends Playbook.Task {
 class DockerCompose extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_compose
     options: DockerComposeOptions?
-
+    /// todo doc
     function Task(): DockerComposeTask = this
         .toMap()
         .put("community.docker.docker_compose", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -177,10 +179,11 @@ class DockerComposeV2Options {
 
 /// Task class for docker_compose_v2
 class DockerComposeV2Task extends Playbook.Task {
-
-    `community.docker.docker_compose_v2`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_compose_v2`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_compose_v2"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_compose_v2`
 }
 
@@ -188,7 +191,7 @@ class DockerComposeV2Task extends Playbook.Task {
 class DockerComposeV2 extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_compose_v2
     options: DockerComposeV2Options?
-
+    /// todo doc
     function Task(): DockerComposeV2Task = this
         .toMap()
         .put("community.docker.docker_compose_v2", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -207,10 +210,11 @@ class DockerComposeV2PullOptions {
 
 /// Task class for docker_compose_v2_pull
 class DockerComposeV2PullTask extends Playbook.Task {
-
-    `community.docker.docker_compose_v2_pull`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_compose_v2_pull`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_compose_v2_pull"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_compose_v2_pull`
 }
 
@@ -218,7 +222,7 @@ class DockerComposeV2PullTask extends Playbook.Task {
 class DockerComposeV2Pull extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_compose_v2_pull
     options: DockerComposeV2PullOptions?
-
+    /// todo doc
     function Task(): DockerComposeV2PullTask = this
         .toMap()
         .put("community.docker.docker_compose_v2_pull", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -263,10 +267,11 @@ class DockerConfigOptions {
 
 /// Task class for docker_config
 class DockerConfigTask extends Playbook.Task {
-
-    `community.docker.docker_config`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_config`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_config"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_config`
 }
 
@@ -274,7 +279,7 @@ class DockerConfigTask extends Playbook.Task {
 class DockerConfig extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_config
     options: DockerConfigOptions?
-
+    /// todo doc
     function Task(): DockerConfigTask = this
         .toMap()
         .put("community.docker.docker_config", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -595,10 +600,11 @@ class DockerContainerOptions {
 
 /// Task class for docker_container
 class DockerContainerTask extends Playbook.Task {
-
-    `community.docker.docker_container`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_container`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_container"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_container`
 }
 
@@ -606,7 +612,7 @@ class DockerContainerTask extends Playbook.Task {
 class DockerContainer extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_container
     options: DockerContainerOptions?
-
+    /// todo doc
     function Task(): DockerContainerTask = this
         .toMap()
         .put("community.docker.docker_container", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -657,10 +663,11 @@ class DockerContainerCopyIntoOptions {
 
 /// Task class for docker_container_copy_into
 class DockerContainerCopyIntoTask extends Playbook.Task {
-
-    `community.docker.docker_container_copy_into`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_container_copy_into`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_container_copy_into"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_container_copy_into`
 }
 
@@ -668,7 +675,7 @@ class DockerContainerCopyIntoTask extends Playbook.Task {
 class DockerContainerCopyInto extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_container_copy_into
     options: DockerContainerCopyIntoOptions?
-
+    /// todo doc
     function Task(): DockerContainerCopyIntoTask = this
         .toMap()
         .put("community.docker.docker_container_copy_into", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -712,10 +719,11 @@ class DockerContainerExecOptions {
 
 /// Task class for docker_container_exec
 class DockerContainerExecTask extends Playbook.Task {
-
-    `community.docker.docker_container_exec`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_container_exec`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_container_exec"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_container_exec`
 }
 
@@ -723,7 +731,7 @@ class DockerContainerExecTask extends Playbook.Task {
 class DockerContainerExec extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_container_exec
     options: DockerContainerExecOptions?
-
+    /// todo doc
     function Task(): DockerContainerExecTask = this
         .toMap()
         .put("community.docker.docker_container_exec", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -742,10 +750,11 @@ class DockerContainerInfoOptions {
 
 /// Task class for docker_container_info
 class DockerContainerInfoTask extends Playbook.Task {
-
-    `community.docker.docker_container_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_container_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_container_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_container_info`
 }
 
@@ -753,7 +762,7 @@ class DockerContainerInfoTask extends Playbook.Task {
 class DockerContainerInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_container_info
     options: DockerContainerInfoOptions?
-
+    /// todo doc
     function Task(): DockerContainerInfoTask = this
         .toMap()
         .put("community.docker.docker_container_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -807,10 +816,11 @@ class DockerHostInfoOptions {
 
 /// Task class for docker_host_info
 class DockerHostInfoTask extends Playbook.Task {
-
-    `community.docker.docker_host_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_host_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_host_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_host_info`
 }
 
@@ -818,7 +828,7 @@ class DockerHostInfoTask extends Playbook.Task {
 class DockerHostInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_host_info
     options: DockerHostInfoOptions?
-
+    /// todo doc
     function Task(): DockerHostInfoTask = this
         .toMap()
         .put("community.docker.docker_host_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -870,10 +880,11 @@ class DockerImageOptions {
 
 /// Task class for docker_image
 class DockerImageTask extends Playbook.Task {
-
-    `community.docker.docker_image`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_image`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_image"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_image`
 }
 
@@ -881,7 +892,7 @@ class DockerImageTask extends Playbook.Task {
 class DockerImage extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_image
     options: DockerImageOptions?
-
+    /// todo doc
     function Task(): DockerImageTask = this
         .toMap()
         .put("community.docker.docker_image", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -931,10 +942,11 @@ class DockerImageBuildOptions {
 
 /// Task class for docker_image_build
 class DockerImageBuildTask extends Playbook.Task {
-
-    `community.docker.docker_image_build`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_image_build`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_image_build"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_build`
 }
 
@@ -942,7 +954,7 @@ class DockerImageBuildTask extends Playbook.Task {
 class DockerImageBuild extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_image_build
     options: DockerImageBuildOptions?
-
+    /// todo doc
     function Task(): DockerImageBuildTask = this
         .toMap()
         .put("community.docker.docker_image_build", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -968,10 +980,11 @@ class DockerImageExportOptions {
 
 /// Task class for docker_image_export
 class DockerImageExportTask extends Playbook.Task {
-
-    `community.docker.docker_image_export`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_image_export`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_image_export"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_export`
 }
 
@@ -979,7 +992,7 @@ class DockerImageExportTask extends Playbook.Task {
 class DockerImageExport extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_image_export
     options: DockerImageExportOptions?
-
+    /// todo doc
     function Task(): DockerImageExportTask = this
         .toMap()
         .put("community.docker.docker_image_export", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -999,10 +1012,11 @@ class DockerImageInfoOptions {
 
 /// Task class for docker_image_info
 class DockerImageInfoTask extends Playbook.Task {
-
-    `community.docker.docker_image_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_image_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_image_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_info`
 }
 
@@ -1010,7 +1024,7 @@ class DockerImageInfoTask extends Playbook.Task {
 class DockerImageInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_image_info
     options: DockerImageInfoOptions?
-
+    /// todo doc
     function Task(): DockerImageInfoTask = this
         .toMap()
         .put("community.docker.docker_image_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1027,10 +1041,11 @@ class DockerImageLoadOptions {
 
 /// Task class for docker_image_load
 class DockerImageLoadTask extends Playbook.Task {
-
-    `community.docker.docker_image_load`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_image_load`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_image_load"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_load`
 }
 
@@ -1038,7 +1053,7 @@ class DockerImageLoadTask extends Playbook.Task {
 class DockerImageLoad extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_image_load
     options: DockerImageLoadOptions?
-
+    /// todo doc
     function Task(): DockerImageLoadTask = this
         .toMap()
         .put("community.docker.docker_image_load", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1064,10 +1079,11 @@ class DockerImagePullOptions {
 
 /// Task class for docker_image_pull
 class DockerImagePullTask extends Playbook.Task {
-
-    `community.docker.docker_image_pull`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_image_pull`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_image_pull"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_pull`
 }
 
@@ -1075,7 +1091,7 @@ class DockerImagePullTask extends Playbook.Task {
 class DockerImagePull extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_image_pull
     options: DockerImagePullOptions?
-
+    /// todo doc
     function Task(): DockerImagePullTask = this
         .toMap()
         .put("community.docker.docker_image_pull", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1095,10 +1111,11 @@ class DockerImagePushOptions {
 
 /// Task class for docker_image_push
 class DockerImagePushTask extends Playbook.Task {
-
-    `community.docker.docker_image_push`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_image_push`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_image_push"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_push`
 }
 
@@ -1106,7 +1123,7 @@ class DockerImagePushTask extends Playbook.Task {
 class DockerImagePush extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_image_push
     options: DockerImagePushOptions?
-
+    /// todo doc
     function Task(): DockerImagePushTask = this
         .toMap()
         .put("community.docker.docker_image_push", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1131,10 +1148,11 @@ class DockerImageRemoveOptions {
 
 /// Task class for docker_image_remove
 class DockerImageRemoveTask extends Playbook.Task {
-
-    `community.docker.docker_image_remove`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_image_remove`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_image_remove"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_remove`
 }
 
@@ -1142,7 +1160,7 @@ class DockerImageRemoveTask extends Playbook.Task {
 class DockerImageRemove extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_image_remove
     options: DockerImageRemoveOptions?
-
+    /// todo doc
     function Task(): DockerImageRemoveTask = this
         .toMap()
         .put("community.docker.docker_image_remove", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1170,10 +1188,11 @@ class DockerImageTagOptions {
 
 /// Task class for docker_image_tag
 class DockerImageTagTask extends Playbook.Task {
-
-    `community.docker.docker_image_tag`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_image_tag`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_image_tag"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_image_tag`
 }
 
@@ -1181,7 +1200,7 @@ class DockerImageTagTask extends Playbook.Task {
 class DockerImageTag extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_image_tag
     options: DockerImageTagOptions?
-
+    /// todo doc
     function Task(): DockerImageTagTask = this
         .toMap()
         .put("community.docker.docker_image_tag", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1215,10 +1234,11 @@ class DockerLoginOptions {
 
 /// Task class for docker_login
 class DockerLoginTask extends Playbook.Task {
-
-    `community.docker.docker_login`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_login`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_login"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_login`
 }
 
@@ -1226,7 +1246,7 @@ class DockerLoginTask extends Playbook.Task {
 class DockerLogin extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_login
     options: DockerLoginOptions?
-
+    /// todo doc
     function Task(): DockerLoginTask = this
         .toMap()
         .put("community.docker.docker_login", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1276,10 +1296,11 @@ class DockerNetworkOptions {
 
 /// Task class for docker_network
 class DockerNetworkTask extends Playbook.Task {
-
-    `community.docker.docker_network`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_network`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_network"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_network`
 }
 
@@ -1287,7 +1308,7 @@ class DockerNetworkTask extends Playbook.Task {
 class DockerNetwork extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_network
     options: DockerNetworkOptions?
-
+    /// todo doc
     function Task(): DockerNetworkTask = this
         .toMap()
         .put("community.docker.docker_network", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1306,10 +1327,11 @@ class DockerNetworkInfoOptions {
 
 /// Task class for docker_network_info
 class DockerNetworkInfoTask extends Playbook.Task {
-
-    `community.docker.docker_network_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_network_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_network_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_network_info`
 }
 
@@ -1317,7 +1339,7 @@ class DockerNetworkInfoTask extends Playbook.Task {
 class DockerNetworkInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_network_info
     options: DockerNetworkInfoOptions?
-
+    /// todo doc
     function Task(): DockerNetworkInfoTask = this
         .toMap()
         .put("community.docker.docker_network_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1353,10 +1375,11 @@ class DockerNodeOptions {
 
 /// Task class for docker_node
 class DockerNodeTask extends Playbook.Task {
-
-    `community.docker.docker_node`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_node`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_node"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_node`
 }
 
@@ -1364,7 +1387,7 @@ class DockerNodeTask extends Playbook.Task {
 class DockerNode extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_node
     options: DockerNodeOptions?
-
+    /// todo doc
     function Task(): DockerNodeTask = this
         .toMap()
         .put("community.docker.docker_node", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1391,10 +1414,11 @@ class DockerNodeInfoOptions {
 
 /// Task class for docker_node_info
 class DockerNodeInfoTask extends Playbook.Task {
-
-    `community.docker.docker_node_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_node_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_node_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_node_info`
 }
 
@@ -1402,7 +1426,7 @@ class DockerNodeInfoTask extends Playbook.Task {
 class DockerNodeInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_node_info
     options: DockerNodeInfoOptions?
-
+    /// todo doc
     function Task(): DockerNodeInfoTask = this
         .toMap()
         .put("community.docker.docker_node_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1433,10 +1457,11 @@ class DockerPluginOptions {
 
 /// Task class for docker_plugin
 class DockerPluginTask extends Playbook.Task {
-
-    `community.docker.docker_plugin`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_plugin`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_plugin"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_plugin`
 }
 
@@ -1444,7 +1469,7 @@ class DockerPluginTask extends Playbook.Task {
 class DockerPlugin extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_plugin
     options: DockerPluginOptions?
-
+    /// todo doc
     function Task(): DockerPluginTask = this
         .toMap()
         .put("community.docker.docker_plugin", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1483,10 +1508,11 @@ class DockerPruneOptions {
 
 /// Task class for docker_prune
 class DockerPruneTask extends Playbook.Task {
-
-    `community.docker.docker_prune`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_prune`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_prune"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_prune`
 }
 
@@ -1494,7 +1520,7 @@ class DockerPruneTask extends Playbook.Task {
 class DockerPrune extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_prune
     options: DockerPruneOptions?
-
+    /// todo doc
     function Task(): DockerPruneTask = this
         .toMap()
         .put("community.docker.docker_prune", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1537,10 +1563,11 @@ class DockerSecretOptions {
 
 /// Task class for docker_secret
 class DockerSecretTask extends Playbook.Task {
-
-    `community.docker.docker_secret`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_secret`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_secret"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_secret`
 }
 
@@ -1548,7 +1575,7 @@ class DockerSecretTask extends Playbook.Task {
 class DockerSecret extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_secret
     options: DockerSecretOptions?
-
+    /// todo doc
     function Task(): DockerSecretTask = this
         .toMap()
         .put("community.docker.docker_secret", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1589,10 +1616,11 @@ class DockerStackOptions {
 
 /// Task class for docker_stack
 class DockerStackTask extends Playbook.Task {
-
-    `community.docker.docker_stack`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_stack`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_stack"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_stack`
 }
 
@@ -1600,7 +1628,7 @@ class DockerStackTask extends Playbook.Task {
 class DockerStack extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_stack
     options: DockerStackOptions?
-
+    /// todo doc
     function Task(): DockerStackTask = this
         .toMap()
         .put("community.docker.docker_stack", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1625,10 +1653,11 @@ class DockerStackInfoOptions {
 
 /// Task class for docker_stack_info
 class DockerStackInfoTask extends Playbook.Task {
-
-    `community.docker.docker_stack_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_stack_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_stack_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_stack_info`
 }
 
@@ -1636,7 +1665,7 @@ class DockerStackInfoTask extends Playbook.Task {
 class DockerStackInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_stack_info
     options: DockerStackInfoOptions?
-
+    /// todo doc
     function Task(): DockerStackInfoTask = this
         .toMap()
         .put("community.docker.docker_stack_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1663,10 +1692,11 @@ class DockerStackTaskInfoOptions {
 
 /// Task class for docker_stack_task_info
 class DockerStackTaskInfoTask extends Playbook.Task {
-
-    `community.docker.docker_stack_task_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_stack_task_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_stack_task_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_stack_task_info`
 }
 
@@ -1674,7 +1704,7 @@ class DockerStackTaskInfoTask extends Playbook.Task {
 class DockerStackTaskInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_stack_task_info
     options: DockerStackTaskInfoOptions?
-
+    /// todo doc
     function Task(): DockerStackTaskInfoTask = this
         .toMap()
         .put("community.docker.docker_stack_task_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1787,10 +1817,11 @@ class DockerSwarmOptions {
 
 /// Task class for docker_swarm
 class DockerSwarmTask extends Playbook.Task {
-
-    `community.docker.docker_swarm`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_swarm`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_swarm"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_swarm`
 }
 
@@ -1798,7 +1829,7 @@ class DockerSwarmTask extends Playbook.Task {
 class DockerSwarm extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_swarm
     options: DockerSwarmOptions?
-
+    /// todo doc
     function Task(): DockerSwarmTask = this
         .toMap()
         .put("community.docker.docker_swarm", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1840,10 +1871,11 @@ class DockerSwarmInfoOptions {
 
 /// Task class for docker_swarm_info
 class DockerSwarmInfoTask extends Playbook.Task {
-
-    `community.docker.docker_swarm_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_swarm_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_swarm_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_swarm_info`
 }
 
@@ -1851,7 +1883,7 @@ class DockerSwarmInfoTask extends Playbook.Task {
 class DockerSwarmInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_swarm_info
     options: DockerSwarmInfoOptions?
-
+    /// todo doc
     function Task(): DockerSwarmInfoTask = this
         .toMap()
         .put("community.docker.docker_swarm_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2000,10 +2032,11 @@ class DockerSwarmServiceOptions {
 
 /// Task class for docker_swarm_service
 class DockerSwarmServiceTask extends Playbook.Task {
-
-    `community.docker.docker_swarm_service`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_swarm_service`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_swarm_service"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_swarm_service`
 }
 
@@ -2011,7 +2044,7 @@ class DockerSwarmServiceTask extends Playbook.Task {
 class DockerSwarmService extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_swarm_service
     options: DockerSwarmServiceOptions?
-
+    /// todo doc
     function Task(): DockerSwarmServiceTask = this
         .toMap()
         .put("community.docker.docker_swarm_service", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2030,10 +2063,11 @@ class DockerSwarmServiceInfoOptions {
 
 /// Task class for docker_swarm_service_info
 class DockerSwarmServiceInfoTask extends Playbook.Task {
-
-    `community.docker.docker_swarm_service_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_swarm_service_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_swarm_service_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_swarm_service_info`
 }
 
@@ -2041,7 +2075,7 @@ class DockerSwarmServiceInfoTask extends Playbook.Task {
 class DockerSwarmServiceInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_swarm_service_info
     options: DockerSwarmServiceInfoOptions?
-
+    /// todo doc
     function Task(): DockerSwarmServiceInfoTask = this
         .toMap()
         .put("community.docker.docker_swarm_service_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2073,10 +2107,11 @@ class DockerVolumeOptions {
 
 /// Task class for docker_volume
 class DockerVolumeTask extends Playbook.Task {
-
-    `community.docker.docker_volume`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_volume`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_volume"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_volume`
 }
 
@@ -2084,7 +2119,7 @@ class DockerVolumeTask extends Playbook.Task {
 class DockerVolume extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_volume
     options: DockerVolumeOptions?
-
+    /// todo doc
     function Task(): DockerVolumeTask = this
         .toMap()
         .put("community.docker.docker_volume", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2101,10 +2136,11 @@ class DockerVolumeInfoOptions {
 
 /// Task class for docker_volume_info
 class DockerVolumeInfoTask extends Playbook.Task {
-
-    `community.docker.docker_volume_info`: Dynamic
-
+    /// todo doc
+    `community.docker.docker_volume_info`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "community.docker.docker_volume_info"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`community.docker.docker_volume_info`
 }
 
@@ -2112,7 +2148,7 @@ class DockerVolumeInfoTask extends Playbook.Task {
 class DockerVolumeInfo extends Playbook.TaskBuilder {
     /// Options for community.docker.docker_volume_info
     options: DockerVolumeInfoOptions?
-
+    /// todo doc
     function Task(): DockerVolumeInfoTask = this
         .toMap()
         .put("community.docker.docker_volume_info", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})

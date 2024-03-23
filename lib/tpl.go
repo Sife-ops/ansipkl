@@ -50,7 +50,8 @@ class PlaybookInclude extends Plays {
     ` + "`ansible.builtin.import_playbook`" + `: String?
     vars: Dynamic?
 
-    {{ block "Conditional" . }} {{ end }}
+    // base classes
+    {{- block "Conditional" . }} {{ end }}
     {{- block "Taggable" . }} {{ end }}
 }
 
@@ -64,7 +65,8 @@ class ImportPlaybook extends Base {
         .put("vars", this.vars_val)
         .toTyped(PlaybookInclude)
 
-    {{ block "Conditional" . }} {{ end }}
+    // base classes
+    {{- block "Conditional" . }} {{ end }}
     {{- block "Taggable" . }} {{ end }}
 }
 
@@ -82,7 +84,8 @@ abstract class Task extends Tasks {
     {{ . }}
     {{- end }}
 
-    {{ block "Conditional" . }} {{ end }}
+    // base classes
+    {{- block "Conditional" . }} {{ end }}
     {{- block "Taggable" . }} {{ end }}
     {{- block "CollectionSearch" . }} {{ end }}
     {{- block "Notifiable" . }} {{ end }}
@@ -101,7 +104,8 @@ abstract class TaskBuilder extends Base {
     {{ . }}
     {{- end }}
 
-    {{ block "Conditional" . }} {{ end }}
+    // base classes
+    {{- block "Conditional" . }} {{ end }}
     {{- block "Taggable" . }} {{ end }}
     {{- block "CollectionSearch" . }} {{ end }}
     {{- block "Notifiable" . }} {{ end }}
@@ -117,7 +121,8 @@ class Block extends Tasks {
     {{ . }}
     {{- end }}
 
-    {{ block "Conditional" . }} {{ end }}
+    // base classes
+    {{- block "Conditional" . }} {{ end }}
     {{- block "CollectionSearch" . }} {{ end }}
     {{- block "Taggable" . }} {{ end }}
     {{- block "Notifiable" . }} {{ end }}
@@ -131,7 +136,8 @@ class Handler extends Task {
 class Role extends Base {
     role: String
 
-    {{ block "Conditional" . }} {{ end }}
+    // base classes
+    {{- block "Conditional" . }} {{ end }}
     {{- block "CollectionSearch" . }} {{ end }}
     {{- block "Taggable" . }} {{ end }}
 }
@@ -199,26 +205,23 @@ func TplModule(s string) (*template.Template, error) {
 class {{ .module.ToCamel }}Options {
     {{- range $key, $value := .module.Options }}
     {{- if eq $key "free-form" }}
-
     // {{ IntoProperty $key }}: {{ $value.IntoType }}
-
-    {{ else }}
-
+    {{- else }}
     {{- range $value.IntoDescription }}
     /// {{ . }}
     {{- end }}
     {{ IntoProperty $key }}: {{ $value.IntoType }}
-
     {{- end }}
     {{- end }}
 }
 
 /// Task class for {{ .module.Module }}
 class {{ .module.ToCamel }}Task extends Playbook.Task {
-
-    ` + "`" + s + ".{{ .module.Module }}" + "`" + `: Dynamic
-
+    /// todo doc
+    ` + "`" + s + ".{{ .module.Module }}" + "`" + `: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "` + s + `.{{ .module.Module }}"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.` + "`" + s + ".{{ .module.Module }}" + "`" + `
 }
 
@@ -226,7 +229,7 @@ class {{ .module.ToCamel }}Task extends Playbook.Task {
 class {{ .module.ToCamel }} extends Playbook.TaskBuilder {
     /// Options for ` + s + `.{{ .module.Module }}
     options: {{ .module.ToCamel }}Options?
-
+    /// todo doc
     function Task(): {{ .module.ToCamel }}Task = this
         .toMap()
         .put("` + s + `.{{ .module.Module }}", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})

@@ -20,6 +20,10 @@ pb0 = P.NewPlaybook(new Listing {
         remote_user = "root"
         tasks {
 
+            new AB.MetaTask {
+                `ansible.builtin.meta` = "end_play"
+            }
+
             new AB.Apt {
                 name = "install programs"
                 options {

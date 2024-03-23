@@ -15,10 +15,11 @@ class AddHostOptions {
 
 /// Task class for add_host
 class AddHostTask extends Playbook.Task {
-
-    `ansible.builtin.add_host`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.add_host`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.add_host"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.add_host`
 }
 
@@ -26,7 +27,7 @@ class AddHostTask extends Playbook.Task {
 class AddHost extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.add_host
     options: AddHostOptions?
-
+    /// todo doc
     function Task(): AddHostTask = this
         .toMap()
         .put("ansible.builtin.add_host", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -115,10 +116,11 @@ class AptOptions {
 
 /// Task class for apt
 class AptTask extends Playbook.Task {
-
-    `ansible.builtin.apt`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.apt`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.apt"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.apt`
 }
 
@@ -126,7 +128,7 @@ class AptTask extends Playbook.Task {
 class Apt extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.apt
     options: AptOptions?
-
+    /// todo doc
     function Task(): AptTask = this
         .toMap()
         .put("ansible.builtin.apt", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -160,10 +162,11 @@ class AptKeyOptions {
 
 /// Task class for apt_key
 class AptKeyTask extends Playbook.Task {
-
-    `ansible.builtin.apt_key`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.apt_key`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.apt_key"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.apt_key`
 }
 
@@ -171,7 +174,7 @@ class AptKeyTask extends Playbook.Task {
 class AptKey extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.apt_key
     options: AptKeyOptions?
-
+    /// todo doc
     function Task(): AptKeyTask = this
         .toMap()
         .put("ansible.builtin.apt_key", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -209,10 +212,11 @@ class AptRepositoryOptions {
 
 /// Task class for apt_repository
 class AptRepositoryTask extends Playbook.Task {
-
-    `ansible.builtin.apt_repository`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.apt_repository`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.apt_repository"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.apt_repository`
 }
 
@@ -220,7 +224,7 @@ class AptRepositoryTask extends Playbook.Task {
 class AptRepository extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.apt_repository
     options: AptRepositoryOptions?
-
+    /// todo doc
     function Task(): AptRepositoryTask = this
         .toMap()
         .put("ansible.builtin.apt_repository", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -260,10 +264,11 @@ class AssembleOptions {
 
 /// Task class for assemble
 class AssembleTask extends Playbook.Task {
-
-    `ansible.builtin.assemble`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.assemble`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.assemble"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.assemble`
 }
 
@@ -271,7 +276,7 @@ class AssembleTask extends Playbook.Task {
 class Assemble extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.assemble
     options: AssembleOptions?
-
+    /// todo doc
     function Task(): AssembleTask = this
         .toMap()
         .put("ansible.builtin.assemble", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -296,10 +301,11 @@ class AssertOptions {
 
 /// Task class for assert
 class AssertTask extends Playbook.Task {
-
-    `ansible.builtin.assert`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.assert`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.assert"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.assert`
 }
 
@@ -307,7 +313,7 @@ class AssertTask extends Playbook.Task {
 class Assert extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.assert
     options: AssertOptions?
-
+    /// todo doc
     function Task(): AssertTask = this
         .toMap()
         .put("ansible.builtin.assert", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -328,10 +334,11 @@ class AsyncStatusOptions {
 
 /// Task class for async_status
 class AsyncStatusTask extends Playbook.Task {
-
-    `ansible.builtin.async_status`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.async_status`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.async_status"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.async_status`
 }
 
@@ -339,7 +346,7 @@ class AsyncStatusTask extends Playbook.Task {
 class AsyncStatus extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.async_status
     options: AsyncStatusOptions?
-
+    /// todo doc
     function Task(): AsyncStatusTask = this
         .toMap()
         .put("ansible.builtin.async_status", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -392,10 +399,11 @@ class BlockinfileOptions {
 
 /// Task class for blockinfile
 class BlockinfileTask extends Playbook.Task {
-
-    `ansible.builtin.blockinfile`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.blockinfile`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.blockinfile"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.blockinfile`
 }
 
@@ -403,7 +411,7 @@ class BlockinfileTask extends Playbook.Task {
 class Blockinfile extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.blockinfile
     options: BlockinfileOptions?
-
+    /// todo doc
     function Task(): BlockinfileTask = this
         .toMap()
         .put("ansible.builtin.blockinfile", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -449,10 +457,11 @@ class CommandOptions {
 
 /// Task class for command
 class CommandTask extends Playbook.Task {
-
-    `ansible.builtin.command`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.command`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.command"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.command`
 }
 
@@ -460,7 +469,7 @@ class CommandTask extends Playbook.Task {
 class Command extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.command
     options: CommandOptions?
-
+    /// todo doc
     function Task(): CommandTask = this
         .toMap()
         .put("ansible.builtin.command", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -529,10 +538,11 @@ class CopyOptions {
 
 /// Task class for copy
 class CopyTask extends Playbook.Task {
-
-    `ansible.builtin.copy`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.copy`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.copy"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.copy`
 }
 
@@ -540,7 +550,7 @@ class CopyTask extends Playbook.Task {
 class Copy extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.copy
     options: CopyOptions?
-
+    /// todo doc
     function Task(): CopyTask = this
         .toMap()
         .put("ansible.builtin.copy", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -603,10 +613,11 @@ class CronOptions {
 
 /// Task class for cron
 class CronTask extends Playbook.Task {
-
-    `ansible.builtin.cron`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.cron`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.cron"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.cron`
 }
 
@@ -614,7 +625,7 @@ class CronTask extends Playbook.Task {
 class Cron extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.cron
     options: CronOptions?
-
+    /// todo doc
     function Task(): CronTask = this
         .toMap()
         .put("ansible.builtin.cron", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -673,10 +684,11 @@ class Deb822RepositoryOptions {
 
 /// Task class for deb822_repository
 class Deb822RepositoryTask extends Playbook.Task {
-
-    `ansible.builtin.deb822_repository`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.deb822_repository`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.deb822_repository"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.deb822_repository`
 }
 
@@ -684,7 +696,7 @@ class Deb822RepositoryTask extends Playbook.Task {
 class Deb822Repository extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.deb822_repository
     options: Deb822RepositoryOptions?
-
+    /// todo doc
     function Task(): Deb822RepositoryTask = this
         .toMap()
         .put("ansible.builtin.deb822_repository", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -712,10 +724,11 @@ class DebconfOptions {
 
 /// Task class for debconf
 class DebconfTask extends Playbook.Task {
-
-    `ansible.builtin.debconf`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.debconf`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.debconf"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.debconf`
 }
 
@@ -723,7 +736,7 @@ class DebconfTask extends Playbook.Task {
 class Debconf extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.debconf
     options: DebconfOptions?
-
+    /// todo doc
     function Task(): DebconfTask = this
         .toMap()
         .put("ansible.builtin.debconf", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -748,10 +761,11 @@ class DebugOptions {
 
 /// Task class for debug
 class DebugTask extends Playbook.Task {
-
-    `ansible.builtin.debug`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.debug`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.debug"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.debug`
 }
 
@@ -759,7 +773,7 @@ class DebugTask extends Playbook.Task {
 class Debug extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.debug
     options: DebugOptions?
-
+    /// todo doc
     function Task(): DebugTask = this
         .toMap()
         .put("ansible.builtin.debug", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -849,10 +863,11 @@ class DnfOptions {
 
 /// Task class for dnf
 class DnfTask extends Playbook.Task {
-
-    `ansible.builtin.dnf`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.dnf`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.dnf"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.dnf`
 }
 
@@ -860,7 +875,7 @@ class DnfTask extends Playbook.Task {
 class Dnf extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.dnf
     options: DnfOptions?
-
+    /// todo doc
     function Task(): DnfTask = this
         .toMap()
         .put("ansible.builtin.dnf", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -951,10 +966,11 @@ class Dnf5Options {
 
 /// Task class for dnf5
 class Dnf5Task extends Playbook.Task {
-
-    `ansible.builtin.dnf5`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.dnf5`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.dnf5"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.dnf5`
 }
 
@@ -962,7 +978,7 @@ class Dnf5Task extends Playbook.Task {
 class Dnf5 extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.dnf5
     options: Dnf5Options?
-
+    /// todo doc
     function Task(): Dnf5Task = this
         .toMap()
         .put("ansible.builtin.dnf5", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -981,10 +997,11 @@ class DpkgSelectionsOptions {
 
 /// Task class for dpkg_selections
 class DpkgSelectionsTask extends Playbook.Task {
-
-    `ansible.builtin.dpkg_selections`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.dpkg_selections`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.dpkg_selections"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.dpkg_selections`
 }
 
@@ -992,7 +1009,7 @@ class DpkgSelectionsTask extends Playbook.Task {
 class DpkgSelections extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.dpkg_selections
     options: DpkgSelectionsOptions?
-
+    /// todo doc
     function Task(): DpkgSelectionsTask = this
         .toMap()
         .put("ansible.builtin.dpkg_selections", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1022,10 +1039,11 @@ class ExpectOptions {
 
 /// Task class for expect
 class ExpectTask extends Playbook.Task {
-
-    `ansible.builtin.expect`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.expect`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.expect"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.expect`
 }
 
@@ -1033,7 +1051,7 @@ class ExpectTask extends Playbook.Task {
 class Expect extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.expect
     options: ExpectOptions?
-
+    /// todo doc
     function Task(): ExpectTask = this
         .toMap()
         .put("ansible.builtin.expect", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1053,10 +1071,11 @@ class FailOptions {
 
 /// Task class for fail
 class FailTask extends Playbook.Task {
-
-    `ansible.builtin.fail`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.fail`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.fail"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.fail`
 }
 
@@ -1064,7 +1083,7 @@ class FailTask extends Playbook.Task {
 class Fail extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.fail
     options: FailOptions?
-
+    /// todo doc
     function Task(): FailTask = this
         .toMap()
         .put("ansible.builtin.fail", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1100,10 +1119,11 @@ class FetchOptions {
 
 /// Task class for fetch
 class FetchTask extends Playbook.Task {
-
-    `ansible.builtin.fetch`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.fetch`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.fetch"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.fetch`
 }
 
@@ -1111,7 +1131,7 @@ class FetchTask extends Playbook.Task {
 class Fetch extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.fetch
     options: FetchOptions?
-
+    /// todo doc
     function Task(): FetchTask = this
         .toMap()
         .put("ansible.builtin.fetch", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1168,10 +1188,11 @@ class FileOptions {
 
 /// Task class for file
 class FileTask extends Playbook.Task {
-
-    `ansible.builtin.file`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.file`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.file"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.file`
 }
 
@@ -1179,7 +1200,7 @@ class FileTask extends Playbook.Task {
 class File extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.file
     options: FileOptions?
-
+    /// todo doc
     function Task(): FileTask = this
         .toMap()
         .put("ansible.builtin.file", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1250,10 +1271,11 @@ class FindOptions {
 
 /// Task class for find
 class FindTask extends Playbook.Task {
-
-    `ansible.builtin.find`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.find`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.find"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.find`
 }
 
@@ -1261,7 +1283,7 @@ class FindTask extends Playbook.Task {
 class Find extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.find
     options: FindOptions?
-
+    /// todo doc
     function Task(): FindTask = this
         .toMap()
         .put("ansible.builtin.find", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1283,10 +1305,11 @@ class GatherFactsOptions {
 
 /// Task class for gather_facts
 class GatherFactsTask extends Playbook.Task {
-
-    `ansible.builtin.gather_facts`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.gather_facts`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.gather_facts"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.gather_facts`
 }
 
@@ -1294,7 +1317,7 @@ class GatherFactsTask extends Playbook.Task {
 class GatherFacts extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.gather_facts
     options: GatherFactsOptions?
-
+    /// todo doc
     function Task(): GatherFactsTask = this
         .toMap()
         .put("ansible.builtin.gather_facts", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1384,10 +1407,11 @@ class GetUrlOptions {
 
 /// Task class for get_url
 class GetUrlTask extends Playbook.Task {
-
-    `ansible.builtin.get_url`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.get_url`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.get_url"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.get_url`
 }
 
@@ -1395,7 +1419,7 @@ class GetUrlTask extends Playbook.Task {
 class GetUrl extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.get_url
     options: GetUrlOptions?
-
+    /// todo doc
     function Task(): GetUrlTask = this
         .toMap()
         .put("ansible.builtin.get_url", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1421,10 +1445,11 @@ class GetentOptions {
 
 /// Task class for getent
 class GetentTask extends Playbook.Task {
-
-    `ansible.builtin.getent`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.getent`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.getent"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.getent`
 }
 
@@ -1432,7 +1457,7 @@ class GetentTask extends Playbook.Task {
 class Getent extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.getent
     options: GetentOptions?
-
+    /// todo doc
     function Task(): GetentTask = this
         .toMap()
         .put("ansible.builtin.getent", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1508,10 +1533,11 @@ class GitOptions {
 
 /// Task class for git
 class GitTask extends Playbook.Task {
-
-    `ansible.builtin.git`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.git`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.git"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.git`
 }
 
@@ -1519,7 +1545,7 @@ class GitTask extends Playbook.Task {
 class Git extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.git
     options: GitOptions?
-
+    /// todo doc
     function Task(): GitTask = this
         .toMap()
         .put("ansible.builtin.git", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1553,10 +1579,11 @@ class GroupOptions {
 
 /// Task class for group
 class GroupTask extends Playbook.Task {
-
-    `ansible.builtin.group`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.group`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.group"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.group`
 }
 
@@ -1564,7 +1591,7 @@ class GroupTask extends Playbook.Task {
 class Group extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.group
     options: GroupOptions?
-
+    /// todo doc
     function Task(): GroupTask = this
         .toMap()
         .put("ansible.builtin.group", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1584,10 +1611,11 @@ class GroupByOptions {
 
 /// Task class for group_by
 class GroupByTask extends Playbook.Task {
-
-    `ansible.builtin.group_by`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.group_by`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.group_by"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.group_by`
 }
 
@@ -1595,7 +1623,7 @@ class GroupByTask extends Playbook.Task {
 class GroupBy extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.group_by
     options: GroupByOptions?
-
+    /// todo doc
     function Task(): GroupByTask = this
         .toMap()
         .put("ansible.builtin.group_by", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1618,10 +1646,11 @@ class HostnameOptions {
 
 /// Task class for hostname
 class HostnameTask extends Playbook.Task {
-
-    `ansible.builtin.hostname`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.hostname`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.hostname"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.hostname`
 }
 
@@ -1629,7 +1658,7 @@ class HostnameTask extends Playbook.Task {
 class Hostname extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.hostname
     options: HostnameOptions?
-
+    /// todo doc
     function Task(): HostnameTask = this
         .toMap()
         .put("ansible.builtin.hostname", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1642,18 +1671,16 @@ class Hostname extends Playbook.TaskBuilder {
 /// Files with a list of plays can only be included at the top level.
 /// You cannot use this action inside a play.
 class ImportPlaybookOptions {
-
     // free-form: Any?
-
-    
 }
 
 /// Task class for import_playbook
 class ImportPlaybookTask extends Playbook.Task {
-
-    `ansible.builtin.import_playbook`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.import_playbook`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.import_playbook"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.import_playbook`
 }
 
@@ -1661,7 +1688,7 @@ class ImportPlaybookTask extends Playbook.Task {
 class ImportPlaybook extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.import_playbook
     options: ImportPlaybookOptions?
-
+    /// todo doc
     function Task(): ImportPlaybookTask = this
         .toMap()
         .put("ansible.builtin.import_playbook", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1692,10 +1719,11 @@ class ImportRoleOptions {
 
 /// Task class for import_role
 class ImportRoleTask extends Playbook.Task {
-
-    `ansible.builtin.import_role`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.import_role`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.import_role"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.import_role`
 }
 
@@ -1703,7 +1731,7 @@ class ImportRoleTask extends Playbook.Task {
 class ImportRole extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.import_role
     options: ImportRoleOptions?
-
+    /// todo doc
     function Task(): ImportRoleTask = this
         .toMap()
         .put("ansible.builtin.import_role", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1716,18 +1744,16 @@ class ImportRole extends Playbook.TaskBuilder {
 class ImportTasksOptions {
     /// Specifies the name of the file that lists tasks to add to the current playbook.
     file: String?
-
     // free-form: Any?
-
-    
 }
 
 /// Task class for import_tasks
 class ImportTasksTask extends Playbook.Task {
-
-    `ansible.builtin.import_tasks`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.import_tasks`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.import_tasks"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.import_tasks`
 }
 
@@ -1735,7 +1761,7 @@ class ImportTasksTask extends Playbook.Task {
 class ImportTasks extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.import_tasks
     options: ImportTasksOptions?
-
+    /// todo doc
     function Task(): ImportTasksTask = this
         .toMap()
         .put("ansible.builtin.import_tasks", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1774,10 +1800,11 @@ class IncludeRoleOptions {
 
 /// Task class for include_role
 class IncludeRoleTask extends Playbook.Task {
-
-    `ansible.builtin.include_role`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.include_role`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.include_role"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.include_role`
 }
 
@@ -1785,7 +1812,7 @@ class IncludeRoleTask extends Playbook.Task {
 class IncludeRole extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.include_role
     options: IncludeRoleOptions?
-
+    /// todo doc
     function Task(): IncludeRoleTask = this
         .toMap()
         .put("ansible.builtin.include_role", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1800,18 +1827,16 @@ class IncludeTasksOptions {
     apply: String?
     /// Specifies the name of the file that lists tasks to add to the current playbook.
     file: String?
-
     // free-form: Any?
-
-    
 }
 
 /// Task class for include_tasks
 class IncludeTasksTask extends Playbook.Task {
-
-    `ansible.builtin.include_tasks`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.include_tasks`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.include_tasks"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.include_tasks`
 }
 
@@ -1819,7 +1844,7 @@ class IncludeTasksTask extends Playbook.Task {
 class IncludeTasks extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.include_tasks
     options: IncludeTasksOptions?
-
+    /// todo doc
     function Task(): IncludeTasksTask = this
         .toMap()
         .put("ansible.builtin.include_tasks", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -1846,10 +1871,7 @@ class IncludeVarsOptions {
     file: String?
     /// Limit the files that are loaded within any directory to this regular expression.
     files_matching: String?
-
     // free-form: Any?
-
-    
     /// If set to V(merge), merges existing hash variables instead of overwriting them.
     /// If omitted (V(null)), the behavior falls back to the global C(hash_behaviour) configuration.
     /// This option is self-contained and does not apply to individual files in O(dir). You can use a loop to apply O(hash_behaviour) per file.
@@ -1866,10 +1888,11 @@ class IncludeVarsOptions {
 
 /// Task class for include_vars
 class IncludeVarsTask extends Playbook.Task {
-
-    `ansible.builtin.include_vars`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.include_vars`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.include_vars"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.include_vars`
 }
 
@@ -1877,7 +1900,7 @@ class IncludeVarsTask extends Playbook.Task {
 class IncludeVars extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.include_vars
     options: IncludeVarsOptions?
-
+    /// todo doc
     function Task(): IncludeVarsTask = this
         .toMap()
         .put("ansible.builtin.include_vars", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2046,10 +2069,11 @@ class IptablesOptions {
 
 /// Task class for iptables
 class IptablesTask extends Playbook.Task {
-
-    `ansible.builtin.iptables`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.iptables`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.iptables"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.iptables`
 }
 
@@ -2057,7 +2081,7 @@ class IptablesTask extends Playbook.Task {
 class Iptables extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.iptables
     options: IptablesOptions?
-
+    /// todo doc
     function Task(): IptablesTask = this
         .toMap()
         .put("ansible.builtin.iptables", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2093,10 +2117,11 @@ class KnownHostsOptions {
 
 /// Task class for known_hosts
 class KnownHostsTask extends Playbook.Task {
-
-    `ansible.builtin.known_hosts`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.known_hosts`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.known_hosts"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.known_hosts`
 }
 
@@ -2104,7 +2129,7 @@ class KnownHostsTask extends Playbook.Task {
 class KnownHosts extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.known_hosts
     options: KnownHostsOptions?
-
+    /// todo doc
     function Task(): KnownHostsTask = this
         .toMap()
         .put("ansible.builtin.known_hosts", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2177,10 +2202,11 @@ class LineinfileOptions {
 
 /// Task class for lineinfile
 class LineinfileTask extends Playbook.Task {
-
-    `ansible.builtin.lineinfile`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.lineinfile`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.lineinfile"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.lineinfile`
 }
 
@@ -2188,7 +2214,7 @@ class LineinfileTask extends Playbook.Task {
 class Lineinfile extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.lineinfile
     options: LineinfileOptions?
-
+    /// todo doc
     function Task(): LineinfileTask = this
         .toMap()
         .put("ansible.builtin.lineinfile", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2216,10 +2242,11 @@ class MetaOptions {
 
 /// Task class for meta
 class MetaTask extends Playbook.Task {
-
-    `ansible.builtin.meta`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.meta`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.meta"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.meta`
 }
 
@@ -2227,7 +2254,7 @@ class MetaTask extends Playbook.Task {
 class Meta extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.meta
     options: MetaOptions?
-
+    /// todo doc
     function Task(): MetaTask = this
         .toMap()
         .put("ansible.builtin.meta", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2254,10 +2281,11 @@ class PackageOptions {
 
 /// Task class for package
 class PackageTask extends Playbook.Task {
-
-    `ansible.builtin.package`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.package`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.package"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.package`
 }
 
@@ -2265,7 +2293,7 @@ class PackageTask extends Playbook.Task {
 class Package extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.package
     options: PackageOptions?
-
+    /// todo doc
     function Task(): PackageTask = this
         .toMap()
         .put("ansible.builtin.package", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2288,10 +2316,11 @@ class PackageFactsOptions {
 
 /// Task class for package_facts
 class PackageFactsTask extends Playbook.Task {
-
-    `ansible.builtin.package_facts`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.package_facts`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.package_facts"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.package_facts`
 }
 
@@ -2299,7 +2328,7 @@ class PackageFactsTask extends Playbook.Task {
 class PackageFacts extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.package_facts
     options: PackageFactsOptions?
-
+    /// todo doc
     function Task(): PackageFactsTask = this
         .toMap()
         .put("ansible.builtin.package_facts", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2329,10 +2358,11 @@ class PauseOptions {
 
 /// Task class for pause
 class PauseTask extends Playbook.Task {
-
-    `ansible.builtin.pause`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.pause`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.pause"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.pause`
 }
 
@@ -2340,7 +2370,7 @@ class PauseTask extends Playbook.Task {
 class Pause extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.pause
     options: PauseOptions?
-
+    /// todo doc
     function Task(): PauseTask = this
         .toMap()
         .put("ansible.builtin.pause", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2361,10 +2391,11 @@ class PingOptions {
 
 /// Task class for ping
 class PingTask extends Playbook.Task {
-
-    `ansible.builtin.ping`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.ping`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.ping"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.ping`
 }
 
@@ -2372,7 +2403,7 @@ class PingTask extends Playbook.Task {
 class Ping extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.ping
     options: PingOptions?
-
+    /// todo doc
     function Task(): PingTask = this
         .toMap()
         .put("ansible.builtin.ping", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2418,10 +2449,11 @@ class PipOptions {
 
 /// Task class for pip
 class PipTask extends Playbook.Task {
-
-    `ansible.builtin.pip`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.pip`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.pip"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.pip`
 }
 
@@ -2429,7 +2461,7 @@ class PipTask extends Playbook.Task {
 class Pip extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.pip
     options: PipOptions?
-
+    /// todo doc
     function Task(): PipTask = this
         .toMap()
         .put("ansible.builtin.pip", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2457,10 +2489,11 @@ class RawOptions {
 
 /// Task class for raw
 class RawTask extends Playbook.Task {
-
-    `ansible.builtin.raw`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.raw`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.raw"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.raw`
 }
 
@@ -2468,7 +2501,7 @@ class RawTask extends Playbook.Task {
 class Raw extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.raw
     options: RawOptions?
-
+    /// todo doc
     function Task(): RawTask = this
         .toMap()
         .put("ansible.builtin.raw", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2511,10 +2544,11 @@ class RebootOptions {
 
 /// Task class for reboot
 class RebootTask extends Playbook.Task {
-
-    `ansible.builtin.reboot`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.reboot`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.reboot"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.reboot`
 }
 
@@ -2522,7 +2556,7 @@ class RebootTask extends Playbook.Task {
 class Reboot extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.reboot
     options: RebootOptions?
-
+    /// todo doc
     function Task(): RebootTask = this
         .toMap()
         .put("ansible.builtin.reboot", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2569,10 +2603,11 @@ class ReplaceOptions {
 
 /// Task class for replace
 class ReplaceTask extends Playbook.Task {
-
-    `ansible.builtin.replace`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.replace`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.replace"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.replace`
 }
 
@@ -2580,7 +2615,7 @@ class ReplaceTask extends Playbook.Task {
 class Replace extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.replace
     options: ReplaceOptions?
-
+    /// todo doc
     function Task(): ReplaceTask = this
         .toMap()
         .put("ansible.builtin.replace", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2605,10 +2640,11 @@ class RpmKeyOptions {
 
 /// Task class for rpm_key
 class RpmKeyTask extends Playbook.Task {
-
-    `ansible.builtin.rpm_key`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.rpm_key`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.rpm_key"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.rpm_key`
 }
 
@@ -2616,7 +2652,7 @@ class RpmKeyTask extends Playbook.Task {
 class RpmKey extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.rpm_key
     options: RpmKeyOptions?
-
+    /// todo doc
     function Task(): RpmKeyTask = this
         .toMap()
         .put("ansible.builtin.rpm_key", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2648,10 +2684,11 @@ class ScriptOptions {
 
 /// Task class for script
 class ScriptTask extends Playbook.Task {
-
-    `ansible.builtin.script`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.script`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.script"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.script`
 }
 
@@ -2659,7 +2696,7 @@ class ScriptTask extends Playbook.Task {
 class Script extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.script
     options: ScriptOptions?
-
+    /// todo doc
     function Task(): ScriptTask = this
         .toMap()
         .put("ansible.builtin.script", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2707,10 +2744,11 @@ class ServiceOptions {
 
 /// Task class for service
 class ServiceTask extends Playbook.Task {
-
-    `ansible.builtin.service`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.service`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.service"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.service`
 }
 
@@ -2718,7 +2756,7 @@ class ServiceTask extends Playbook.Task {
 class Service extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.service
     options: ServiceOptions?
-
+    /// todo doc
     function Task(): ServiceTask = this
         .toMap()
         .put("ansible.builtin.service", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2733,10 +2771,11 @@ class ServiceFactsOptions {
 
 /// Task class for service_facts
 class ServiceFactsTask extends Playbook.Task {
-
-    `ansible.builtin.service_facts`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.service_facts`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.service_facts"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.service_facts`
 }
 
@@ -2744,7 +2783,7 @@ class ServiceFactsTask extends Playbook.Task {
 class ServiceFacts extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.service_facts
     options: ServiceFactsOptions?
-
+    /// todo doc
     function Task(): ServiceFactsTask = this
         .toMap()
         .put("ansible.builtin.service_facts", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2769,10 +2808,11 @@ class SetFactOptions {
 
 /// Task class for set_fact
 class SetFactTask extends Playbook.Task {
-
-    `ansible.builtin.set_fact`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.set_fact`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.set_fact"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.set_fact`
 }
 
@@ -2780,7 +2820,7 @@ class SetFactTask extends Playbook.Task {
 class SetFact extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.set_fact
     options: SetFactOptions?
-
+    /// todo doc
     function Task(): SetFactTask = this
         .toMap()
         .put("ansible.builtin.set_fact", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2802,10 +2842,11 @@ class SetStatsOptions {
 
 /// Task class for set_stats
 class SetStatsTask extends Playbook.Task {
-
-    `ansible.builtin.set_stats`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.set_stats`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.set_stats"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.set_stats`
 }
 
@@ -2813,7 +2854,7 @@ class SetStatsTask extends Playbook.Task {
 class SetStats extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.set_stats
     options: SetStatsOptions?
-
+    /// todo doc
     function Task(): SetStatsTask = this
         .toMap()
         .put("ansible.builtin.set_stats", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2838,10 +2879,11 @@ class SetupOptions {
 
 /// Task class for setup
 class SetupTask extends Playbook.Task {
-
-    `ansible.builtin.setup`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.setup`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.setup"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.setup`
 }
 
@@ -2849,7 +2891,7 @@ class SetupTask extends Playbook.Task {
 class Setup extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.setup
     options: SetupOptions?
-
+    /// todo doc
     function Task(): SetupTask = this
         .toMap()
         .put("ansible.builtin.setup", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2886,10 +2928,11 @@ class ShellOptions {
 
 /// Task class for shell
 class ShellTask extends Playbook.Task {
-
-    `ansible.builtin.shell`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.shell`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.shell"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.shell`
 }
 
@@ -2897,7 +2940,7 @@ class ShellTask extends Playbook.Task {
 class Shell extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.shell
     options: ShellOptions?
-
+    /// todo doc
     function Task(): ShellTask = this
         .toMap()
         .put("ansible.builtin.shell", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2915,10 +2958,11 @@ class SlurpOptions {
 
 /// Task class for slurp
 class SlurpTask extends Playbook.Task {
-
-    `ansible.builtin.slurp`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.slurp`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.slurp"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.slurp`
 }
 
@@ -2926,7 +2970,7 @@ class SlurpTask extends Playbook.Task {
 class Slurp extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.slurp
     options: SlurpOptions?
-
+    /// todo doc
     function Task(): SlurpTask = this
         .toMap()
         .put("ansible.builtin.slurp", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -2958,10 +3002,11 @@ class StatOptions {
 
 /// Task class for stat
 class StatTask extends Playbook.Task {
-
-    `ansible.builtin.stat`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.stat`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.stat"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.stat`
 }
 
@@ -2969,7 +3014,7 @@ class StatTask extends Playbook.Task {
 class Stat extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.stat
     options: StatOptions?
-
+    /// todo doc
     function Task(): StatTask = this
         .toMap()
         .put("ansible.builtin.stat", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3013,10 +3058,11 @@ class SubversionOptions {
 
 /// Task class for subversion
 class SubversionTask extends Playbook.Task {
-
-    `ansible.builtin.subversion`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.subversion`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.subversion"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.subversion`
 }
 
@@ -3024,7 +3070,7 @@ class SubversionTask extends Playbook.Task {
 class Subversion extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.subversion
     options: SubversionOptions?
-
+    /// todo doc
     function Task(): SubversionTask = this
         .toMap()
         .put("ansible.builtin.subversion", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3063,10 +3109,11 @@ class SystemdServiceOptions {
 
 /// Task class for systemd_service
 class SystemdServiceTask extends Playbook.Task {
-
-    `ansible.builtin.systemd_service`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.systemd_service`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.systemd_service"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.systemd_service`
 }
 
@@ -3074,7 +3121,7 @@ class SystemdServiceTask extends Playbook.Task {
 class SystemdService extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.systemd_service
     options: SystemdServiceOptions?
-
+    /// todo doc
     function Task(): SystemdServiceTask = this
         .toMap()
         .put("ansible.builtin.systemd_service", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3109,10 +3156,11 @@ class SysvinitOptions {
 
 /// Task class for sysvinit
 class SysvinitTask extends Playbook.Task {
-
-    `ansible.builtin.sysvinit`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.sysvinit`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.sysvinit"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.sysvinit`
 }
 
@@ -3120,7 +3168,7 @@ class SysvinitTask extends Playbook.Task {
 class Sysvinit extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.sysvinit
     options: SysvinitOptions?
-
+    /// todo doc
     function Task(): SysvinitTask = this
         .toMap()
         .put("ansible.builtin.sysvinit", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3145,10 +3193,11 @@ class TempfileOptions {
 
 /// Task class for tempfile
 class TempfileTask extends Playbook.Task {
-
-    `ansible.builtin.tempfile`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.tempfile`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.tempfile"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.tempfile`
 }
 
@@ -3156,7 +3205,7 @@ class TempfileTask extends Playbook.Task {
 class Tempfile extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.tempfile
     options: TempfileOptions?
-
+    /// todo doc
     function Task(): TempfileTask = this
         .toMap()
         .put("ansible.builtin.tempfile", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3175,10 +3224,11 @@ class TemplateOptions {
 
 /// Task class for template
 class TemplateTask extends Playbook.Task {
-
-    `ansible.builtin.template`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.template`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.template"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.template`
 }
 
@@ -3186,7 +3236,7 @@ class TemplateTask extends Playbook.Task {
 class Template extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.template
     options: TemplateOptions?
-
+    /// todo doc
     function Task(): TemplateTask = this
         .toMap()
         .put("ansible.builtin.template", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3241,10 +3291,11 @@ class UnarchiveOptions {
 
 /// Task class for unarchive
 class UnarchiveTask extends Playbook.Task {
-
-    `ansible.builtin.unarchive`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.unarchive`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.unarchive"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.unarchive`
 }
 
@@ -3252,7 +3303,7 @@ class UnarchiveTask extends Playbook.Task {
 class Unarchive extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.unarchive
     options: UnarchiveOptions?
-
+    /// todo doc
     function Task(): UnarchiveTask = this
         .toMap()
         .put("ansible.builtin.unarchive", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3357,10 +3408,11 @@ class UriOptions {
 
 /// Task class for uri
 class UriTask extends Playbook.Task {
-
-    `ansible.builtin.uri`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.uri`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.uri"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.uri`
 }
 
@@ -3368,7 +3420,7 @@ class UriTask extends Playbook.Task {
 class Uri extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.uri
     options: UriOptions?
-
+    /// todo doc
     function Task(): UriTask = this
         .toMap()
         .put("ansible.builtin.uri", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3511,10 +3563,11 @@ class UserOptions {
 
 /// Task class for user
 class UserTask extends Playbook.Task {
-
-    `ansible.builtin.user`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.user`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.user"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.user`
 }
 
@@ -3522,7 +3575,7 @@ class UserTask extends Playbook.Task {
 class User extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.user
     options: UserOptions?
-
+    /// todo doc
     function Task(): UserTask = this
         .toMap()
         .put("ansible.builtin.user", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3541,10 +3594,11 @@ class ValidateArgumentSpecOptions {
 
 /// Task class for validate_argument_spec
 class ValidateArgumentSpecTask extends Playbook.Task {
-
-    `ansible.builtin.validate_argument_spec`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.validate_argument_spec`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.validate_argument_spec"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.validate_argument_spec`
 }
 
@@ -3552,7 +3606,7 @@ class ValidateArgumentSpecTask extends Playbook.Task {
 class ValidateArgumentSpec extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.validate_argument_spec
     options: ValidateArgumentSpecOptions?
-
+    /// todo doc
     function Task(): ValidateArgumentSpecTask = this
         .toMap()
         .put("ansible.builtin.validate_argument_spec", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3604,10 +3658,11 @@ class WaitForOptions {
 
 /// Task class for wait_for
 class WaitForTask extends Playbook.Task {
-
-    `ansible.builtin.wait_for`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.wait_for`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.wait_for"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.wait_for`
 }
 
@@ -3615,7 +3670,7 @@ class WaitForTask extends Playbook.Task {
 class WaitFor extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.wait_for
     options: WaitForOptions?
-
+    /// todo doc
     function Task(): WaitForTask = this
         .toMap()
         .put("ansible.builtin.wait_for", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3642,10 +3697,11 @@ class WaitForConnectionOptions {
 
 /// Task class for wait_for_connection
 class WaitForConnectionTask extends Playbook.Task {
-
-    `ansible.builtin.wait_for_connection`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.wait_for_connection`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.wait_for_connection"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.wait_for_connection`
 }
 
@@ -3653,7 +3709,7 @@ class WaitForConnectionTask extends Playbook.Task {
 class WaitForConnection extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.wait_for_connection
     options: WaitForConnectionOptions?
-
+    /// todo doc
     function Task(): WaitForConnectionTask = this
         .toMap()
         .put("ansible.builtin.wait_for_connection", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3751,10 +3807,11 @@ class YumOptions {
 
 /// Task class for yum
 class YumTask extends Playbook.Task {
-
-    `ansible.builtin.yum`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.yum`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.yum"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.yum`
 }
 
@@ -3762,7 +3819,7 @@ class YumTask extends Playbook.Task {
 class Yum extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.yum
     options: YumOptions?
-
+    /// todo doc
     function Task(): YumTask = this
         .toMap()
         .put("ansible.builtin.yum", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
@@ -3909,10 +3966,11 @@ class YumRepositoryOptions {
 
 /// Task class for yum_repository
 class YumRepositoryTask extends Playbook.Task {
-
-    `ansible.builtin.yum_repository`: Dynamic
-
+    /// todo doc
+    `ansible.builtin.yum_repository`: Dynamic|String
+    /// todo doc
     function GetModuleName(): String = "ansible.builtin.yum_repository"
+    /// todo doc
     function GetModuleOptions(): Dynamic = this.`ansible.builtin.yum_repository`
 }
 
@@ -3920,7 +3978,7 @@ class YumRepositoryTask extends Playbook.Task {
 class YumRepository extends Playbook.TaskBuilder {
     /// Options for ansible.builtin.yum_repository
     options: YumRepositoryOptions?
-
+    /// todo doc
     function Task(): YumRepositoryTask = this
         .toMap()
         .put("ansible.builtin.yum_repository", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})

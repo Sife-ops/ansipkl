@@ -8,6 +8,7 @@
   remote_user: root
   hosts: self
   tasks:
+  - ansible.builtin.meta: end_play
   - name: install programs
     ansible.builtin.apt:
       name:
