@@ -10,9 +10,9 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/Sife-ops/ansipkl/lib"
 	"github.com/iancoleman/strcase"
 	"gopkg.in/yaml.v3"
-    "github.com/Sife-ops/ansipkl/lib"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 }
 
 func mainErr() error {
-    //
+	//
 	t, err := lib.TplPlaybook()
 	if err != nil {
 		return err
@@ -75,74 +75,74 @@ func mainErr() error {
 }
 
 func readClass(s0 string, s1 string) (sa []string, err error) {
-    sa = []string{}
-    cmd := exec.CommandContext(context.TODO(), "./read_class.py", s0, s1)
-    cmd.Stderr = os.Stderr
-    stdout, err := cmd.StdoutPipe()
-    if err != nil {
-        return
-    }
-    if err = cmd.Start(); err != nil {
-        return
-    }
+	sa = []string{}
+	cmd := exec.CommandContext(context.TODO(), "./read_class.py", s0, s1)
+	cmd.Stderr = os.Stderr
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		return
+	}
+	if err = cmd.Start(); err != nil {
+		return
+	}
 
-    scanner := bufio.NewScanner(stdout)
-    for scanner.Scan() {
-        // overrides
-        text := scanner.Text()
-        switch s1 {
-        case "Play":
-            switch {
-            case strings.HasPrefix(text, "hosts:"):
-                continue
-            case strings.HasPrefix(text, "tasks:"):
-                continue
-            case strings.HasPrefix(text, "post_tasks:"):
-                continue
-            case strings.HasPrefix(text, "pre_tasks:"):
-                continue
-            case strings.HasPrefix(text, "gather_subset:"):
-                continue
-            case strings.HasPrefix(text, "vars_files:"):
-                continue
-            case strings.HasPrefix(text, "vars_prompt:"):
-                continue
-            case strings.HasPrefix(text, "roles:"):
-                continue
-            case strings.HasPrefix(text, "handlers:"):
-                continue
-            case strings.HasPrefix(text, "serial:"):
-                continue
-            }
-        case "Block":
-            switch {
-            case strings.HasPrefix(text, "block:"):
-                continue
-            case strings.HasPrefix(text, "rescue:"):
-                continue
-            case strings.HasPrefix(text, "always:"):
-                continue
-            }
-        case "Task":
-            switch {
-            case strings.HasPrefix(text, "changed_when:"):
-                continue
-            case strings.HasPrefix(text, "failed_when:"):
-                continue
-            case strings.HasPrefix(text, "loop:"):
-                continue
-            case strings.HasPrefix(text, "until:"):
-                continue
-            }
-        }
-        sa = append(sa, text)
-    }
+	scanner := bufio.NewScanner(stdout)
+	for scanner.Scan() {
+		// overrides
+		text := scanner.Text()
+		switch s1 {
+		case "Play":
+			switch {
+			case strings.HasPrefix(text, "hosts:"):
+				continue
+			case strings.HasPrefix(text, "tasks:"):
+				continue
+			case strings.HasPrefix(text, "post_tasks:"):
+				continue
+			case strings.HasPrefix(text, "pre_tasks:"):
+				continue
+			case strings.HasPrefix(text, "gather_subset:"):
+				continue
+			case strings.HasPrefix(text, "vars_files:"):
+				continue
+			case strings.HasPrefix(text, "vars_prompt:"):
+				continue
+			case strings.HasPrefix(text, "roles:"):
+				continue
+			case strings.HasPrefix(text, "handlers:"):
+				continue
+			case strings.HasPrefix(text, "serial:"):
+				continue
+			}
+		case "Block":
+			switch {
+			case strings.HasPrefix(text, "block:"):
+				continue
+			case strings.HasPrefix(text, "rescue:"):
+				continue
+			case strings.HasPrefix(text, "always:"):
+				continue
+			}
+		case "Task":
+			switch {
+			case strings.HasPrefix(text, "changed_when:"):
+				continue
+			case strings.HasPrefix(text, "failed_when:"):
+				continue
+			case strings.HasPrefix(text, "loop:"):
+				continue
+			case strings.HasPrefix(text, "until:"):
+				continue
+			}
+		}
+		sa = append(sa, text)
+	}
 
-    if err = cmd.Wait(); err != nil {
-        return
-    }
+	if err = cmd.Wait(); err != nil {
+		return
+	}
 
-    return
+	return
 }
 
 func readModules(ansibleModName string, srcDir string) error {
@@ -205,7 +205,7 @@ func readModules(ansibleModName string, srcDir string) error {
 	defer file.Close()
 
 	t, err := template.New(pklModName).Parse(
-`module ` + pklModName + `
+		`module ` + pklModName + `
 
 import "./Playbook.pkl"
 
@@ -215,10 +215,10 @@ import "./Playbook.pkl"
 	}
 
 	for i, m := range modules {
-        t, err := lib.TplModule(ansibleModName)
-        if err != nil {
-            return err
-        }
+		t, err := lib.TplModule(ansibleModName)
+		if err != nil {
+			return err
+		}
 
 		if err := t.Execute(file, map[string]interface{}{
 			"moduleIndex": i,

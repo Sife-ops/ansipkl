@@ -788,7 +788,9 @@ class AptRpmOptions {
     /// Since community.general 8.0.0, may include paths to local C(.rpm) files if O(state=installed) or O(state=present), requires C(rpm) python module.
     package: Listing<String>?
     /// Indicates the desired package state.
-    state: ("absent"|"present"|"installed"|"removed")?
+    /// Please note that V(present) and V(installed) are equivalent to V(latest) right now. This will change in the future. To simply ensure that a package is installed, without upgrading it, use the V(present_not_latest) state.
+    /// The states V(latest) and V(present_not_latest) have been added in community.general 8.6.0.
+    state: ("absent"|"present"|"present_not_latest"|"installed"|"removed"|"latest")?
     /// Run the equivalent of C(apt-get update) before the operation. Can be run as part of the package installation or as a separate step.
     /// Default is not to update the cache.
     update_cache: Boolean?
@@ -4331,11 +4333,12 @@ class FilesystemOptions {
     force: Boolean?
     /// Filesystem type to be created. This option is required with O(state=present) (or if O(state) is omitted).
     /// ufs support has been added in community.general 3.4.0.
-    fstype: ("btrfs"|"ext2"|"ext3"|"ext4"|"ext4dev"|"f2fs"|"lvm"|"ocfs2"|"reiserfs"|"xfs"|"vfat"|"swap"|"ufs")?
+    /// bcachefs support has been added in community.general 8.6.0.
+    fstype: ("bcachefs"|"btrfs"|"ext2"|"ext3"|"ext4"|"ext4dev"|"f2fs"|"lvm"|"ocfs2"|"reiserfs"|"xfs"|"vfat"|"swap"|"ufs")?
     /// List of options to be passed to C(mkfs) command.
     opts: String?
     /// If V(true), if the block device and filesystem size differ, grow the filesystem into the space.
-    /// Supported for C(btrfs), C(ext2), C(ext3), C(ext4), C(ext4dev), C(f2fs), C(lvm), C(xfs), C(ufs) and C(vfat) filesystems. Attempts to resize other filesystem types will fail.
+    /// Supported for C(bcachefs), C(btrfs), C(ext2), C(ext3), C(ext4), C(ext4dev), C(f2fs), C(lvm), C(xfs), C(ufs) and C(vfat) filesystems. Attempts to resize other filesystem types will fail.
     /// XFS Will only grow if mounted. Currently, the module is based on commands from C(util-linux) package to perform operations, so resizing of XFS is not supported on FreeBSD systems.
     /// vFAT will likely fail if C(fatresize < 1.04).
     /// Mutually exclusive with O(uuid).
@@ -4348,7 +4351,7 @@ class FilesystemOptions {
     /// The UUID options specified in O(opts) take precedence over this value.
     /// See xfs_admin(8) (C(xfs)), tune2fs(8) (C(ext2), C(ext3), C(ext4), C(ext4dev)) for possible values.
     /// For O(fstype=lvm) the value is ignored, it resets the PV UUID if set.
-    /// Supported for O(fstype) being one of C(ext2), C(ext3), C(ext4), C(ext4dev), C(lvm), or C(xfs).
+    /// Supported for O(fstype) being one of C(bcachefs), C(ext2), C(ext3), C(ext4), C(ext4dev), C(lvm), or C(xfs).
     /// This is B(not idempotent). Specifying this option will always result in a change.
     /// Mutually exclusive with O(resizefs).
     uuid: String?
@@ -4390,8 +4393,8 @@ class FlatpakOptions {
     /// When used with O(state=present), O(name) can be specified as a URL to a C(flatpakref) file or the unique reverse DNS name that identifies a flatpak.
     /// Both C(https://) and C(http://) URLs are supported.
     /// When supplying a reverse DNS name, you can use the O(remote) option to specify on what remote to look for the flatpak. An example for a reverse DNS name is C(org.gnome.gedit).
-    /// When used with O(state=absent), it is recommended to specify the name in the reverse DNS format.
-    /// When supplying a URL with O(state=absent), the module will try to match the installed flatpak based on the name of the flatpakref to remove it. However, there is no guarantee that the names of the flatpakref file and the reverse DNS name of the installed flatpak do match.
+    /// When used with O(state=absent) or O(state=latest), it is recommended to specify the name in the reverse DNS format.
+    /// When supplying a URL with O(state=absent) or O(state=latest), the module will try to match the installed flatpak based on the name of the flatpakref to remove or update it. However, there is no guarantee that the names of the flatpakref file and the reverse DNS name of the installed flatpak do match.
     name: Listing<String>
     /// If installing runtime dependencies should be omitted or not
     /// This parameter is primarily implemented for integration testing this module. There might however be some use cases where you would want to have this, like when you are packaging your own flatpaks.
@@ -4401,7 +4404,8 @@ class FlatpakOptions {
     /// See the M(community.general.flatpak_remote) module for managing flatpak remotes.
     remote: String?
     /// Indicates the desired package state.
-    state: ("absent"|"present")?
+    /// The value V(latest) is supported since community.general 8.6.0.
+    state: ("absent"|"present"|"latest")?
 }
 
 /// Task class for flatpak
@@ -8408,6 +8412,10 @@ class IniFileOptions {
     /// If being omitted, the O(option) will be placed before the first O(section).
     /// Omitting O(section) is also required if the config format does not support sections.
     section: String?
+    /// Among possibly multiple sections of the same name, select the first one that contains matching options and values.
+    /// With O(state=present), if a suitable section is not found, a new section will be added, including the required options.
+    /// With O(state=absent), at most one O(section) is removed if it contains the values.
+    section_has_values: Listing<Any>?
     /// If set to V(absent) and O(exclusive) set to V(true) all matching O(option) lines are removed.
     /// If set to V(absent) and O(exclusive) set to V(false) the specified O(option=value) lines are removed, but the other O(option)s with the same name are not touched.
     /// If set to V(present) and O(exclusive) set to V(false) the specified O(option=values) lines are added, but the other O(option)s with the same name are not touched.
@@ -10100,20 +10108,25 @@ class Jabber extends Playbook.TaskBuilder {
 /// Uses keytool to import/remove certificate to/from java keystore (cacerts)
 /// This is a wrapper module around keytool, which can be used to import certificates and optionally private keys to a given java keystore, or remove them from it.
 class JavaCertOptions {
+    attributes: Any?
     /// Imported certificate alias.
     /// The alias is used when checking for the presence of a certificate in the keystore.
     cert_alias: String?
+    /// Content of the certificate used to create the keystore.
+    /// Exactly one of O(cert_url), O(cert_path), O(cert_content), or O(pkcs12_path) is required to load certificate.
+    cert_content: String?
     /// Local path to load certificate from.
-    /// Exactly one of O(cert_url), O(cert_path), or O(pkcs12_path) is required to load certificate.
+    /// Exactly one of O(cert_url), O(cert_path), O(cert_content), or O(pkcs12_path) is required to load certificate.
     cert_path: String?
     /// Port to connect to URL.
     /// This will be used to create server URL:PORT.
     cert_port: Int?
     /// Basic URL to fetch SSL certificate from.
-    /// Exactly one of O(cert_url), O(cert_path), or O(pkcs12_path) is required to load certificate.
+    /// Exactly one of O(cert_url), O(cert_path), O(cert_content), or O(pkcs12_path) is required to load certificate.
     cert_url: String?
     /// Path to keytool binary if not used we search in PATH for it.
     executable: String?
+    group: Any?
     /// Create keystore if it does not exist.
     keystore_create: Boolean?
     /// Keystore password.
@@ -10122,19 +10135,26 @@ class JavaCertOptions {
     keystore_path: String?
     /// Keystore type (JCEKS, JKS).
     keystore_type: String?
+    mode: Any?
+    owner: Any?
     /// Alias in the PKCS12 keystore.
     pkcs12_alias: String?
     /// Password for importing from PKCS12 keystore.
     pkcs12_password: String?
     /// Local path to load PKCS12 keystore from.
-    /// Unlike O(cert_url) and O(cert_path), the PKCS12 keystore embeds the private key matching the certificate, and is used to import both the certificate and its private key into the java keystore.
-    /// Exactly one of O(cert_url), O(cert_path), or O(pkcs12_path) is required to load certificate.
+    /// Unlike O(cert_url), O(cert_path) and O(cert_content), the PKCS12 keystore embeds the private key matching the certificate, and is used to import both the certificate and its private key into the java keystore.
+    /// Exactly one of O(cert_url), O(cert_path), O(cert_content), or O(pkcs12_path) is required to load certificate.
     pkcs12_path: String?
+    selevel: Any?
+    serole: Any?
+    setype: Any?
+    seuser: Any?
     /// Defines action which can be either certificate import or removal.
     /// When state is present, the certificate will always idempotently be inserted into the keystore, even if there already exists a cert alias that is different.
     state: ("absent"|"present")?
     /// Trust imported cert as CAcert.
     trust_cacert: Boolean?
+    unsafe_writes: Any?
 }
 
 /// Task class for java_cert
@@ -11028,7 +11048,8 @@ class KeycloakClientOptions {
     optional_client_scopes: Listing<String>?
     /// Type of client.
     /// At creation only, default value will be V(openid-connect) if O(protocol) is omitted.
-    protocol: ("openid-connect"|"saml")?
+    /// The V(docker-v2) value was added in community.general 8.6.0.
+    protocol: ("openid-connect"|"saml"|"docker-v2")?
     /// a list of dicts defining protocol mappers for this client. This is 'protocolMappers' in the Keycloak REST API.
     protocol_mappers: Listing<Any>?
     /// Is the access type for this client public or not. This is 'publicClient' in the Keycloak REST API.
@@ -11140,6 +11161,50 @@ class KeycloakClientRolemapping extends Playbook.TaskBuilder {
         .toTyped(KeycloakClientRolemappingTask)
 }
 
+/// Allows administration of Keycloak client roles scope to restrict the usage of certain roles to a other specific client applications.
+/// This module allows you to add or remove Keycloak roles from clients scope via the Keycloak REST API. It requires access to the REST API via OpenID Connect; the user connecting and the client being used must have the requisite access rights. In a default Keycloak installation, admin-cli and an admin user would work, as would a separate client definition with the scope tailored to your needs and a user having the expected roles.
+/// Client O(client_id) must have O(community.general.keycloak_client#module:full_scope_allowed) set to V(false).
+/// Attributes are multi-valued in the Keycloak API. All attributes are lists of individual values and will be returned that way by this module. You may pass single values for attributes when calling the module, and this will be translated into a list suitable for the API.
+class KeycloakClientRolescopeOptions {
+    /// Roles provided in O(role_names) while be added to this client scope.
+    client_id: String
+    /// If the O(role_names) are client role, the client ID under which it resides.
+    /// If this parameter is absent, the roles are considered a realm role.
+    client_scope_id: String?
+    /// The Keycloak realm under which clients resides.
+    realm: String?
+    /// Names of roles to manipulate.
+    /// If O(client_scope_id) is present, all roles must be under this client.
+    /// If O(client_scope_id) is absent, all roles must be under the realm.
+    role_names: Listing<String>
+    /// State of the role mapping.
+    /// On V(present), all roles in O(role_names) will be mapped if not exists yet.
+    /// On V(absent), all roles mapping in O(role_names) will be removed if it exists.
+    state: ("present"|"absent")?
+}
+
+/// Task class for keycloak_client_rolescope
+class KeycloakClientRolescopeTask extends Playbook.Task {
+    /// todo doc
+    `community.general.keycloak_client_rolescope`: Dynamic|String
+    /// todo doc
+    function GetModuleName(): String = "community.general.keycloak_client_rolescope"
+    /// todo doc
+    function GetModuleOptions(): Dynamic = this.`community.general.keycloak_client_rolescope`
+}
+
+/// TaskBuilder class for keycloak_client_rolescope
+class KeycloakClientRolescope extends Playbook.TaskBuilder {
+    /// Options for community.general.keycloak_client_rolescope
+    options: KeycloakClientRolescopeOptions?
+    /// todo doc
+    function Task(): KeycloakClientRolescopeTask = this
+        .toMap()
+        .put("community.general.keycloak_client_rolescope", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(KeycloakClientRolescopeTask)
+}
+
 /// Allows administration of Keycloak client_scopes via Keycloak API
 /// This module allows you to add, remove or modify Keycloak client_scopes via the Keycloak REST API. It requires access to the REST API via OpenID Connect; the user connecting and the client being used must have the requisite access rights. In a default Keycloak installation, admin-cli and an admin user would work, as would a separate client definition with the scope tailored to your needs and a user having the expected roles.
 /// The names of module options are snake_cased versions of the camelCase ones found in the Keycloak API and its documentation at U(https://www.keycloak.org/docs-api/8.0/rest-api/index.html).
@@ -11159,7 +11224,8 @@ class KeycloakClientscopeOptions {
     /// This parameter is required only when creating or updating the client_scope.
     name: String?
     /// Type of client.
-    protocol: ("openid-connect"|"saml"|"wsfed")?
+    /// The V(docker-v2) value was added in community.general 8.6.0.
+    protocol: ("openid-connect"|"saml"|"wsfed"|"docker-v2")?
     /// A list of dicts defining protocol mappers for this client.
     /// This is 'protocolMappers' in the Keycloak REST API.
     protocol_mappers: Listing<Any>?
@@ -11316,7 +11382,8 @@ class KeycloakClienttemplateOptions {
     /// Name of the client template.
     name: String?
     /// Type of client template.
-    protocol: ("openid-connect"|"saml")?
+    /// The V(docker-v2) value was added in community.general 8.6.0.
+    protocol: ("openid-connect"|"saml"|"docker-v2")?
     /// a list of dicts defining protocol mappers for this client template. This is 'protocolMappers' in the Keycloak REST API.
     protocol_mappers: Listing<Any>?
     /// Realm this client template is found in.
@@ -13120,7 +13187,7 @@ class LxdContainerOptions {
     project: String?
     /// The unix domain socket path when LXD is installed by snap package manager.
     snap_url: String?
-    /// The source for the instance (for example V({ "type": "image", "mode": "pull", "server": "https://images.linuxcontainers.org", "protocol": "lxd", "alias": "ubuntu/xenial/amd64" })).
+    /// The source for the instance (for example V({ "type": "image", "mode": "pull", "server": "https://cloud-images.ubuntu.com/releases/", "protocol": "simplestreams", "alias": "22.04" })).
     /// See U(https://documentation.ubuntu.com/lxd/en/latest/api/) for complete API documentation.
     /// Note that C(protocol) accepts two choices: V(lxd) or V(simplestreams).
     source: Any?
@@ -14956,7 +15023,7 @@ class NmcliOptions {
     /// Note the list of suboption attributes may vary depending on which version of NetworkManager/nmcli is installed on the host.
     /// An up-to-date list of supported attributes can be found here: U(https://networkmanager.dev/docs/api/latest/settings-macvlan.html).
     macvlan: Any?
-    /// Master <master (ifname, or connection UUID or conn_name) of bridge, team, bond master connection profile.
+    /// Master <master (ifname, or connection UUID or conn_name) of bridge, team, bond, ovs-port master connection profile.
     /// Mandatory if O(slave_type) is defined.
     master: String?
     /// This is only used with bridge - [max-age <6-42>] STP maximum message age, in seconds.
@@ -15015,7 +15082,8 @@ class NmcliOptions {
     /// This defines the policy of how hardware addresses of team device and port devices should be set during the team lifetime.
     runner_hwaddr_policy: ("same_all"|"by_active"|"only_active")?
     /// Type of the device of this slave's master connection (for example V(bond)).
-    slave_type: ("bond"|"bridge"|"team")?
+    /// Type V(ovs-port) is added in community.general 8.6.0.
+    slave_type: ("bond"|"bridge"|"team"|"ovs-port")?
     /// This is only used with 'bridge-slave' - [<0-63>] - STP priority of this slave.
     slavepriority: Int?
     /// Name of the Wireless router or the access point.
@@ -15032,11 +15100,14 @@ class NmcliOptions {
     /// Type V(infiniband) is added in community.general 2.0.0.
     /// Type V(loopback) is added in community.general 8.1.0.
     /// Type V(macvlan) is added in community.general 6.6.0.
+    /// Type V(ovs-bridge) is added in community.general 8.6.0.
+    /// Type V(ovs-interface) is added in community.general 8.6.0.
+    /// Type V(ovs-port) is added in community.general 8.6.0.
     /// Type V(wireguard) is added in community.general 4.3.0.
     /// Type V(vpn) is added in community.general 5.1.0.
     /// Using V(bond-slave), V(bridge-slave), or V(team-slave) implies V(ethernet) connection type with corresponding O(slave_type) option.
     /// If you want to control non-ethernet connection attached to V(bond), V(bridge), or V(team) consider using O(slave_type) option.
-    type: ("bond"|"bond-slave"|"bridge"|"bridge-slave"|"dummy"|"ethernet"|"generic"|"gre"|"infiniband"|"ipip"|"macvlan"|"sit"|"team"|"team-slave"|"vlan"|"vxlan"|"wifi"|"gsm"|"wireguard"|"vpn"|"loopback")?
+    type: ("bond"|"bond-slave"|"bridge"|"bridge-slave"|"dummy"|"ethernet"|"generic"|"gre"|"infiniband"|"ipip"|"macvlan"|"sit"|"team"|"team-slave"|"vlan"|"vxlan"|"wifi"|"gsm"|"wireguard"|"ovs-bridge"|"ovs-port"|"ovs-interface"|"vpn"|"loopback")?
     /// This is only used with bond - updelay.
     updelay: Int?
     /// This is only used with VLAN - parent device this VLAN is on, can use ifname.
@@ -17128,6 +17199,9 @@ class Opkg extends Playbook.TaskBuilder {
 class OsxDefaultsOptions {
     /// Add new elements to the array for a key which has an array as its value.
     array_add: Boolean?
+    /// Checks if the type of the provided O(value) matches the type of an existing default.
+    /// If the types do not match, raises an error.
+    check_type: Boolean?
     /// The domain is a domain name of the form C(com.companyname.appname).
     domain: String?
     /// The host on which the preference should apply.
@@ -18770,6 +18844,9 @@ class PortageOptions {
     /// Only the die message and the path of the build log will be
     /// displayed on stdout.
     quietfail: Boolean?
+    /// If set to V(true), explicitely add the package to the world file.
+    /// Please note that this option is not used for idempotency, it is only used when actually installing a package.
+    select: Boolean?
     /// State of the package atom
     state: ("present"|"installed"|"emerged"|"absent"|"removed"|"unmerged"|"latest")?
     /// Sync package repositories first
@@ -19341,6 +19418,11 @@ class ProxmoxOptions {
     purge: Boolean?
     /// sets DNS search domain for a container
     searchdomain: String?
+    /// Specifies the startup order of the container.
+    /// Use C(order=#) where C(#) is a non-negative number to define the general startup order. Shutdown in done with reverse ordering.
+    /// Use C(up=#) where C(#) is in seconds, to specify a delay to wait before the next VM is started.
+    /// Use C(down=#) where C(#) is in seconds, to specify a delay to wait before the next VM is stopped.
+    startup: Listing<String>?
     /// Indicate desired state of the instance
     /// V(template) was added in community.general 8.1.0.
     state: ("present"|"started"|"absent"|"stopped"|"restarted"|"template")?
@@ -20535,6 +20617,10 @@ class PuppetOptions {
     debug: Boolean?
     /// Puppet environment to be used.
     environment: String?
+    /// The lang environment to use when running the puppet agent.
+    /// The default value, V(C), is supported on every system, but can lead to encoding errors if UTF-8 is used in the output
+    /// Use V(C.UTF-8) or V(en_US.UTF-8) or similar UTF-8 supporting locales in case of problems. You need to make sure the selected locale is supported on the system the puppet agent runs on.
+    environment_lang: String?
     /// Execute a specific piece of Puppet code.
     /// It has no effect with a puppetmaster.
     execute: String?
@@ -21920,6 +22006,8 @@ class RedfishCommandOptions {
     oem_account_types: Listing<String>?
     /// Password for authenticating to OOB controller.
     password: String?
+    /// Mode to apply when reseting to default.
+    reset_to_defaults_mode: ("ResetAll"|"PreserveNetworkAndUsers"|"PreserveNetwork")?
     /// ID of the System, Manager or Chassis to modify.
     resource_id: String?
     /// Role of account to add/modify.
@@ -25591,7 +25679,8 @@ class SshConfigOptions {
     /// Whether a host entry should exist or not.
     state: ("present"|"absent")?
     /// Whether to strictly check the host key when doing connections to the remote host.
-    strict_host_key_checking: ("yes"|"no"|"ask")?
+    /// The value V(accept-new) is supported since community.general 8.6.0.
+    strict_host_key_checking: ("yes"|"no"|"ask"|"accept-new")?
     /// Which user account this configuration file belongs to.
     /// If none given and O(ssh_config_file) is not specified, C(/etc/ssh/ssh_config) is used.
     /// If a user is given, C(~/.ssh/config) is used.
@@ -27102,6 +27191,33 @@ class Urpmi extends Playbook.TaskBuilder {
         .put("community.general.urpmi", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
             |> (this.options_mixin ?? new Mixin {}))
         .toTyped(UrpmiTask)
+}
+
+/// Allows listing information about USB devices
+/// Allows retrieving information about available USB devices through C(lsusb).
+class UsbFactsOptions {
+}
+
+/// Task class for usb_facts
+class UsbFactsTask extends Playbook.Task {
+    /// todo doc
+    `community.general.usb_facts`: Dynamic|String
+    /// todo doc
+    function GetModuleName(): String = "community.general.usb_facts"
+    /// todo doc
+    function GetModuleOptions(): Dynamic = this.`community.general.usb_facts`
+}
+
+/// TaskBuilder class for usb_facts
+class UsbFacts extends Playbook.TaskBuilder {
+    /// Options for community.general.usb_facts
+    options: UsbFactsOptions?
+    /// todo doc
+    function Task(): UsbFactsTask = this
+        .toMap()
+        .put("community.general.usb_facts", (this.options.ifNonNull((it) -> it.toDynamic()) ?? new Dynamic {})
+            |> (this.options_mixin ?? new Mixin {}))
+        .toTyped(UsbFactsTask)
 }
 
 /// Create, update or destroy an aaa group object in Sophos UTM
